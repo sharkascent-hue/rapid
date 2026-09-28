@@ -75,19 +75,19 @@ nav .btn{min-height:36px;padding:0 14px;font-size:13px}
 /* hero */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding-top:64px}
 .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 58% 70% at 16% 52%,rgba(5,4,11,.9),rgba(5,4,11,.55) 55%,transparent 80%);pointer-events:none}
-.lede,.body,.steps,.mini{text-shadow:0 1px 14px rgba(5,4,11,.9),0 0 2px rgba(5,4,11,.6)}
+.lede,.body,.steps,.mini{text-shadow:0 1px 8px rgba(5,4,11,.9)}
 .hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;width:100%;padding-top:40px;padding-bottom:72px}
 .chip{display:inline-flex;gap:8px;align-items:center;font:12px var(--mono);color:var(--dim);border:1px solid rgba(169,139,255,.35);background:rgba(169,139,255,.06);padding:7px 11px;border-radius:8px}
 .chip b{color:var(--a);font-weight:500}
 h1{margin:22px 0 0;font-weight:600;font-size:clamp(46px,6.6vw,88px);line-height:.97;letter-spacing:-.04em}
-h1 em{display:block;padding-right:.08em;background:linear-gradient(100deg,#ffffff 0%,#d9ccff 20%,#ff9be6 40%,#8ee9ff 60%,#d9ccff 80%,#ffffff 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite;filter:drop-shadow(0 0 28px rgba(169,139,255,.45))}
+h1 em{display:block;padding-right:.08em;background:linear-gradient(100deg,#ffffff 0%,#d9ccff 20%,#ff9be6 40%,#8ee9ff 60%,#d9ccff 80%,#ffffff 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
 @keyframes shine{to{background-position:-250% 0}}
 .hint{color:var(--a);opacity:.8}
 .lede{max-width:44ch;margin:26px 0 0;font-size:18px;line-height:1.55;color:var(--dim)}
 .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
 .fine{margin-top:18px;font:12px var(--mono);color:var(--faint)}
 
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.1);border-radius:20px;backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2);box-shadow:0 40px 100px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06)}
+.card{background:var(--panel);border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 40px 100px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06)}
 .flow-wrap{perspective:1400px}
 .flow{padding:18px;will-change:transform;transform:rotateY(var(--ry,-10deg)) rotateX(var(--rx,4deg));transform-style:preserve-3d;transition:transform .3s ease-out}
 .flow-head{display:flex;align-items:center;gap:10px;font-size:13px;padding-bottom:14px;border-bottom:1px solid var(--line)}
@@ -156,7 +156,7 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 .orbit svg.lines line{stroke:rgba(169,139,255,.3);stroke-width:1;stroke-dasharray:3 5;animation:dash 1.4s linear infinite}
 .orbit .ring{position:absolute;inset:8%;border-radius:50%;border:1px dashed rgba(255,255,255,.09)}
 .orbit .ring.r2{inset:24%}
-.app{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:12px;background:rgba(16,14,30,.8);border:1px solid var(--line2);font-size:13px;white-space:nowrap;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);will-change:transform}
+.app{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:12px;background:rgba(16,14,30,.8);border:1px solid var(--line2);font-size:13px;white-space:nowrap;will-change:transform}
 .app i{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(169,139,255,.12);color:var(--a)}
 .app i svg{width:15px;height:15px}
 .hubkey{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);perspective:800px}
@@ -200,7 +200,7 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 
 /* numbers */
 .stats{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
-.stat{background:rgba(8,6,16,.8);padding:30px 28px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.stat{background:rgba(8,6,16,.85);padding:30px 28px}
 .stat b{display:block;font-size:clamp(46px,5.4vw,76px);font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
 .stat span{display:block;margin-top:12px;color:var(--dim);font-size:15px}
 .eq{margin-top:28px;height:150px;display:flex;align-items:flex-end;gap:4px}
@@ -238,7 +238,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 48px;color:var(--faint);f
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 /* cursor light */
-.cursor-light{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:3;background:radial-gradient(closest-side,rgba(169,139,255,.16),rgba(255,79,216,.06) 50%,transparent 72%);mix-blend-mode:screen;will-change:transform;opacity:0;transition:opacity .6s}
+.cursor-light{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:3;background:radial-gradient(closest-side,rgba(169,139,255,.16),rgba(255,79,216,.06) 50%,transparent 72%);will-change:transform;opacity:0;transition:opacity .6s}
 .cursor-dot{position:fixed;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 28px var(--a);pointer-events:none;z-index:120;will-change:transform;opacity:0;transition:opacity .4s,width .2s,height .2s,margin .2s}
 .cursor-dot.big{width:34px;height:34px;margin:-17px 0 0 -17px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.7)}
 body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
@@ -249,7 +249,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 .card:hover::before{opacity:1}
 
 /* marquee */
-.marquee{position:relative;z-index:2;overflow:hidden;border-block:1px solid var(--line);background:rgba(5,4,11,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee{position:relative;z-index:2;overflow:hidden;border-block:1px solid var(--line);background:rgba(5,4,11,.7);-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .mq-track{display:flex;align-items:center;gap:34px;width:max-content;padding:20px 0;animation:mq 32s linear infinite;font:500 15px var(--mono);color:var(--dim);letter-spacing:.02em}
 .mq-track span{white-space:nowrap}
 .mq-track i{width:6px;height:6px;border-radius:2px;transform:rotate(45deg);background:var(--a);box-shadow:0 0 10px var(--a)}
@@ -555,7 +555,7 @@ const GL = (() => {
   const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10);
 
   /* ---- ribbons ---- */
-  const R = mobile ? 110 : 230, S = mobile ? 150 : 220;
+  const R = mobile ? 80 : 150, S = mobile ? 110 : 160;
   const vc = R * (S + 1) * 2;
   const pos = new Float32Array(vc * 3), aT = new Float32Array(vc), aSide = new Float32Array(vc),
         aW = new Float32Array(vc), aA = new Float32Array(vc), aR = new Float32Array(vc * 4);
@@ -670,7 +670,7 @@ const GL = (() => {
   const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; scene.add(mesh);
 
   /* ---- sparks flowing along the ribbons ---- */
-  const P = mobile ? 700 : 1800;
+  const P = mobile ? 400 : 1000;
   const pPos = new Float32Array(P * 3), pR = new Float32Array(P * 4), pT = new Float32Array(P);
   for (let i = 0; i < P; i++) {
     pR[i * 4] = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
@@ -741,7 +741,7 @@ const GL = (() => {
         gl_FragColor = vec4(c, 1.0); }`
   });
   const CU = {
-    tScene: { value: rtScene.texture }, tB: { value: b1.texture }, tC: { value: c1.texture }, tS: { value: s1.texture },
+    tScene: { value: rtScene.texture }, tB: { value: b1.texture }, tC: { value: c1.texture }, tS: { value: s2.texture },
     uTime: U.uTime, uAsp: U.uAsp, uPulse: U.uPulse, uMouse: U.uMouse, uMob: U.uMob,
     uBeam: { value: 0 }, uI: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) }, uHdr: { value: hdr ? 1 : 0 }
   };
@@ -750,9 +750,9 @@ const GL = (() => {
     fragmentShader: `
       uniform sampler2D tScene, tB, tC, tS; uniform float uTime, uAsp, uPulse, uMob, uBeam, uI, uHdr; uniform vec2 uMouse, uRes;
       varying vec2 vUv;
-      float h1(float n){ return fract(sin(n)*43758.5453); }
+      float h1(float n){ return fract(sin(mod(n, 289.0))*43758.5453); }
       float n1(float x){ float i = floor(x), f = fract(x); return mix(h1(i), h1(i+1.0), f*f*(3.0-2.0*f)); }
-      float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+      float h2(vec2 p){ p = mod(p, 289.0); return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
       vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14), 0.0, 1.0); }
       void main(){
         vec2 dc = vUv - 0.5;
@@ -770,7 +770,7 @@ const GL = (() => {
         float along = dot(d, dir), perp = dot(d, nrm);
         float w = 0.018 + abs(along)*0.10;
         float shaft = exp(-pow(perp/w, 2.0)) * exp(-abs(along)*(along > 0.0 ? 0.55 : 1.6));
-        float grain = 0.55 + 0.45*n1(along*6.0 - uTime*3.0) * n1(perp*40.0 + uTime*0.7);
+        float grain = 0.7 + 0.3*n1(along*4.0 - uTime*1.5);
         float hot = exp(-pow(perp/(w*0.22), 2.0)) * exp(-abs(along)*1.4);
         // god rays fanning from the source
         float ang = atan(d.y, d.x);
@@ -802,13 +802,13 @@ const GL = (() => {
     [down(rtScene, .08), b1, rtScene],
     [blur(b1, 1, 0), b2, b1], [blur(b2, 0, 1), b1, b1],
     [down(b1, 0.0), c1, b1],
-    [blur(c1, 1, 0), c2, c1], [blur(c2, 0, 1), c1, c1],
-    [blur(c1, 2, 0), c2, c1], [blur(c2, 0, 2), c1, c1],
-    [blur(c1, 2, 0), s2, c1], [blur(s2, 5, 0), s1, c1], [blur(s1, 11, 0), s2, c1], [blur(s2, 20, 0), s1, c1]
+    [blur(c1, 1.5, 0), c2, c1], [blur(c2, 0, 1.5), c1, c1],
+    [blur(c1, 3, 0), s2, c1], [blur(s2, 9, 0), s1, c1], [blur(s1, 20, 0), s2, c1]
   ];
   const buf = new THREE.Vector2();
+  let qs = 1; // adaptive quality scale
   function resize() {
-    const dpr = Math.min(devicePixelRatio || 1, mobile ? 1.25 : 1.6);
+    const dpr = Math.max(.5, Math.min(devicePixelRatio || 1, mobile ? 1 : 1.25) * qs);
     renderer.setPixelRatio(dpr); renderer.setSize(innerWidth, innerHeight, false);
     U.uAsp.value = innerWidth / innerHeight; U.uDpr.value = dpr;
     renderer.getDrawingBufferSize(buf);
@@ -825,7 +825,8 @@ const GL = (() => {
   }
   resize(); let lw = innerWidth; addEventListener('resize', () => { if (!mobile || innerWidth !== lw) { lw = innerWidth; resize(); } });
 
-  const st = { morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, mx: 0, my: 0, pulse: 0, fire() { this.pulse = 1; } };
+  let ema = 1 / 60, warm = 0;
+  const st = { morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, sv: 0, mx: 0, my: 0, pulse: 0, fire() { this.pulse = 1; } };
   addEventListener('pointermove', e => { st.mx = (e.clientX / innerWidth - .5) * 2; st.my = -(e.clientY / innerHeight - .5) * 2; });
   addEventListener('pointerdown', e => { if (!e.target.closest('a,button,input,label,.card')) st.fire(); });
   let last = performance.now(), t = Math.random() * 40;
@@ -834,8 +835,12 @@ const GL = (() => {
     st.morph += (st.target - st.morph) * Math.min(1, dt * 1.8);
     st.intensity += (st.iTarget - st.intensity) * Math.min(1, dt * 2);
     st.pulse = Math.max(0, st.pulse - dt * .85);
-    t += dt * (reduce ? 0 : 1 + Math.min(st.vel, 4));
+    st.sv += (Math.min(st.vel, 4) - st.sv) * Math.min(1, dt * 3);
+    t += dt * (reduce ? 0 : 1 + st.sv * .35);
     st.vel *= .9;
+    // adaptive quality: drop resolution if frames are slow
+    ema += (dt - ema) * .05; warm += dt;
+    if (warm > 2 && ema > 1 / 42 && qs > .55) { qs -= .15; resize(); warm = 0; ema = 1 / 60; }
     const I = st.intensity * (mobile ? .75 : 1);
     U.uTime.value = t; U.uMorph.value = st.morph; U.uI.value = I;
     U.uPulse.value = st.pulse * st.pulse * (3 - 2 * st.pulse);
@@ -843,8 +848,9 @@ const GL = (() => {
     const hero = Math.max(0, 1 - st.morph);
     GU.uO.value = hero * I * (0.9 + 0.1 * Math.sin(t * 2.3));
     CU.uI.value = I;
-    CU.uBeam.value = I * (0.04 + 0.96 * hero * hero) * (0.92 + 0.08 * Math.sin(t * 1.7)) * (1 + Math.min(st.vel, 4) * .08);
+    CU.uBeam.value = I * (0.04 + 0.96 * hero * hero) * (0.96 + 0.04 * Math.sin(t * 0.9)) * (1 + st.sv * .05);
 
+    if (document.hidden) { requestAnimationFrame(frame); return; }
     renderer.setRenderTarget(rtScene); renderer.render(scene, cam);
     for (const [m, dst] of passes) { quad.material = m; renderer.setRenderTarget(dst); renderer.render(qscene, cam); }
     quad.material = composite; renderer.setRenderTarget(null); renderer.render(qscene, cam);
@@ -859,7 +865,7 @@ document.querySelectorAll('[data-smear]').forEach(el => {
   const html = el.innerHTML;
   el.classList.add('smear');
   let out = `<span class="sm-main">${html}</span>`;
-  for (let i = 0; i < 5; i++) out += `<span class="sm-ghost" aria-hidden="true">${html}</span>`;
+  for (let i = 0; i < 3; i++) out += `<span class="sm-ghost" aria-hidden="true">${html}</span>`;
   el.innerHTML = out;
 });
 
@@ -1186,8 +1192,8 @@ if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 
 document.querySelectorAll('.smear').forEach(el => {
   const main = el.querySelector('.sm-main'), ghosts = el.querySelectorAll('.sm-ghost');
   const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 92%', end: 'top 50%', scrub: 1 } });
-  tl.fromTo(main, { opacity: 0, scaleY: 1.5, filter: 'blur(10px)', y: 30 }, { opacity: 1, scaleY: 1, filter: 'blur(0px)', y: 0, ease: 'power2.out', duration: 1 }, 0);
-  ghosts.forEach((g, i) => tl.fromTo(g, { opacity: .42 - i * .07, y: (i + 1) * 22, filter: `blur(${i * 1.5}px)` }, { opacity: 0, y: 0, filter: 'blur(0px)', ease: 'power2.out', duration: 1 }, 0));
+  tl.fromTo(main, { opacity: 0, scaleY: 1.4, y: 30 }, { opacity: 1, scaleY: 1, y: 0, ease: 'power2.out', duration: 1 }, 0);
+  ghosts.forEach((g, i) => tl.fromTo(g, { opacity: .35 - i * .1, y: (i + 1) * 22 }, { opacity: 0, y: 0, ease: 'power2.out', duration: 1 }, 0));
 });
 
 // rise
