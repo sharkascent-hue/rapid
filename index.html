@@ -100,6 +100,7 @@ h1 em{display:block;padding-right:.08em;background:linear-gradient(100deg,#fffff
 .node rect{fill:#12101d;stroke:rgba(255,255,255,.14);transition:stroke .3s,fill .3s}
 .node.hot rect{stroke:var(--a);fill:#1d1436}
 .node text{fill:var(--text);font:500 12px var(--sans)}
+.node text:not(.sub){font-size:12.5px}
 .node .sub{fill:var(--faint);font:10.5px var(--mono)}
 .wire{fill:none;stroke:rgba(169,139,255,.4);stroke-width:1.3;stroke-dasharray:4 4;animation:dash 1.2s linear infinite}
 @keyframes dash{to{stroke-dashoffset:-16}}
@@ -109,6 +110,7 @@ h1 em{display:block;padding-right:.08em;background:linear-gradient(100deg,#fffff
 .runs h4,.mini h4{margin:0 0 8px;font:500 11px var(--mono);color:var(--faint)}
 .run{display:grid;grid-template-columns:auto auto 1fr auto;gap:10px;align-items:center;font:12px var(--mono);color:var(--dim);padding:5px 0;animation:rin .5s ease}
 .run i{width:6px;height:6px;border-radius:50%;background:var(--a);box-shadow:0 0 6px var(--a)}
+.run span:nth-child(3){min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .run .t{color:var(--faint)}.run .ms{color:var(--a)}
 @keyframes rin{from{opacity:0;transform:translateY(-6px)}}
 
@@ -188,9 +190,12 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 .app i svg{width:15px;height:15px}
 .hubkey{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);perspective:800px}
 .key{--rx:14deg;--ry:-18deg;width:150px;height:110px;border-radius:32px;position:relative;transform:rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;transition:transform .25s ease-out;cursor:pointer;border:0;padding:0;background:none;display:block}
-.key .base{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,#6a3cf0,#2a0f78);transform:translateZ(-20px);box-shadow:0 50px 80px -20px rgba(140,90,255,.5)}
-.key .top{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 90% at 30% 20%,#f3ecff,var(--a) 40%,#7a4cff);box-shadow:inset 0 2px 0 rgba(255,255,255,.75),inset 0 -12px 26px rgba(50,15,120,.45);display:grid;place-items:center;transition:transform .12s}
-.key .top svg{width:44px;height:44px;color:var(--ink)}
+.key .base{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,#3a2470,#120a2a);transform:translateZ(-20px);box-shadow:0 50px 80px -20px rgba(140,90,255,.5)}
+.key .top{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 100% at 30% 15%,rgba(255,255,255,.14),rgba(255,255,255,.02) 45%),linear-gradient(160deg,#1c1338,#0c0819);border:1px solid rgba(200,180,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -14px 30px rgba(169,139,255,.18),0 0 40px -6px rgba(169,139,255,.55);display:grid;place-items:center;transition:transform .12s}
+.key .top svg{width:58px;height:58px;overflow:visible}
+.flask .bub{animation:bub 2.2s ease-in infinite}.flask .bub:nth-of-type(2){animation-delay:.7s}.flask .bub:nth-of-type(3){animation-delay:1.4s}
+@keyframes bub{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-9px);opacity:0}}
+.flask .liq{animation:slosh 3s ease-in-out infinite;transform-origin:32px 40px}@keyframes slosh{50%{transform:rotate(-4deg)}}
 .key:active .top{transform:translateZ(-12px)}
 .meters{margin-top:36px;display:grid;gap:18px}
 .meter .lab{display:flex;justify-content:space-between;font-size:14px;color:var(--dim);margin-bottom:9px}
@@ -284,13 +289,15 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 @keyframes mq{to{transform:translateX(-50%)}}
 
 /* live chat */
-.steps{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:4px;counter-reset:s}
-.steps li{position:relative;display:grid;grid-template-columns:72px 1fr;gap:14px;padding:13px 0 13px 18px;border-left:1px solid var(--line2);color:var(--faint);font-size:15px;transition:color .4s}
-.steps li::before{content:"";position:absolute;left:-4px;top:19px;width:7px;height:7px;border-radius:50%;background:#2a2440;transition:background .4s,box-shadow .4s}
-.steps li b{font:500 12px var(--mono);color:var(--faint);padding-top:3px;transition:color .4s}
-.steps li.on{color:var(--text)}
+.steps{list-style:none;padding:0 0 0 26px;margin:34px 0 0;display:grid;gap:10px;position:relative}
+.steps::before{content:"";position:absolute;left:6px;top:14px;bottom:14px;width:2px;border-radius:2px;background:linear-gradient(180deg,rgba(169,139,255,.5),rgba(255,255,255,.08))}
+.steps li{position:relative;display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:rgba(12,10,24,.9);color:var(--faint);font-size:15px;transition:color .4s,border-color .4s,background .4s}
+.steps li::before{content:"";position:absolute;left:-26px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#2a2440;border:2px solid rgba(255,255,255,.14);transition:background .4s,box-shadow .4s,border-color .4s}
+.steps li b{flex:none;min-width:52px;font:500 12px var(--mono);color:var(--faint);transition:color .4s}
+.steps li.on{color:var(--text);border-color:rgba(169,139,255,.4);background:rgba(169,139,255,.07)}
 .steps li.on b{color:var(--a)}
-.steps li.on::before{background:var(--a);box-shadow:0 0 12px var(--a),0 0 26px var(--a2)}
+.steps li.on::before{background:var(--a);border-color:#fff;box-shadow:0 0 12px var(--a),0 0 26px var(--a2)}
+@media (max-width:560px){.steps li{font-size:13.5px;padding:10px 12px;gap:10px}}
 .phone{padding:0;overflow:hidden;max-width:440px;width:100%;justify-self:center}
 .ph-head{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
 .ph-head b{display:block;font-size:14px;font-weight:600}
@@ -321,6 +328,8 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
   .est{grid-template-columns:1fr}.est .total{text-align:left}
   .sec{padding:100px 0}
   .orbit{max-width:420px}
+  .flow-head span:not(.live){display:none}
+  .flow{transform:none!important}
   .cursor-light,.cursor-dot{display:none}
   .ph-body{height:340px}
 }
@@ -384,18 +393,18 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
       <div class="card flow" id="flow" role="img" aria-label="Example: a form is filled, a WhatsApp reply goes out, then a call is booked or a nudge is sent">
         <div class="flow-head">New lead from Meta <span>3 steps / 1 branch</span><span class="live">● running</span></div>
         <svg viewBox="0 0 460 230">
-          <path class="wire" id="w1" d="M118 115 C150 115 150 60 182 60"/>
-          <path class="wire" id="w2" d="M300 60 C330 60 330 40 352 40"/>
-          <path class="wire" d="M300 60 C330 60 330 170 352 170"/>
-          <path class="wire" d="M118 115 C150 115 150 170 182 170" opacity=".4"/>
+          <path class="wire" id="w1" d="M112 115 C140 115 140 60 168 60"/>
+          <path class="wire" id="w2" d="M314 60 C328 60 328 40 342 40"/>
+          <path class="wire" d="M314 60 C328 60 328 170 342 170"/>
+          <path class="wire" d="M112 115 C140 115 140 170 168 170" opacity=".4"/>
           <circle r="3.5" fill="#a98bff"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#w1"/></animateMotion></circle>
           <circle r="3.5" fill="#a98bff"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite"><mpath href="#w2"/></animateMotion></circle>
-          <g class="node" data-n="0"><rect x="8" y="92" width="110" height="46" rx="10"/><text x="20" y="112">Form filled</text><text class="sub" x="20" y="127">meta · kitchens</text></g>
-          <g class="node" data-n="1"><rect x="182" y="37" width="118" height="46" rx="10"/><text x="194" y="57">Reply on WhatsApp</text><text class="sub" x="194" y="72">8s after submit</text></g>
-          <g class="node"><rect x="182" y="147" width="118" height="46" rx="10"/><text x="194" y="167">Send email</text><text class="sub" x="194" y="182">if no phone</text></g>
-          <g class="node" data-n="2"><rect x="352" y="17" width="100" height="46" rx="10"/><text x="364" y="37">Book a call</text><text class="sub" x="364" y="52">calendly</text></g>
-          <g class="node"><rect x="352" y="147" width="100" height="46" rx="10"/><text x="364" y="167">Nudge again</text><text class="sub" x="364" y="182">after 2h</text></g>
-          <rect class="tag" x="316" y="92" width="44" height="18" rx="5"/><text class="tagt" x="322" y="104">silent</text>
+          <g class="node" data-n="0"><rect x="4" y="92" width="108" height="46" rx="10"/><text x="15" y="112">Form filled</text><text class="sub" x="15" y="127">meta · kitchens</text></g>
+          <g class="node" data-n="1"><rect x="168" y="37" width="146" height="46" rx="10"/><text x="180" y="57">Reply on WhatsApp</text><text class="sub" x="180" y="72">8s after submit</text></g>
+          <g class="node"><rect x="168" y="147" width="146" height="46" rx="10"/><text x="180" y="167">Send email</text><text class="sub" x="180" y="182">if no phone</text></g>
+          <g class="node" data-n="2"><rect x="342" y="17" width="114" height="46" rx="10"/><text x="354" y="37">Book a call</text><text class="sub" x="354" y="52">calendly</text></g>
+          <g class="node"><rect x="342" y="147" width="114" height="46" rx="10"/><text x="354" y="167">Nudge again</text><text class="sub" x="354" y="182">after 2h</text></g>
+          <rect class="tag" x="306" y="106" width="46" height="18" rx="5"/><text class="tagt" x="313" y="118">silent</text>
         </svg>
         <div class="runs"><h4>last replies</h4><div id="runs"></div></div>
       </div>
@@ -477,7 +486,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
     <div class="orbit" id="orbit">
       <div class="ring"></div><div class="ring r2"></div>
       <svg class="lines" id="olines"></svg>
-      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h8l7-10M13 8h6v6"/></svg></span></button></div>
+      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg class="flask" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="fc"><circle cx="32" cy="34" r="17"/></clipPath><linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9b5ff"/><stop offset="1" stop-color="#7a4cff"/></linearGradient></defs><g clip-path="url(#fc)"><path class="liq" d="M8 36 Q20 32 32 36 T56 36 V60 H8Z" fill="url(#fl)"/><circle class="bub" cx="27" cy="46" r="2.4" fill="#12052e"/><circle class="bub" cx="36" cy="50" r="1.7" fill="#12052e"/><circle class="bub" cx="32" cy="44" r="1.3" fill="#12052e"/></g><circle cx="32" cy="34" r="17" fill="none" stroke="#fff" stroke-width="5"/></svg></span></button></div>
     </div>
     <div>
       <h2 data-smear>One inbox, <em>every channel.</em></h2>
@@ -577,290 +586,79 @@ const hasG = !!(window.gsap && window.ScrollTrigger);
 const mobile = matchMedia('(max-width:980px)').matches;
 if (!hasG || reduce) document.documentElement.classList.add('no-anim');
 
-/* ---------- WebGL light beam: ribbons + sparks + bloom + volumetric shaft ---------- */
+/* ---------- WebGL: crisp stage-light beams with laser cores and floating dust ---------- */
 const GL = (() => {
   if (!window.THREE) { document.body.classList.add('fallback-bg'); return null; }
   const canvas = document.getElementById('gl');
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' }); }
   catch (e) { canvas.remove(); document.body.classList.add('fallback-bg'); return null; }
-  renderer.setClearColor(0x000000, 1);
-  renderer.autoClear = true;
-  const scene = new THREE.Scene();
-  const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10);
-
-  /* ---- ribbons ---- */
-  const R = mobile ? 80 : 150, S = mobile ? 110 : 160;
-  const vc = R * (S + 1) * 2;
-  const pos = new Float32Array(vc * 3), aT = new Float32Array(vc), aSide = new Float32Array(vc),
-        aW = new Float32Array(vc), aA = new Float32Array(vc), aR = new Float32Array(vc * 4);
-  const idx = new Uint32Array(R * S * 6);
-  let v = 0, q = 0;
-  for (let i = 0; i < R; i++) {
-    const g = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
-    const halo = Math.random() < .09;
-    const w = halo ? .03 + Math.random() * .045 : .0022 + Math.random() * .006;
-    const a = halo ? .05 + Math.random() * .06 : .25 + Math.random() * .5;
-    const r2 = Math.random(), r3 = Math.random(), r4 = Math.random();
-    for (let j = 0; j <= S; j++) {
-      for (let s = 0; s < 2; s++) {
-        aT[v] = j / S; aSide[v] = s ? 1 : -1; aW[v] = w; aA[v] = a;
-        aR[v * 4] = g; aR[v * 4 + 1] = r2; aR[v * 4 + 2] = r3; aR[v * 4 + 3] = r4;
-        v++;
-      }
-      if (j < S) {
-        const b = (i * (S + 1) + j) * 2;
-        idx[q++] = b; idx[q++] = b + 1; idx[q++] = b + 2;
-        idx[q++] = b + 1; idx[q++] = b + 3; idx[q++] = b + 2;
-      }
-    }
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  geo.setAttribute('aT', new THREE.BufferAttribute(aT, 1));
-  geo.setAttribute('aSide', new THREE.BufferAttribute(aSide, 1));
-  geo.setAttribute('aW', new THREE.BufferAttribute(aW, 1));
-  geo.setAttribute('aA', new THREE.BufferAttribute(aA, 1));
-  geo.setAttribute('aR', new THREE.BufferAttribute(aR, 4));
-  geo.setIndex(new THREE.BufferAttribute(idx, 1));
-
+  const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -1, 1);
   const U = {
-    uTime: { value: 0 }, uMorph: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 },
-    uMouse: { value: new THREE.Vector2() }, uMob: { value: mobile ? 1 : 0 },
-    uPulse: { value: 0 }, uDpr: { value: 1 }
+    uTime: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 }, uPulse: { value: 0 }, uPx: { value: .002 },
+    uSrc: { value: new THREE.Vector2(1, 1.3) }, uDir: { value: -2 }, uSpread: { value: 1 }, uMouse: { value: new THREE.Vector2() }
   };
-  const SHAPES = `
-    uniform float uTime, uMorph, uAsp, uMob, uPulse; uniform vec2 uMouse;
-    vec2 pinchP(){ return mix(vec2(-uAsp*0.03,-0.08), vec2(0.0,-0.35), uMob); }
-    vec2 s0(float t, vec4 r, out float pinch){
-      float x = mix(-1.25,1.25,t)*uAsp;
-      vec2 P = pinchP();
-      float d = (x-P.x)/(0.3*max(uAsp,0.9));
-      pinch = exp(-d*d);
-      float right = smoothstep(P.x, P.x+1.3*uAsp, x);
-      float spread = r.x*(0.7 + right*1.05)*(1.0-0.965*pinch)*(1.0+uPulse*0.35);
-      float wave = sin(t*(4.0+r.y*5.0) + uTime*(0.25+r.z*0.5) + r.w*6.2832)*(0.09+uPulse*0.06)*(1.0-pinch);
-      float y = P.y + spread + wave + (x-P.x)*0.45 + right*right*0.2;
-      return vec2(x,y);
-    }
-    vec2 s1(float t, vec4 r){
-      float y = mix(-1.35,1.35,t);
-      float x = -0.25*uAsp + 0.7*cos(y*1.15 + 0.25*sin(uTime*0.2)) - 0.45
-              + r.x*0.5*(0.65+0.35*sin(y*2.2+uTime*0.3+r.y*6.0))
-              + sin(y*3.0 + uTime*(0.3+r.z*0.4) + r.w*6.2832)*0.035;
-      return vec2(x*mix(1.0,0.8,uMob), y);
-    }
-    vec2 s2(float t, vec4 r){
-      float x = mix(-1.3,1.3,t)*uAsp;
-      float env = 0.3+0.7*sin(t*3.14159);
-      float y = 0.5*sin(x/uAsp*2.4 + uTime*0.18) - x*0.22/uAsp
-              + r.x*0.75*env + sin(t*(6.0+r.y*6.0) + uTime*(0.3+r.z*0.4) + r.w*6.2832)*0.05;
-      return vec2(x,y);
-    }
-    vec2 s3(float t, vec4 r){
-      float x = mix(-1.3,1.3,t)*uAsp;
-      float y = -0.72 + r.x*0.26 + sin(x*1.8 + uTime*0.35 + r.y*2.0)*0.07 + 0.14*sin(x*0.7 - uTime*0.15);
-      return vec2(x,y);
-    }
-    vec2 shape(float t, vec4 r, out float core){
-      float m = clamp(uMorph,0.0,3.0);
-      float w0 = max(0.0,1.0-abs(m-0.0)), w1 = max(0.0,1.0-abs(m-1.0)), w2 = max(0.0,1.0-abs(m-2.0)), w3 = max(0.0,1.0-abs(m-3.0));
-      float pinch;
-      vec2 p = s0(t,r,pinch)*w0 + s1(t,r)*w1 + s2(t,r)*w2 + s3(t,r)*w3;
-      core = pinch*w0;
-      return p + uMouse*0.05*(r.y-0.5);
-    }
-    vec3 palette(float k){
-      vec3 violet = vec3(0.60,0.45,1.0), magenta = vec3(1.0,0.28,0.82), cyan = vec3(0.30,0.88,1.0), ice = vec3(0.75,0.80,1.0);
-      return k > 0.86 ? cyan : (k > 0.70 ? magenta : (k > 0.62 ? ice : violet));
-    }`;
   const mat = new THREE.ShaderMaterial({
-    uniforms: U, transparent: true, side: THREE.DoubleSide, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
-    vertexShader: SHAPES + `
-      attribute float aT, aSide, aW, aA; attribute vec4 aR;
-      varying float vSide, vA, vCore, vT, vSeed; varying vec3 vCol;
-      void main(){
-        float c0, c1, c2;
-        vec2 p = shape(aT, aR, c0);
-        vec2 pa = shape(aT+0.003, aR, c1), pb = shape(aT-0.003, aR, c2);
-        vec2 tn = normalize(pa-pb + 1e-5); vec2 nm = vec2(-tn.y, tn.x);
-        p += nm*aSide*aW*(1.0 + c0*0.8);
-        vSide = aSide; vCore = c0; vT = aT; vSeed = aR.w;
-        vA = aA * smoothstep(0.0,0.14,aT) * (1.0 - smoothstep(0.84,1.0,aT));
-        vCol = palette(aR.z);
-        gl_Position = vec4(p.x/uAsp, p.y, 0.0, 1.0);
-      }`,
+    uniforms: U, depthTest: false, depthWrite: false,
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
     fragmentShader: `
-      uniform float uI, uTime, uPulse; varying float vSide, vA, vCore, vT, vSeed; varying vec3 vCol;
-      void main(){
-        float e = 1.0 - abs(vSide);
-        // light packets racing along each strand
-        float ph = fract(vT*1.4 - uTime*(0.08 + vSeed*0.14) + vSeed*7.0);
-        float pq = (ph-0.5)*18.0; float pk = exp(-pq*pq) * step(0.55, fract(vSeed*13.7));
-        float a = pow(max(e, 0.0), 1.6) * vA * uI * (1.0 + pk*4.0 + uPulse*1.2);
-        vec3 col = mix(vCol, vec3(1.0,0.96,1.0), clamp(vCore*0.9 + pk*0.7, 0.0, 1.0));
-        gl_FragColor = vec4(clamp(col*a*0.4, 0.0, 8.0), 1.0);
-      }`
-  });
-  const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; scene.add(mesh);
-
-  /* ---- sparks flowing along the ribbons ---- */
-  const P = mobile ? 400 : 1000;
-  const pPos = new Float32Array(P * 3), pR = new Float32Array(P * 4), pT = new Float32Array(P);
-  for (let i = 0; i < P; i++) {
-    pR[i * 4] = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
-    pR[i * 4 + 1] = Math.random(); pR[i * 4 + 2] = Math.random(); pR[i * 4 + 3] = Math.random();
-    pT[i] = Math.random();
-  }
-  const pgeo = new THREE.BufferGeometry();
-  pgeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-  pgeo.setAttribute('aR', new THREE.BufferAttribute(pR, 4));
-  pgeo.setAttribute('aT', new THREE.BufferAttribute(pT, 1));
-  const pmat = new THREE.ShaderMaterial({
-    uniforms: U, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
-    vertexShader: SHAPES + `
-      uniform float uI, uDpr; attribute float aT; attribute vec4 aR;
-      varying float vA; varying vec3 vCol;
-      void main(){
-        float t = fract(aT + uTime*(0.012 + aR.y*0.03));
-        float core; vec2 p = shape(t, aR, core);
-        p += vec2(sin(uTime*1.3 + aR.w*40.0), cos(uTime*1.1 + aR.y*40.0))*0.012;
-        float tw = 0.5 + 0.5*sin(uTime*(2.0 + aR.z*5.0) + aR.w*60.0);
-        vA = uI * smoothstep(0.0,0.1,t) * (1.0-smoothstep(0.85,1.0,t)) * (0.35 + tw*0.9) * (1.0 + uPulse);
-        vCol = mix(palette(aR.z), vec3(1.0), 0.45 + core*0.5);
-        gl_PointSize = (1.2 + pow(aR.y, 6.0)*5.0 + core*3.0) * uDpr;
-        gl_Position = vec4(p.x/uAsp, p.y, 0.0, 1.0);
-      }`,
-    fragmentShader: `
-      varying float vA; varying vec3 vCol;
-      void main(){ float d = length(gl_PointCoord-0.5)*2.0; float a = exp(-d*d*4.0)*vA; gl_FragColor = vec4(vCol*a, 1.0); }`
-  });
-  const sparks = new THREE.Points(pgeo, pmat); sparks.frustumCulled = false; scene.add(sparks);
-
-  /* ---- core glow at the pinch ---- */
-  const GU = { uO: { value: 0 }, uAsp: U.uAsp, uMob: U.uMob, uS: { value: .55 } };
-  const glowMat = new THREE.ShaderMaterial({
-    uniforms: GU, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
-    vertexShader: `uniform float uAsp, uMob, uS; varying vec2 vUv;
-      void main(){ vUv = uv; vec2 P = mix(vec2(-uAsp*0.03,-0.08), vec2(0.0,-0.35), uMob);
-        vec2 p = P + position.xy*uS; gl_Position = vec4(p.x/uAsp, p.y, 0.0, 1.0); }`,
-    fragmentShader: `uniform float uO; varying vec2 vUv;
-      void main(){ float d = length(vUv-0.5)*2.0; float a = (exp(-d*d*14.0)*1.0 + exp(-d*d*3.0)*0.18)*uO;
-        gl_FragColor = vec4(vec3(0.92,0.86,1.0)*a, 1.0); }`
-  });
-  const glow = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), glowMat); glow.frustumCulled = false; scene.add(glow);
-
-  /* ---- post: bloom pyramid + anamorphic streak + volumetric beam ---- */
-  const gl2 = renderer.capabilities.isWebGL2;
-  const hdr = gl2 && !!renderer.extensions.get('EXT_color_buffer_float');
-  const rtOpt = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat, type: hdr ? THREE.HalfFloatType : THREE.UnsignedByteType, depthBuffer: false, stencilBuffer: false };
-  const mk = () => new THREE.WebGLRenderTarget(4, 4, rtOpt);
-  const rtScene = mk(), b1 = mk(), b2 = mk(), c1 = mk(), c2 = mk(), s1 = mk(), s2 = mk();
-  const QV = `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
-  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2)); quad.frustumCulled = false;
-  const qscene = new THREE.Scene(); qscene.add(quad);
-  const down = (src, thr) => new THREE.ShaderMaterial({
-    uniforms: { t: { value: src.texture }, uTex: { value: new THREE.Vector2() }, uThr: { value: thr } }, vertexShader: QV, depthTest: false, depthWrite: false,
-    fragmentShader: `uniform sampler2D t; uniform vec2 uTex; uniform float uThr; varying vec2 vUv;
-      void main(){ vec3 c = (texture2D(t,vUv+uTex*vec2(-1.,-1.)).rgb + texture2D(t,vUv+uTex*vec2(1.,-1.)).rgb
-                          + texture2D(t,vUv+uTex*vec2(-1.,1.)).rgb + texture2D(t,vUv+uTex*vec2(1.,1.)).rgb)*0.25;
-        float l = max(c.r, max(c.g, c.b));
-        if (!(l < 1e4)) { c = vec3(0.0); l = 0.0; }
-        c = max(c, vec3(0.0));
-        gl_FragColor = vec4(c*smoothstep(uThr, uThr+0.45, l), 1.0); }`
-  });
-  const blur = (src, dx, dy) => new THREE.ShaderMaterial({
-    uniforms: { t: { value: src.texture }, uDir: { value: new THREE.Vector2() }, uK: { value: new THREE.Vector2(dx, dy) } }, vertexShader: QV, depthTest: false, depthWrite: false,
-    fragmentShader: `uniform sampler2D t; uniform vec2 uDir; varying vec2 vUv;
-      void main(){ vec3 c = texture2D(t,vUv).rgb*0.227027;
-        c += (texture2D(t,vUv+uDir*1.384615).rgb + texture2D(t,vUv-uDir*1.384615).rgb)*0.316216;
-        c += (texture2D(t,vUv+uDir*3.230769).rgb + texture2D(t,vUv-uDir*3.230769).rgb)*0.070270;
-        gl_FragColor = vec4(c, 1.0); }`
-  });
-  const CU = {
-    tScene: { value: rtScene.texture }, tB: { value: b1.texture }, tC: { value: c1.texture }, tS: { value: s2.texture },
-    uTime: U.uTime, uAsp: U.uAsp, uPulse: U.uPulse, uMouse: U.uMouse, uMob: U.uMob,
-    uBeam: { value: 0 }, uI: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) }, uHdr: { value: hdr ? 1 : 0 }
-  };
-  const composite = new THREE.ShaderMaterial({
-    uniforms: CU, vertexShader: QV, depthTest: false, depthWrite: false,
-    fragmentShader: `
-      uniform sampler2D tScene, tB, tC, tS; uniform float uTime, uAsp, uPulse, uMob, uBeam, uI, uHdr; uniform vec2 uMouse, uRes;
+      precision highp float;
+      uniform float uTime, uAsp, uI, uPulse, uPx, uDir, uSpread; uniform vec2 uSrc, uMouse;
       varying vec2 vUv;
-      float h1(float n){ return fract(sin(mod(n, 289.0))*43758.5453); }
-      float n1(float x){ float i = floor(x), f = fract(x); return mix(h1(i), h1(i+1.0), f*f*(3.0-2.0*f)); }
-      float h2(vec2 p){ p = mod(p, 289.0); return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
-      vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14), 0.0, 1.0); }
+      float hash(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x*p.y); }
+      vec3 beamCol(float i){
+        float k = mod(i, 4.0);
+        return k < 1.0 ? vec3(0.66,0.52,1.0) : k < 2.0 ? vec3(1.0,0.36,0.86) : k < 3.0 ? vec3(0.36,0.86,1.0) : vec3(0.88,0.86,1.0);
+      }
       void main(){
-        vec2 dc = vUv - 0.5;
-        float ca = 0.0022 + 0.006*uPulse;
-        vec3 sc = vec3(texture2D(tScene, vUv + dc*ca).r, texture2D(tScene, vUv).g, texture2D(tScene, vUv - dc*ca).b);
-        vec3 bB = texture2D(tB, vUv).rgb, bC = texture2D(tC, vUv).rgb, bS = texture2D(tS, vUv).rgb;
-        if (!(dot(sc, vec3(1.0)) < 1e4)) sc = vec3(0.0);
-        if (!(dot(bB + bC + bS, vec3(1.0)) < 1e5)) { bB = vec3(0.0); bC = vec3(0.0); bS = vec3(0.0); }
-        vec3 col = sc + bB*0.75 + bC*1.0 + bS*vec3(0.55,0.75,1.4)*1.3;
-
-        // volumetric light beam through the pinch
         vec2 p = vec2((vUv.x*2.0-1.0)*uAsp, vUv.y*2.0-1.0);
-        vec2 src = mix(vec2(-uAsp*0.03,-0.08), vec2(0.0,-0.35), uMob);
-        vec2 d = p - src; float r = length(d);
-        float th = atan(0.45) + uMouse.y*0.06 + sin(uTime*0.13)*0.03;
-        vec2 dir = vec2(cos(th), sin(th)), nrm = vec2(-dir.y, dir.x);
-        float along = dot(d, dir), perp = dot(d, nrm);
-        float w = 0.018 + abs(along)*0.10;
-        float pw = perp/w; float shaft = exp(-pw*pw) * exp(-abs(along)*(along > 0.0 ? 0.55 : 1.6));
-        float grain = 0.7 + 0.3*n1(along*4.0 - uTime*1.5);
-        float ph2 = perp/(w*0.22); float hot = exp(-ph2*ph2) * exp(-abs(along)*1.4);
-        // god rays fanning from the source
-        float ang = atan(d.y, d.x + 1e-6);
-        float rays = pow(max(n1(ang*14.0 + uTime*0.25)*n1(ang*31.0 - uTime*0.4 + 10.0), 0.0), 2.2) * exp(-r*1.4) * 1.3;
-        // sweeping lighthouse beam
-        float sw = uTime*0.21; vec2 sd = vec2(cos(sw), sin(sw));
-        float sq = dot(d, vec2(-sd.y, sd.x))/(0.02+max(dot(d,sd),0.0)*0.16); float sweep = exp(-sq*sq) * step(0.0, dot(d, sd)) * exp(-r*0.9) * 0.35;
-        // anamorphic flare + hot core
-        float flare = exp(-abs(d.y)*90.0) * exp(-abs(d.x)*1.1) * 0.9;
-        float core = exp(-r*r*140.0)*2.0 + 0.006/(r*r+0.006)*0.1;
-        vec3 beamCol = mix(vec3(0.62,0.46,1.0), vec3(1.0,0.35,0.85), smoothstep(-0.2, 1.4, along));
-        beamCol = mix(beamCol, vec3(0.35,0.85,1.0), smoothstep(0.2, -1.0, along));
-        float amp = uBeam * (1.0 + uPulse*1.8);
-        col += amp * (beamCol*shaft*grain*0.95 + vec3(0.92,0.82,1.0)*hot*1.6 + beamCol*rays*0.4
-                    + vec3(0.8,0.6,1.0)*sweep + vec3(0.45,0.8,1.0)*flare + vec3(0.95,0.88,1.0)*core);
-        // shockwave ring on click
-        float rq = (r - (1.0-uPulse)*1.8)*9.0; float ring = exp(-rq*rq) * uPulse * 0.6;
-        col += vec3(0.75,0.6,1.0)*ring*uI;
-
-        col = aces(max(col, vec3(0.0))*0.95);
-        vec3 bg = vec3(0.020,0.016,0.043) + vec3(0.06,0.02,0.12)*exp(-r*r*1.2)*uI;
-        col += bg*(1.0-col);
-        col += (h2(vUv*uRes + fract(uTime)*91.0) - 0.5)/255.0*2.0;
+        vec2 src = uSrc + uMouse*0.08;
+        vec2 d = p - src; float r = length(d) + 1e-4;
+        float ang = atan(d.y, d.x);
+        vec3 col = vec3(0.0); float haze = 0.0;
+        for (int n = 0; n < 7; n++){
+          float i = float(n);
+          float a0 = uDir + (i/6.0 - 0.5)*uSpread + 0.07*sin(uTime*(0.17 + i*0.031) + i*1.9);
+          float da = ang - a0; da = atan(sin(da), cos(da));
+          float perp = abs(sin(da))*r;                 // distance from the beam's centre line
+          float along = cos(da)*r;
+          if (along <= 0.0) continue;
+          float wS = 0.03 + along*0.075*(0.8 + 0.4*sin(i*2.7));   // shaft widens with distance
+          float shaft = exp(-perp*perp/(wS*wS));
+          float glow = exp(-perp*perp/(0.0004 + along*along*0.00012));
+          float core = exp(-perp*perp/(uPx*uPx*1.6));  // ~1px laser line, always sharp
+          float fade = exp(-along*0.32) * smoothstep(0.0, 0.25, along);
+          float flick = 0.85 + 0.15*sin(uTime*(0.9 + i*0.23) + i*4.0);
+          float strength = (i == 3.0 ? 1.25 : 0.8) * flick;
+          col += beamCol(i) * (shaft*0.22 + glow*0.55 + core*0.9) * fade * strength;
+          haze += shaft*fade;
+        }
+        // dust drifting through the light
+        vec2 g = (p + vec2(uTime*0.012, uTime*0.025)) / (uPx*4.0);
+        vec2 cell = floor(g), f = fract(g) - 0.5;
+        float h = hash(cell);
+        float dust = step(0.978, h) * smoothstep(0.3, 0.0, length(f)) * (0.5 + 0.5*sin(uTime*(1.5 + h*4.0) + h*50.0));
+        col += vec3(0.95,0.92,1.0) * dust * min(haze, 1.2) * 1.4;
+        // warm source bloom (just off screen) and a soft floor haze
+        col += vec3(0.62,0.45,1.0) * 0.18 / (1.0 + r*r*1.4);
+        col *= uI * (1.0 + uPulse*1.6);
+        float ring = uPulse * exp(-pow(abs(r - (1.0 - uPulse)*2.6)*7.0, 2.0)) * 0.5;
+        col += vec3(0.75,0.6,1.0) * ring * uI;
+        col = 1.0 - exp(-col*1.25);
+        col += vec3(0.020,0.016,0.043)*(1.0 - col);
+        col += (hash(vUv*913.0 + fract(uTime)) - 0.5)/255.0*2.0;
         gl_FragColor = vec4(col, 1.0);
       }`
   });
+  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat); quad.frustumCulled = false; scene.add(quad);
 
-  const passes = [
-    [down(rtScene, .08), b1, rtScene],
-    [blur(b1, 1, 0), b2, b1], [blur(b2, 0, 1), b1, b1],
-    [down(b1, 0.0), c1, b1],
-    [blur(c1, 1.5, 0), c2, c1], [blur(c2, 0, 1.5), c1, c1],
-    [blur(c1, 3, 0), s2, c1], [blur(s2, 9, 0), s1, c1], [blur(s1, 20, 0), s2, c1]
-  ];
-  const buf = new THREE.Vector2();
-  let qs = 1; // adaptive quality scale
+  // one beam rig per section: [source x (× aspect), source y, direction, spread]
+  const RIGS = [[.95, 1.35, -2.05, 1.05], [-.95, 1.3, -1.05, .95], [0, 1.5, -1.5708, 1.35], [-1.35, -.15, .12, .75]];
+  let qs = 1;
   function resize() {
-    const dpr = Math.max(.5, Math.min(devicePixelRatio || 1, mobile ? 1 : 1.25) * qs);
+    const dpr = Math.min(devicePixelRatio || 1, 2) * qs;
     renderer.setPixelRatio(dpr); renderer.setSize(innerWidth, innerHeight, false);
-    U.uAsp.value = innerWidth / innerHeight; U.uDpr.value = dpr;
-    renderer.getDrawingBufferSize(buf);
-    const W = buf.x, H = buf.y;
-    rtScene.setSize(W, H);
-    b1.setSize(W >> 2, H >> 2); b2.setSize(W >> 2, H >> 2);
-    [c1, c2, s1, s2].forEach(r => r.setSize(W >> 3, H >> 3));
-    CU.uRes.value.set(W, H);
-    passes.forEach(([m, , src]) => {
-      const tw = 1 / src.width, th = 1 / src.height;
-      if (m.uniforms.uTex) m.uniforms.uTex.value.set(tw, th);
-      else m.uniforms.uDir.value.set(m.uniforms.uK.value.x * tw, m.uniforms.uK.value.y * th);
-    });
+    U.uAsp.value = innerWidth / innerHeight; U.uPx.value = 2 / (innerHeight * dpr);
   }
   resize(); let lw = innerWidth; addEventListener('resize', () => { if (!mobile || innerWidth !== lw) { lw = innerWidth; resize(); } });
 
@@ -871,29 +669,23 @@ const GL = (() => {
   let last = performance.now(), t = Math.random() * 40;
   function frame(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
-    st.morph += (st.target - st.morph) * Math.min(1, dt * 1.8);
-    st.intensity += (st.iTarget - st.intensity) * Math.min(1, dt * 2);
-    st.pulse = Math.max(0, st.pulse - dt * .85);
-    st.sv += (Math.min(st.vel, 4) - st.sv) * Math.min(1, dt * 3);
-    t += dt * (reduce ? 0 : 1 + st.sv * .35);
-    st.vel *= .9;
-    // adaptive quality: drop resolution if frames are slow
-    ema += (dt - ema) * .05; warm += dt;
-    if (warm > 2 && ema > 1 / 42 && qs > .55) { qs -= .15; resize(); warm = 0; ema = 1 / 60; }
-    const I = st.intensity * (mobile ? .75 : 1);
-    U.uTime.value = t; U.uMorph.value = st.morph; U.uI.value = I;
-    U.uPulse.value = st.pulse * st.pulse * (3 - 2 * st.pulse);
-    U.uMouse.value.x += (st.mx - U.uMouse.value.x) * .05; U.uMouse.value.y += (st.my - U.uMouse.value.y) * .05;
-    const hero = Math.max(0, 1 - st.morph);
-    GU.uO.value = hero * I * (0.9 + 0.1 * Math.sin(t * 2.3));
-    CU.uI.value = I;
-    CU.uBeam.value = I * (0.04 + 0.96 * hero * hero) * (0.96 + 0.04 * Math.sin(t * 0.9)) * (1 + st.sv * .05);
-
-    if (document.hidden) { requestAnimationFrame(frame); return; }
-    renderer.setRenderTarget(rtScene); renderer.render(scene, cam);
-    for (const [m, dst] of passes) { quad.material = m; renderer.setRenderTarget(dst); renderer.render(qscene, cam); }
-    quad.material = composite; renderer.setRenderTarget(null); renderer.render(qscene, cam);
     requestAnimationFrame(frame);
+    if (document.hidden) return;
+    st.morph += (st.target - st.morph) * Math.min(1, dt * 1.6);
+    st.intensity += (st.iTarget - st.intensity) * Math.min(1, dt * 2);
+    st.pulse = Math.max(0, st.pulse - dt * .8);
+    st.sv += (Math.min(st.vel, 4) - st.sv) * Math.min(1, dt * 3);
+    t += dt * (reduce ? 0 : 1 + st.sv * .4);
+    st.vel *= .9;
+    ema += (dt - ema) * .05; warm += dt;
+    if (warm > 2.5 && ema > 1 / 40 && qs > .6) { qs -= .2; resize(); warm = 0; ema = 1 / 60; }
+    const m = Math.max(0, Math.min(3, st.morph)), i0 = Math.floor(m), i1 = Math.min(3, i0 + 1), k = m - i0, e = k * k * (3 - 2 * k);
+    const A = RIGS[i0], B = RIGS[i1], asp = U.uAsp.value;
+    U.uSrc.value.set((A[0] + (B[0] - A[0]) * e) * asp, A[1] + (B[1] - A[1]) * e);
+    U.uDir.value = A[2] + (B[2] - A[2]) * e; U.uSpread.value = A[3] + (B[3] - A[3]) * e;
+    U.uTime.value = t; U.uI.value = st.intensity; U.uPulse.value = st.pulse * st.pulse * (3 - 2 * st.pulse);
+    U.uMouse.value.x += (st.mx - U.uMouse.value.x) * .04; U.uMouse.value.y += (st.my - U.uMouse.value.y) * .04;
+    renderer.render(scene, cam);
   }
   requestAnimationFrame(frame);
   return st;
@@ -959,13 +751,13 @@ if (fine && !reduce) document.querySelectorAll('.btn').forEach(bt => {
 const chat = document.getElementById('chat'), stepsEls = [...document.querySelectorAll('#steps li')];
 const phStatus = document.getElementById('phStatus'), phLat = document.getElementById('phLat');
 const script = [
-  ['sys', 'form received · Instagram · kitchens', 0, 600],
-  ['out', "Hi Aoife, thanks for asking about a new kitchen! Is this for a full refit or just the units and worktops?", 1, 1500],
-  ['in', 'Full refit. Hoping to get it done before Christmas if possible', -1, 2200],
-  ['out', 'Totally doable. We have Thursday 10:30 or Friday 14:00 free for a quick call to measure up. Which suits?', -1, 1500],
-  ['in', 'Thursday works 👍', -1, 1800],
-  ['out', "Booked! You'll get a calendar invite and a reminder the morning of. Talk Thursday.", 3, 1300],
-  ['sys', 'call booked · Thu 10:30 · synced to HubSpot', -1, 600]
+  ['sys', 'form received · Instagram · kitchens', 0, 300],
+  ['out', "Hi Aoife, thanks for asking about a new kitchen! Is this for a full refit or just the units and worktops?", 1, 650],
+  ['in', 'Full refit. Hoping to get it done before Christmas if possible', -1, 1300],
+  ['out', 'Totally doable. We have Thursday 10:30 or Friday 14:00 free for a quick call to measure up. Which suits?', -1, 600],
+  ['in', 'Thursday works 👍', -1, 1100],
+  ['out', "Booked! You'll get a calendar invite and a reminder the morning of. Talk Thursday.", 3, 550],
+  ['sys', 'call booked · Thu 10:30 · synced to HubSpot', -1, 300]
 ];
 let chatOn = false, chatRun = 0;
 new IntersectionObserver(es => es.forEach(e => { chatOn = e.isIntersecting; if (chatOn && !chatRun) playChat(); }), { threshold: .35 }).observe(chat);
@@ -991,7 +783,7 @@ async function playChat() {
     if (step >= 0) stepsEls[Math.min(step, stepsEls.length - 1)].classList.add('on');
     while (chat.children.length > 6) chat.firstChild.remove();
   }
-  await wait(4200);
+  await wait(3000);
   if (run === chatRun) { chatRun = 0; if (chatOn && !reduce) playChat(); }
 }
 const runs = document.getElementById('runs');
