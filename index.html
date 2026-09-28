@@ -37,7 +37,7 @@ a{color:inherit;text-decoration:none}
 .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
 em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
 
-#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+#gl{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;display:block}
 .grain{position:fixed;inset:-25%;contain:strict;z-index:1;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain 1.2s steps(6) infinite}
 @keyframes grain{20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}}
 .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.75))}
@@ -254,10 +254,10 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .est .total{text-align:right}
 .est .total b{font-size:clamp(52px,6vw,80px);font-weight:600;letter-spacing:-.05em;line-height:1}
 .est .total small{display:block;font:12px var(--mono);color:var(--faint);margin-top:8px}
-.tiers{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tiers{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .tier{padding:28px;transition:border-color .3s,box-shadow .3s,transform .3s}
 .tier.on{border-color:rgba(169,139,255,.6);box-shadow:0 0 0 1px rgba(169,139,255,.35),0 30px 80px -30px rgba(169,139,255,.35);transform:translateY(-6px)}
-.tier h3{margin:0;font-size:16px;font-weight:500;color:var(--dim)}
+.tier h3{margin:0;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
 .tier .p{margin-top:14px;font-size:44px;font-weight:600;letter-spacing:-.04em}
 .tier .p small{font-size:14px;color:var(--faint);font-weight:400;letter-spacing:0}
 .tier ul{list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:10px;font-size:14px;color:var(--dim)}
@@ -372,7 +372,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 <nav>
   <div class="wrap">
     <a class="logo" href="#top" aria-label="AImLab home"><img src="aimlab-logo.png" alt="AImLab" width="146" height="42"></a>
-    <div class="links"><a href="#record">Product</a><a href="#hub">How it works</a><a href="#day">A day with it</a><a href="#pricing">Pricing</a></div>
+    <div class="links"><a href="#record">Product</a><a href="#hub">How it works</a><a href="#day">A day with it</a><a href="#pricing">Plans</a></div>
     <div class="status"><b></b><span data-scramble>lab online · 0 queued</span></div>
     <a class="btn btn-glow" href="#pricing">Start free</a>
   </div>
@@ -553,23 +553,16 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 
 <section class="sec" id="pricing" data-morph="3">
   <div class="wrap">
-    <h2 data-smear>You pay per lead, <em>not per seat.</em></h2>
-    <div class="card est" data-rise>
-      <div>
-        <label for="leads">How many leads do you get a month? <b id="lv">400</b></label>
-        <input type="range" id="leads" min="50" max="2000" step="50" value="400">
-        <div class="scale"><span>50</span><span>1,000</span><span>2,000</span></div>
-      </div>
-      <div class="total"><b>€<span id="pv">0</span></b><small>per month · placeholder pricing</small></div>
-    </div>
+    <h2 data-smear>A plan for every <em>size of business.</em></h2>
+    <p class="body">Tell us how many leads you get and we'll set you up on the right plan. Every plan starts with a 14-day free trial.</p>
     <div class="tiers">
-      <div class="card tier" data-max="150"><h3>Solo</h3><div class="p">€39<small> /mo</small></div>
+      <div class="card tier"><h3>Solo</h3>
         <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>Up to 150 leads</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>WhatsApp and SMS replies</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>One calendar</li></ul>
         <a class="btn btn-ghost" href="#top">Start free</a></div>
-      <div class="card tier" data-max="800"><h3>Team</h3><div class="p">€129<small> /mo</small></div>
+      <div class="card tier on"><h3>Team</h3>
         <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>Up to 800 leads</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>Follow-up sequences</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>CRM and sheet sync</li></ul>
         <a class="btn btn-glow" href="#top">Start free</a></div>
-      <div class="card tier" data-max="99999"><h3>Agency</h3><div class="p">€349<small> /mo</small></div>
+      <div class="card tier"><h3>Agency</h3>
         <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>Unlimited leads</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>Run it for your clients</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-10"/></svg>Your own branding</li></ul>
         <a class="btn btn-ghost" href="#top">Talk to us</a></div>
     </div>
@@ -929,17 +922,7 @@ function eqFrame() {
 if (reduce) eqEls.forEach((el, i) => el.style.transform = `scaleY(${.3 + .5 * Math.abs(Math.sin(i * .35))})`);
 requestAnimationFrame(eqFrame);
 
-/* pricing */
-const sl = document.getElementById('leads'), pv = document.getElementById('pv'), lv = document.getElementById('lv'), tiers = [...document.querySelectorAll('.tier')];
-function price() {
-  const val = +sl.value;
-  lv.textContent = val.toLocaleString();
-  pv.textContent = Math.round(val <= 150 ? 39 : val <= 800 ? 129 : 349 + (val - 800) * .05).toLocaleString();
-  sl.style.setProperty('--p', ((val - 50) / 1950 * 100) + '%');
-  let on = tiers.findIndex(t => val <= +t.dataset.max);
-  tiers.forEach((t, i) => t.classList.toggle('on', i === on));
-}
-sl.addEventListener('input', price); price();
+
 
 /* bars final state for no-anim */
 const cols = [...document.querySelectorAll('#bars .col')];
@@ -1023,15 +1006,10 @@ document.querySelectorAll('[data-morph]').forEach(sec => {
 if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .5 : 1 });
 
 // smear headings
-document.querySelectorAll('.smear').forEach(el => {
-  const main = el.querySelector('.sm-main'), ghosts = el.querySelectorAll('.sm-ghost');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 100%', toggleActions: 'play none none none' } });
-  tl.fromTo(main, { opacity: 0, scaleY: 1.2, y: 20 }, { opacity: 1, scaleY: 1, y: 0, ease: 'power2.out', duration: .6 }, 0);
-  ghosts.forEach((g, i) => tl.fromTo(g, { opacity: .35 - i * .1, y: (i + 1) * 22 }, { opacity: 0, y: 0, ease: 'power2.out', duration: .5 }, 0));
-});
+// headings are always visible (no scroll-gated reveal: it looked like late rendering on phones)
+document.querySelectorAll('.sm-ghost').forEach(g => g.remove());
 
 // rise
-gsap.utils.toArray('[data-rise]').forEach(el => gsap.from(el, { opacity: 0, y: 24, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 100%' } }));
 
 // 3d bars
 const bst = { p: 0 };
@@ -1042,7 +1020,6 @@ gsap.to(bst, { p: 1, ease: 'power2.out', scrollTrigger: { trigger: '#bars', star
 gsap.utils.toArray('.meter .fill').forEach(f => gsap.from(f, { scaleX: 0, duration: 1.4, ease: 'power3.out', scrollTrigger: { trigger: f, start: 'top 90%' } }));
 
 // hub key entrance
-gsap.from('.hubkey .key', { scale: .7, y: 20, opacity: 0, duration: .7, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#orbit', start: 'top 95%' } });
 
 // counters
 document.querySelectorAll('[data-count]').forEach(el => {
@@ -1051,7 +1028,6 @@ document.querySelectorAll('[data-count]').forEach(el => {
 });
 
 // tiers + cta
-gsap.from('.tier', { opacity: 0, y: 24, stagger: .08, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: '.tiers', start: 'top 100%' } });
 gsap.fromTo('.cta-slab', { rotateX: 25, transformPerspective: 1200 }, { rotateX: 0, ease: 'none', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'center center', scrub: .8 } });
 
 addEventListener('load', () => ScrollTrigger.refresh());
