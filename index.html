@@ -74,7 +74,7 @@ nav .btn{min-height:36px;padding:0 14px;font-size:13px}
 
 /* hero */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding-top:64px}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 58% 70% at 16% 52%,rgba(5,4,11,.9),rgba(5,4,11,.55) 55%,transparent 80%);pointer-events:none}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 44% 62% at 12% 52%,rgba(5,4,11,.85),rgba(5,4,11,.4) 55%,transparent 78%);pointer-events:none}
 .lede,.body,.steps,.mini{text-shadow:0 1px 8px rgba(5,4,11,.9)}
 .hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;width:100%;padding-top:40px;padding-bottom:72px}
 .chip{display:inline-flex;gap:8px;align-items:center;font:12px var(--mono);color:var(--dim);border:1px solid rgba(169,139,255,.35);background:rgba(169,139,255,.06);padding:7px 11px;border-radius:8px}
@@ -661,10 +661,10 @@ const GL = (() => {
         float e = 1.0 - abs(vSide);
         // light packets racing along each strand
         float ph = fract(vT*1.4 - uTime*(0.08 + vSeed*0.14) + vSeed*7.0);
-        float pk = exp(-pow((ph-0.5)*18.0, 2.0)) * step(0.55, fract(vSeed*13.7));
-        float a = pow(e, 1.6) * vA * uI * (1.0 + pk*4.0 + uPulse*1.2);
+        float pq = (ph-0.5)*18.0; float pk = exp(-pq*pq) * step(0.55, fract(vSeed*13.7));
+        float a = pow(max(e, 0.0), 1.6) * vA * uI * (1.0 + pk*4.0 + uPulse*1.2);
         vec3 col = mix(vCol, vec3(1.0,0.96,1.0), clamp(vCore*0.9 + pk*0.7, 0.0, 1.0));
-        gl_FragColor = vec4(col*a*0.4, 1.0);
+        gl_FragColor = vec4(clamp(col*a*0.4, 0.0, 8.0), 1.0);
       }`
   });
   const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; scene.add(mesh);
@@ -730,6 +730,8 @@ const GL = (() => {
       void main(){ vec3 c = (texture2D(t,vUv+uTex*vec2(-1.,-1.)).rgb + texture2D(t,vUv+uTex*vec2(1.,-1.)).rgb
                           + texture2D(t,vUv+uTex*vec2(-1.,1.)).rgb + texture2D(t,vUv+uTex*vec2(1.,1.)).rgb)*0.25;
         float l = max(c.r, max(c.g, c.b));
+        if (!(l < 1e4)) { c = vec3(0.0); l = 0.0; }
+        c = max(c, vec3(0.0));
         gl_FragColor = vec4(c*smoothstep(uThr, uThr+0.45, l), 1.0); }`
   });
   const blur = (src, dx, dy) => new THREE.ShaderMaterial({
@@ -759,6 +761,8 @@ const GL = (() => {
         float ca = 0.0022 + 0.006*uPulse;
         vec3 sc = vec3(texture2D(tScene, vUv + dc*ca).r, texture2D(tScene, vUv).g, texture2D(tScene, vUv - dc*ca).b);
         vec3 bB = texture2D(tB, vUv).rgb, bC = texture2D(tC, vUv).rgb, bS = texture2D(tS, vUv).rgb;
+        if (!(dot(sc, vec3(1.0)) < 1e4)) sc = vec3(0.0);
+        if (!(dot(bB + bC + bS, vec3(1.0)) < 1e5)) { bB = vec3(0.0); bC = vec3(0.0); bS = vec3(0.0); }
         vec3 col = sc + bB*0.75 + bC*1.0 + bS*vec3(0.55,0.75,1.4)*1.3;
 
         // volumetric light beam through the pinch
@@ -769,28 +773,28 @@ const GL = (() => {
         vec2 dir = vec2(cos(th), sin(th)), nrm = vec2(-dir.y, dir.x);
         float along = dot(d, dir), perp = dot(d, nrm);
         float w = 0.018 + abs(along)*0.10;
-        float shaft = exp(-pow(perp/w, 2.0)) * exp(-abs(along)*(along > 0.0 ? 0.55 : 1.6));
+        float pw = perp/w; float shaft = exp(-pw*pw) * exp(-abs(along)*(along > 0.0 ? 0.55 : 1.6));
         float grain = 0.7 + 0.3*n1(along*4.0 - uTime*1.5);
-        float hot = exp(-pow(perp/(w*0.22), 2.0)) * exp(-abs(along)*1.4);
+        float ph2 = perp/(w*0.22); float hot = exp(-ph2*ph2) * exp(-abs(along)*1.4);
         // god rays fanning from the source
-        float ang = atan(d.y, d.x);
-        float rays = pow(n1(ang*14.0 + uTime*0.25)*n1(ang*31.0 - uTime*0.4 + 10.0), 2.2) * exp(-r*1.4) * 1.3;
+        float ang = atan(d.y, d.x + 1e-6);
+        float rays = pow(max(n1(ang*14.0 + uTime*0.25)*n1(ang*31.0 - uTime*0.4 + 10.0), 0.0), 2.2) * exp(-r*1.4) * 1.3;
         // sweeping lighthouse beam
         float sw = uTime*0.21; vec2 sd = vec2(cos(sw), sin(sw));
-        float sweep = exp(-pow(dot(d, vec2(-sd.y, sd.x))/(0.02+max(dot(d,sd),0.0)*0.16), 2.0)) * step(0.0, dot(d, sd)) * exp(-r*0.9) * 0.35;
+        float sq = dot(d, vec2(-sd.y, sd.x))/(0.02+max(dot(d,sd),0.0)*0.16); float sweep = exp(-sq*sq) * step(0.0, dot(d, sd)) * exp(-r*0.9) * 0.35;
         // anamorphic flare + hot core
         float flare = exp(-abs(d.y)*90.0) * exp(-abs(d.x)*1.1) * 0.9;
         float core = exp(-r*r*140.0)*2.0 + 0.006/(r*r+0.006)*0.1;
         vec3 beamCol = mix(vec3(0.62,0.46,1.0), vec3(1.0,0.35,0.85), smoothstep(-0.2, 1.4, along));
         beamCol = mix(beamCol, vec3(0.35,0.85,1.0), smoothstep(0.2, -1.0, along));
         float amp = uBeam * (1.0 + uPulse*1.8);
-        col += amp * (beamCol*shaft*grain*0.95 + vec3(1.0,0.95,1.0)*hot*1.6 + beamCol*rays*0.4
-                    + vec3(0.8,0.6,1.0)*sweep + vec3(0.45,0.8,1.0)*flare + vec3(1.0,0.96,1.0)*core);
+        col += amp * (beamCol*shaft*grain*0.95 + vec3(0.92,0.82,1.0)*hot*1.6 + beamCol*rays*0.4
+                    + vec3(0.8,0.6,1.0)*sweep + vec3(0.45,0.8,1.0)*flare + vec3(0.95,0.88,1.0)*core);
         // shockwave ring on click
-        float ring = exp(-pow((r - (1.0-uPulse)*1.8)*9.0, 2.0)) * uPulse * 0.6;
+        float rq = (r - (1.0-uPulse)*1.8)*9.0; float ring = exp(-rq*rq) * uPulse * 0.6;
         col += vec3(0.75,0.6,1.0)*ring*uI;
 
-        col = aces(col*0.95);
+        col = aces(max(col, vec3(0.0))*0.95);
         vec3 bg = vec3(0.020,0.016,0.043) + vec3(0.06,0.02,0.12)*exp(-r*r*1.2)*uI;
         col += bg*(1.0-col);
         col += (h2(vUv*uRes + fract(uTime)*91.0) - 0.5)/255.0*2.0;
