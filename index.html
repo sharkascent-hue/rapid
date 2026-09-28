@@ -28,7 +28,7 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 *,*::before,*::after{box-sizing:inherit}
 html,body{overflow-x:hidden;overflow-x:clip;max-width:100%;overscroll-behavior-x:none}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;position:relative}
+body{margin:0;background:radial-gradient(90% 55% at 50% 100%,rgba(120,70,255,.16),transparent 70%),radial-gradient(60% 40% at 80% 0%,rgba(255,79,216,.06),transparent 70%),var(--bg);background-attachment:fixed;color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;position:relative}
 main{overflow-x:clip}
 .hero,.sec,.cta,.j-sec,.day-sec{overflow-x:clip}
 body.fallback-bg{background:radial-gradient(60% 50% at 50% 40%,rgba(169,139,255,.12),transparent 70%),var(--bg)}
@@ -189,14 +189,18 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 .app i{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(169,139,255,.12);color:var(--a)}
 .app i svg{width:15px;height:15px}
 .hubkey{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);perspective:800px}
-.key{--rx:14deg;--ry:-18deg;width:150px;height:110px;border-radius:32px;position:relative;transform:rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;transition:transform .25s ease-out;cursor:pointer;border:0;padding:0;background:none;display:block}
-.key .base{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,#3a2470,#120a2a);transform:translateZ(-20px);box-shadow:0 50px 80px -20px rgba(140,90,255,.5)}
-.key .top{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 100% at 30% 15%,rgba(255,255,255,.14),rgba(255,255,255,.02) 45%),linear-gradient(160deg,#1c1338,#0c0819);border:1px solid rgba(200,180,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -14px 30px rgba(169,139,255,.18),0 0 40px -6px rgba(169,139,255,.55);display:grid;place-items:center;transition:transform .12s}
-.key .top svg{width:58px;height:58px;overflow:visible}
-.flask .bub{animation:bub 2.2s ease-in infinite}.flask .bub:nth-of-type(2){animation-delay:.7s}.flask .bub:nth-of-type(3){animation-delay:1.4s}
-@keyframes bub{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-9px);opacity:0}}
-.flask .liq{animation:slosh 3s ease-in-out infinite;transform-origin:32px 40px}@keyframes slosh{50%{transform:rotate(-4deg)}}
-.key:active .top{transform:translateZ(-12px)}
+.key{--rx:8deg;--ry:-12deg;width:150px;height:190px;position:relative;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s ease-out;cursor:pointer;border:0;padding:0;background:none;display:block;filter:drop-shadow(0 0 24px rgba(169,139,255,.55)) drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.key svg{width:100%;height:100%;overflow:visible;animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.key:active svg{transform:scale(.94)}
+.flask .bub{animation:bub 2.4s ease-in infinite;transform-box:fill-box}
+.flask .bub:nth-of-type(2){animation-delay:.6s}.flask .bub:nth-of-type(3){animation-delay:1.2s}.flask .bub:nth-of-type(4){animation-delay:1.8s}
+@keyframes bub{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translateY(-58px) scale(1.1);opacity:0}}
+.flask .wave{animation:slosh 3.2s ease-in-out infinite}
+@keyframes slosh{50%{transform:translateX(-24px)}}
+.flask .steam{fill:none;stroke:rgba(220,205,255,.55);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:6 60;animation:steam 3s linear infinite}
+.flask .steam:nth-of-type(2){animation-delay:1.5s}
+@keyframes steam{from{stroke-dashoffset:66;opacity:0}30%{opacity:1}to{stroke-dashoffset:0;opacity:0}}
 .meters{margin-top:36px;display:grid;gap:18px}
 .meter .lab{display:flex;justify-content:space-between;font-size:14px;color:var(--dim);margin-bottom:9px}
 .meter .lab b{color:var(--text);font:500 13px var(--mono)}
@@ -344,7 +348,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
   .clock .t{font-size:44px}.ev{min-height:96px;margin-top:14px;padding-top:14px}.ev p{font-size:13px}
   .gauge svg{width:100px;height:100px}.gauge .pct{margin-top:-70px;height:52px;font-size:22px}
   .app{font-size:10.5px;padding:5px 8px 5px 5px;gap:6px}.app i{width:20px;height:20px}.orbit{aspect-ratio:.82}
-  .key{width:118px;height:88px;border-radius:26px}
+  .key{width:112px;height:142px}
   .bars{height:200px;gap:8px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
@@ -369,7 +373,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
   <div class="wrap">
     <a class="logo" href="#top" aria-label="AImLab home"><img src="aimlab-logo.png" alt="AImLab" width="146" height="42"></a>
     <div class="links"><a href="#record">Product</a><a href="#hub">How it works</a><a href="#day">A day with it</a><a href="#pricing">Pricing</a></div>
-    <div class="status"><b></b><span data-scramble>beam online · 0 queued</span></div>
+    <div class="status"><b></b><span data-scramble>lab online · 0 queued</span></div>
     <a class="btn btn-glow" href="#pricing">Start free</a>
   </div>
   <div class="prog" id="prog"></div>
@@ -386,7 +390,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
         <a class="btn btn-glow" href="#pricing">Start free</a>
         <a class="btn btn-ghost" href="#record"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>See it reply</a>
       </div>
-      <p class="fine hx">14 days free / no card / set up in one call <span class="hint">· click anywhere to fire the beam</span></p>
+      <p class="fine hx">14 days free / no card / set up in one call <span class="hint">· tap anywhere to make a ripple</span></p>
     </div>
 
     <div class="flow-wrap hx" id="flowWrap">
@@ -486,7 +490,17 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
     <div class="orbit" id="orbit">
       <div class="ring"></div><div class="ring r2"></div>
       <svg class="lines" id="olines"></svg>
-      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg class="flask" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="fc"><circle cx="32" cy="34" r="17"/></clipPath><linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9b5ff"/><stop offset="1" stop-color="#7a4cff"/></linearGradient></defs><g clip-path="url(#fc)"><path class="liq" d="M8 36 Q20 32 32 36 T56 36 V60 H8Z" fill="url(#fl)"/><circle class="bub" cx="27" cy="46" r="2.4" fill="#12052e"/><circle class="bub" cx="36" cy="50" r="1.7" fill="#12052e"/><circle class="bub" cx="32" cy="44" r="1.3" fill="#12052e"/></g><circle cx="32" cy="34" r="17" fill="none" stroke="#fff" stroke-width="5"/></svg></span></button></div>
+      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><svg class="flask" viewBox="0 0 120 150" aria-hidden="true"><defs>
+<clipPath id="fkc"><path d="M48 18h24v38l32 62a12 12 0 0 1-10.7 17.5H26.7A12 12 0 0 1 16 118l32-62z"/></clipPath>
+<linearGradient id="fkl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9ccff"/><stop offset=".45" stop-color="#a98bff"/><stop offset="1" stop-color="#6a3cf0"/></linearGradient>
+<linearGradient id="fkg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient></defs>
+<path class="steam" d="M54 12c-4-6 4-8 0-14"/><path class="steam" d="M66 12c4-6-4-8 0-14"/>
+<path d="M48 18h24v38l32 62a12 12 0 0 1-10.7 17.5H26.7A12 12 0 0 1 16 118l32-62z" fill="url(#fkg)"/>
+<g clip-path="url(#fkc)"><g class="wave"><path d="M0 86 Q15 80 30 86 T60 86 T90 86 T120 86 T150 86 V150 H0Z" fill="url(#fkl)"/></g>
+<circle class="bub" cx="46" cy="126" r="4" fill="#fff" opacity=".8"/><circle class="bub" cx="66" cy="130" r="3" fill="#fff" opacity=".8"/><circle class="bub" cx="58" cy="122" r="2.2" fill="#fff" opacity=".8"/><circle class="bub" cx="76" cy="126" r="2.6" fill="#fff" opacity=".8"/></g>
+<path d="M48 18h24v38l32 62a12 12 0 0 1-10.7 17.5H26.7A12 12 0 0 1 16 118l32-62z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+<path d="M42 16h36" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+<path d="M30 110l18-36" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/></svg></button></div>
     </div>
     <div>
       <h2 data-smear>One inbox, <em>every channel.</em></h2>
@@ -586,105 +600,116 @@ const hasG = !!(window.gsap && window.ScrollTrigger);
 const mobile = matchMedia('(max-width:980px)').matches;
 if (!hasG || reduce) document.documentElement.classList.add('no-anim');
 
-/* ---------- WebGL: crisp stage-light beams with laser cores and floating dust ---------- */
+/* ---------- WebGL: a rippling landscape of glowing dots (liquid in the lab) ---------- */
 const GL = (() => {
   if (!window.THREE) { document.body.classList.add('fallback-bg'); return null; }
   const canvas = document.getElementById('gl');
   let renderer;
-  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' }); }
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' }); }
   catch (e) { canvas.remove(); document.body.classList.add('fallback-bg'); return null; }
-  const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -1, 1);
+  renderer.setClearColor(0x000000, 0);
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(50, 1, .05, 20);
+
+  const NX = mobile ? 120 : 200, NZ = mobile ? 90 : 130, SX = mobile ? 3.2 : 5.2, SZ = 5.5;
+  const pos = new Float32Array(NX * NZ * 3), rnd = new Float32Array(NX * NZ);
+  let n = 0;
+  for (let z = 0; z < NZ; z++) for (let x = 0; x < NX; x++) {
+    pos[n * 3] = (x / (NX - 1) - .5) * SX; pos[n * 3 + 1] = 0; pos[n * 3 + 2] = .9 - (z / (NZ - 1)) * SZ;
+    rnd[n] = Math.random(); n++;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('aR', new THREE.BufferAttribute(rnd, 1));
   const U = {
-    uTime: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 }, uPulse: { value: 0 }, uPx: { value: .002 },
-    uSrc: { value: new THREE.Vector2(1, 1.3) }, uDir: { value: -2 }, uSpread: { value: 1 }, uMouse: { value: new THREE.Vector2() }
+    uTime: { value: 0 }, uI: { value: 0 }, uDpr: { value: 1 }, uH: { value: 800 },
+    uW: { value: new THREE.Vector4(1, 0, 0, 0) }, uPulse: { value: 0 },
+    uRip: { value: new THREE.Vector3(0, -1.5, 99) } // x, z, age
   };
   const mat = new THREE.ShaderMaterial({
-    uniforms: U, depthTest: false, depthWrite: false,
-    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
-    fragmentShader: `
-      precision highp float;
-      uniform float uTime, uAsp, uI, uPulse, uPx, uDir, uSpread; uniform vec2 uSrc, uMouse;
-      varying vec2 vUv;
-      float hash(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x*p.y); }
-      vec3 beamCol(float i){
-        float k = mod(i, 4.0);
-        return k < 1.0 ? vec3(0.66,0.52,1.0) : k < 2.0 ? vec3(1.0,0.36,0.86) : k < 3.0 ? vec3(0.36,0.86,1.0) : vec3(0.88,0.86,1.0);
+    uniforms: U, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+    vertexShader: `
+      uniform float uTime, uI, uDpr, uH, uPulse; uniform vec4 uW; uniform vec3 uRip;
+      attribute float aR; varying vec3 vCol; varying float vA;
+      float wave(vec2 p){
+        float t = uTime;
+        float a = 0.16*sin(p.x*1.6 + t*0.55)*cos(p.y*1.3 + t*0.35) + 0.07*sin(p.x*3.7 - p.y*2.1 + t*0.9);   // rolling hills
+        float b = 0.14*sin((p.x + p.y)*2.6 - t*0.8) + 0.05*sin(p.x*6.0 + t*1.3);                              // diagonal ridges
+        float r = length(p - vec2(0.0, -1.6));
+        float c = 0.13*sin(r*6.0 - t*1.6)/(1.0 + r*0.9);                                                     // ripples from a drop
+        float d = 0.05*sin(p.x*1.2 + t*0.3) + 0.03*sin(p.y*2.0 - t*0.4);                                      // calm surface
+        return a*uW.x + b*uW.y + c*uW.z + d*uW.w;
       }
       void main(){
-        vec2 p = vec2((vUv.x*2.0-1.0)*uAsp, vUv.y*2.0-1.0);
-        vec2 src = uSrc + uMouse*0.08;
-        vec2 d = p - src; float r = length(d) + 1e-4;
-        float ang = atan(d.y, d.x);
-        vec3 col = vec3(0.0); float haze = 0.0;
-        for (int n = 0; n < 7; n++){
-          float i = float(n);
-          float a0 = uDir + (i/6.0 - 0.5)*uSpread + 0.07*sin(uTime*(0.17 + i*0.031) + i*1.9);
-          float da = ang - a0; da = atan(sin(da), cos(da));
-          float perp = abs(sin(da))*r;                 // distance from the beam's centre line
-          float along = cos(da)*r;
-          if (along <= 0.0) continue;
-          float wS = 0.03 + along*0.075*(0.8 + 0.4*sin(i*2.7));   // shaft widens with distance
-          float shaft = exp(-perp*perp/(wS*wS));
-          float glow = exp(-perp*perp/(0.0004 + along*along*0.00012));
-          float core = exp(-perp*perp/(uPx*uPx*1.6));  // ~1px laser line, always sharp
-          float fade = exp(-along*0.32) * smoothstep(0.0, 0.25, along);
-          float flick = 0.85 + 0.15*sin(uTime*(0.9 + i*0.23) + i*4.0);
-          float strength = (i == 3.0 ? 1.25 : 0.8) * flick;
-          col += beamCol(i) * (shaft*0.22 + glow*0.55 + core*0.9) * fade * strength;
-          haze += shaft*fade;
-        }
-        // dust drifting through the light
-        vec2 g = (p + vec2(uTime*0.012, uTime*0.025)) / (uPx*4.0);
-        vec2 cell = floor(g), f = fract(g) - 0.5;
-        float h = hash(cell);
-        float dust = step(0.978, h) * smoothstep(0.3, 0.0, length(f)) * (0.5 + 0.5*sin(uTime*(1.5 + h*4.0) + h*50.0));
-        col += vec3(0.95,0.92,1.0) * dust * min(haze, 1.2) * 1.4;
-        // warm source bloom (just off screen) and a soft floor haze
-        col += vec3(0.62,0.45,1.0) * 0.18 / (1.0 + r*r*1.4);
-        col *= uI * (1.0 + uPulse*1.6);
-        float ring = uPulse * exp(-pow(abs(r - (1.0 - uPulse)*2.6)*7.0, 2.0)) * 0.5;
-        col += vec3(0.75,0.6,1.0) * ring * uI;
-        col = 1.0 - exp(-col*1.25);
-        col += vec3(0.020,0.016,0.043)*(1.0 - col);
-        col += (hash(vUv*913.0 + fract(uTime)) - 0.5)/255.0*2.0;
-        gl_FragColor = vec4(col, 1.0);
-      }`
+        vec3 p = position;
+        float y = wave(p.xz);
+        float rd = length(p.xz - uRip.xy), age = uRip.z;
+        y += 0.28*exp(-age*0.9)*sin(rd*11.0 - age*8.0)*exp(-abs(rd - age*1.4)*2.4);
+        p.y = y;
+        vec4 mv = modelViewMatrix*vec4(p, 1.0);
+        gl_Position = projectionMatrix*mv;
+        float depth = -mv.z;
+        gl_PointSize = clamp((2.3 + aR*1.1) * uDpr * uH / 900.0 / depth, 1.2, 8.0*uDpr);
+        float h = clamp(y*3.2 + 0.5, 0.0, 1.0);
+        vec3 deep = vec3(0.34,0.2,0.85), mid = vec3(0.66,0.52,1.0), hot = vec3(1.0,0.45,0.88), ice = vec3(0.45,0.9,1.0);
+        vec3 col = mix(deep, mid, smoothstep(0.2, 0.6, h));
+        col = mix(col, mix(hot, ice, step(0.5, fract(aR*7.0))), smoothstep(0.7, 1.0, h));
+        float band = exp(-pow(fract((p.x*0.35 - p.z*0.18) * 0.6 - uTime*0.07) - 0.5, 2.0)*90.0);          // light sweeping across
+        col += vec3(0.9,0.85,1.0)*band*0.9;
+        vCol = col;
+        vA = uI * smoothstep(5.2, 1.1, depth) * smoothstep(0.12, 0.5, depth) * (0.7 + 0.8*h + band*1.2) * (1.0 + uPulse*0.8);
+      }`,
+    fragmentShader: `
+      varying vec3 vCol; varying float vA;
+      void main(){ vec2 c = gl_PointCoord - 0.5; float d = length(c); float a = smoothstep(0.5, 0.32, d) * vA; gl_FragColor = vec4(vCol*a, a); }`
   });
-  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat); quad.frustumCulled = false; scene.add(quad);
+  const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; scene.add(pts);
 
-  // one beam rig per section: [source x (× aspect), source y, direction, spread]
-  const RIGS = [[.95, 1.35, -2.05, 1.05], [-.95, 1.3, -1.05, .95], [0, 1.5, -1.5708, 1.35], [-1.35, -.15, .12, .75]];
+  // per-section settings: wave mix (hills, ridges, drop, calm), camera height, camera look-z
+  const RIGS = [[[1, 0, 0, 0], .7, -1.25], [[0, 1, 0, 0], .9, -1.9], [[0, 0, 1, 0], 1.25, -1.6], [[.3, 0, 0, .7], .45, -1.2]];
   let qs = 1;
   function resize() {
     const dpr = Math.min(devicePixelRatio || 1, 2) * qs;
     renderer.setPixelRatio(dpr); renderer.setSize(innerWidth, innerHeight, false);
-    U.uAsp.value = innerWidth / innerHeight; U.uPx.value = 2 / (innerHeight * dpr);
+    cam.aspect = innerWidth / innerHeight; cam.fov = innerWidth < innerHeight ? 62 : 50; cam.updateProjectionMatrix();
+    U.uDpr.value = dpr; U.uH.value = innerHeight;
   }
   resize(); let lw = innerWidth; addEventListener('resize', () => { if (!mobile || innerWidth !== lw) { lw = innerWidth; resize(); } });
 
+  const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), hit = new THREE.Vector3(), ndc = new THREE.Vector2();
   let ema = 1 / 60, warm = 0;
-  const st = { morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, sv: 0, mx: 0, my: 0, pulse: 0, fire() { this.pulse = 1; } };
+  const st = {
+    morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, sv: 0, mx: 0, my: 0, pulse: 0,
+    fire(x, y) {
+      this.pulse = 1;
+      ndc.set(x === undefined ? 0 : x, y === undefined ? -.35 : y); ray.setFromCamera(ndc, cam);
+      if (ray.ray.intersectPlane(plane, hit)) U.uRip.value.set(hit.x, hit.z, 0); else U.uRip.value.set(0, -1.5, 0);
+    }
+  };
   addEventListener('pointermove', e => { st.mx = (e.clientX / innerWidth - .5) * 2; st.my = -(e.clientY / innerHeight - .5) * 2; });
-  addEventListener('pointerdown', e => { if (!e.target.closest('a,button,input,label,.card')) st.fire(); });
-  let last = performance.now(), t = Math.random() * 40;
+  addEventListener('pointerdown', e => { if (!e.target.closest('a,button,input,label,.card')) st.fire((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); });
+  let last = performance.now(), t = Math.random() * 40, camY = .62, lookZ = -1.4;
+  const W = U.uW.value;
   function frame(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
     requestAnimationFrame(frame);
     if (document.hidden) return;
-    st.morph += (st.target - st.morph) * Math.min(1, dt * 1.6);
+    st.morph += (st.target - st.morph) * Math.min(1, dt * 1.5);
     st.intensity += (st.iTarget - st.intensity) * Math.min(1, dt * 2);
-    st.pulse = Math.max(0, st.pulse - dt * .8);
+    st.pulse = Math.max(0, st.pulse - dt * .7);
     st.sv += (Math.min(st.vel, 4) - st.sv) * Math.min(1, dt * 3);
-    t += dt * (reduce ? 0 : 1 + st.sv * .4);
+    t += dt * (reduce ? 0 : 1 + st.sv * .5);
     st.vel *= .9;
+    U.uRip.value.z += dt;
     ema += (dt - ema) * .05; warm += dt;
     if (warm > 2.5 && ema > 1 / 40 && qs > .6) { qs -= .2; resize(); warm = 0; ema = 1 / 60; }
     const m = Math.max(0, Math.min(3, st.morph)), i0 = Math.floor(m), i1 = Math.min(3, i0 + 1), k = m - i0, e = k * k * (3 - 2 * k);
-    const A = RIGS[i0], B = RIGS[i1], asp = U.uAsp.value;
-    U.uSrc.value.set((A[0] + (B[0] - A[0]) * e) * asp, A[1] + (B[1] - A[1]) * e);
-    U.uDir.value = A[2] + (B[2] - A[2]) * e; U.uSpread.value = A[3] + (B[3] - A[3]) * e;
-    U.uTime.value = t; U.uI.value = st.intensity; U.uPulse.value = st.pulse * st.pulse * (3 - 2 * st.pulse);
-    U.uMouse.value.x += (st.mx - U.uMouse.value.x) * .04; U.uMouse.value.y += (st.my - U.uMouse.value.y) * .04;
+    const A = RIGS[i0], B = RIGS[i1];
+    W.set(A[0][0] + (B[0][0] - A[0][0]) * e, A[0][1] + (B[0][1] - A[0][1]) * e, A[0][2] + (B[0][2] - A[0][2]) * e, A[0][3] + (B[0][3] - A[0][3]) * e);
+    camY = A[1] + (B[1] - A[1]) * e; lookZ = A[2] + (B[2] - A[2]) * e;
+    cam.position.set(st.mx * .12, camY + st.my * .05, 1.35);
+    cam.lookAt(st.mx * .05, -.05, lookZ);
+    U.uTime.value = t; U.uI.value = st.intensity; U.uPulse.value = st.pulse;
     renderer.render(scene, cam);
   }
   requestAnimationFrame(frame);
@@ -719,7 +744,7 @@ const scrEls = [...document.querySelectorAll('[data-scramble]')];
 setTimeout(() => scrEls.forEach(el => scramble(el, el.textContent, 1100)), hasG && !reduce ? 2300 : 0);
 const statusEl = document.querySelector('.status [data-scramble]');
 let queued = 0;
-if (!reduce) setInterval(() => { queued = Math.random() < .6 ? 0 : 1 + (Math.random() * 3 | 0); scramble(statusEl, `beam online · ${queued} queued`, 500); }, 4200);
+if (!reduce) setInterval(() => { queued = Math.random() < .6 ? 0 : 1 + (Math.random() * 3 | 0); scramble(statusEl, `lab online · ${queued} queued`, 500); }, 4200);
 
 /* cursor light + dot */
 const fine = matchMedia('(pointer:fine)').matches;
@@ -851,10 +876,10 @@ requestAnimationFrame(orbitFrame);
 const key = document.getElementById('key'), hubStage = document.querySelector('.hubkey');
 orbit.addEventListener('pointermove', e => {
   const b = orbit.getBoundingClientRect();
-  key.style.setProperty('--ry', ((e.clientX - b.left) / b.width - .5) * 50 + 'deg');
-  key.style.setProperty('--rx', (-((e.clientY - b.top) / b.height - .5) * 40 + 8) + 'deg');
+  key.style.setProperty('--ry', ((e.clientX - b.left) / b.width - .5) * 30 + 'deg');
+  key.style.setProperty('--rx', (-((e.clientY - b.top) / b.height - .5) * 20 + 4) + 'deg');
 });
-orbit.addEventListener('pointerleave', () => { key.style.setProperty('--ry', '-18deg'); key.style.setProperty('--rx', '14deg'); });
+orbit.addEventListener('pointerleave', () => { key.style.setProperty('--ry', '-12deg'); key.style.setProperty('--rx', '8deg'); });
 let presses = 0;
 key.addEventListener('click', () => { presses++; document.getElementById('pressed').textContent = `Form connected. ${presses} test lead${presses > 1 ? 's' : ''} answered in 8s.`; });
 
@@ -1046,7 +1071,7 @@ gsap.to(bst, { p: 1, ease: 'power2.out', scrollTrigger: { trigger: '#bars', star
 gsap.utils.toArray('.meter .fill').forEach(f => gsap.from(f, { scaleX: 0, duration: 1.4, ease: 'power3.out', scrollTrigger: { trigger: f, start: 'top 90%' } }));
 
 // hub key entrance
-gsap.from('.hubkey .key', { scale: .4, rotateX: 70, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#orbit', start: 'top 75%' } });
+gsap.from('.hubkey .key', { scale: .4, y: 40, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#orbit', start: 'top 75%' } });
 
 // counters
 document.querySelectorAll('[data-count]').forEach(el => {
