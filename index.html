@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Aurion — reply to every lead at the speed of light</title>
+<title>AImLab — reply to every lead at the speed of light</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230c0819'/><path d='M7.5 16.5h17a8.5 8.5 0 0 1-17 0z' fill='%238a63ff'/><circle cx='16' cy='16' r='9.5' fill='none' stroke='%23fff' stroke-width='3'/><circle cx='14' cy='19.5' r='1.3' fill='%230c0819'/><circle cx='18.5' cy='21.5' r='.9' fill='%230c0819'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@ html.lenis,html.lenis body{height:auto}
 html,body{overflow-x:hidden;overflow-x:clip;max-width:100%;overscroll-behavior-x:none}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;position:relative}
 main{overflow-x:clip}
-.hero,.sec,.cta,.lens-sec,.day-sec{overflow-x:clip}
+.hero,.sec,.cta,.j-sec,.day-sec{overflow-x:clip}
 body.fallback-bg{background:radial-gradient(60% 50% at 50% 40%,rgba(169,139,255,.12),transparent 70%),var(--bg)}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--a);outline-offset:3px;border-radius:8px}
@@ -43,14 +43,13 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.75))}
 main,footer{position:relative;z-index:2}
 
-/* intro: a beam draws the underline and reveals the logo */
-#intro{position:fixed;inset:0;z-index:100;background:#030208;overflow:hidden;clip-path:circle(150% at 48.5% 54%)}
-.i-logo{position:absolute;left:50%;top:50%;width:min(76vw,540px);aspect-ratio:338/97;transform:translate(-50%,-50%)}
-.i-logo img{display:block;width:100%;height:100%;clip-path:inset(0 100% 0 0)}
-.i-beam{position:absolute;left:0;height:3px;margin-top:-1.5px;width:0;background:linear-gradient(90deg,transparent,rgba(169,139,255,.6) 40%,#fff);box-shadow:0 0 14px #fff,0 0 34px rgba(169,139,255,.9)}
-.i-beam::after{content:"";position:absolute;right:-10px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;background:radial-gradient(#fff,rgba(169,139,255,.6) 45%,transparent 70%)}
-.i-flash{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:radial-gradient(#fff,rgba(200,180,255,.7) 35%,transparent 70%);transform:scale(0);opacity:0}
-.i-meta{position:absolute;left:0;right:0;bottom:9vh;text-align:center;font:12px var(--mono);color:var(--dim);letter-spacing:.08em;opacity:0}
+/* intro: the whole logo resolves, a shine sweeps across it */
+#intro{position:fixed;inset:0;z-index:100;background:#030208;overflow:hidden;clip-path:circle(150% at 50% 50%)}
+.i-logo{position:absolute;left:50%;top:50%;width:min(72vw,480px);aspect-ratio:338/97;transform:translate(-50%,-50%)}
+.i-logo img{display:block;width:100%;height:100%;opacity:0}
+.i-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%) no-repeat;background-size:250% 100%;background-position:150% 0;-webkit-mask:url(aimlab-logo.png) center/100% 100% no-repeat;mask:url(aimlab-logo.png) center/100% 100% no-repeat}
+.i-halo{position:absolute;left:50%;top:50%;width:min(110vw,760px);aspect-ratio:1;transform:translate(-50%,-50%) scale(.6);border-radius:50%;background:radial-gradient(closest-side,rgba(169,139,255,.28),rgba(255,79,216,.08) 55%,transparent);opacity:0}
+.i-meta{position:absolute;left:0;right:0;top:calc(50% + min(72vw,480px)*.2 + 34px);text-align:center;font:12px var(--mono);color:var(--dim);letter-spacing:.1em;opacity:0}
 .no-anim #intro{display:none}
 
 /* nav */
@@ -140,35 +139,43 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 .mini .row{display:grid;grid-template-columns:70px 1fr auto;gap:12px;font:12.5px var(--mono);color:var(--dim);padding:9px 0;border-top:1px solid var(--line)}
 .mini .row b{color:var(--a);font-weight:500}
 
-/* lens pin: leads in, bookings out */
-.lens-sec{position:relative}
-.lens-stage{height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.5vh,28px);overflow:hidden;position:relative;padding:80px 0 40px}
-.lens-kicker{margin:0;font:12px var(--mono);color:var(--a);letter-spacing:.12em;text-transform:uppercase;text-align:center}
-.lens-h{position:relative;height:1.1em;width:min(1000px,92vw);margin-top:10px;font-size:clamp(28px,4.4vw,60px);text-align:center}
-.lens-h span{position:absolute;inset:0;white-space:nowrap;opacity:0;transform:translateY(.4em);filter:blur(6px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1),filter .5s}
-.lens-h span.on{opacity:1;transform:none;filter:none}
-.lens-field{position:relative;width:min(1180px,94vw);height:min(48vh,440px)}
-.lens-tag{position:absolute;font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-.lens-tag.t-in{left:0;top:calc(50% - 52px)}.lens-tag.t-out{right:0;top:calc(50% - 52px)}
-.lens-beams{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.lens-beams path{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.lens-beams .flow{stroke-dasharray:.035 .115;animation:lflow 1.1s linear infinite;opacity:.9;filter:drop-shadow(0 0 4px #fff)}
-@keyframes lflow{to{stroke-dashoffset:-.15}}
-.lens-glow{position:absolute;left:50%;top:50%;width:clamp(220px,30vw,420px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(230,215,255,.55),rgba(169,139,255,.25) 40%,rgba(255,79,216,.08) 65%,transparent);pointer-events:none}
-.lens-prism{position:absolute;left:50%;top:50%;width:clamp(120px,15vw,210px);overflow:visible;will-change:transform}
-.lead,.ticket{position:absolute;left:0;top:0;will-change:transform,opacity;white-space:nowrap}
-.lead>div{display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:12px;background:rgba(20,17,34,.92);border:1px solid var(--line2);font-size:13px;color:var(--dim);animation:bob 3.2s ease-in-out infinite;animation-delay:var(--d)}
-.lead u{text-decoration:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:600 11px var(--sans);color:#fff;background:#3a3354}
-.lead small{display:block;font:10px var(--mono);color:var(--faint)}
-.ticket>div{position:relative;padding:10px 14px;border-radius:12px;background:rgba(14,10,28,.95);font-size:13px;color:var(--text);box-shadow:0 10px 40px -12px var(--c),inset 0 0 0 1px color-mix(in srgb,var(--c) 60%,transparent)}
-.ticket b{display:block;font:500 10.5px var(--mono);color:var(--c);letter-spacing:.04em;margin-bottom:2px}
-.ticket>div::before{content:"";position:absolute;left:-1px;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--c);box-shadow:0 0 10px var(--c)}
-@keyframes bob{50%{transform:translateY(-5px)}}
-.lens-count{display:grid;grid-template-columns:repeat(3,auto);gap:clamp(22px,6vw,80px);text-align:center}
-.lens-count b{display:block;font-size:clamp(26px,3.4vw,44px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.lens-count span{font:11px var(--mono);color:var(--faint)}
-.slab-cap{margin:0;text-align:center;color:var(--dim);font:13px var(--mono)}
-@media (max-width:640px){.lens-stage{padding:72px 0 24px;gap:10px}.lens-field{height:min(60vh,540px)}.lead>div,.ticket>div{font-size:11.5px;padding:6px 10px 6px 6px}.ticket>div{padding:7px 10px}.ticket b{font-size:9.5px}.lead small{display:none}.lead u{width:18px;height:18px;font-size:9px}.lens-h{font-size:clamp(20px,6.2vw,28px);height:2.3em}.lens-h span{white-space:normal}.lens-count b{font-size:24px}.lens-tag.t-in{left:50%;top:0;transform:translateX(-50%)}.lens-tag.t-out{display:none}.slab-cap{font-size:11.5px;padding:0 20px}}
+/* journey pin: one lead, form to booked call */
+.j-sec{position:relative}
+.j-stage{height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:64px;position:relative}
+.j-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.j-kicker{margin:0 0 14px;font:12px var(--mono);color:var(--a);letter-spacing:.12em;text-transform:uppercase}
+.j-timer{text-align:right}
+.j-timer b{display:block;font-size:clamp(44px,6vw,84px);font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;background:var(--beam);-webkit-background-clip:text;background-clip:text;color:transparent}
+.j-timer span{font:12px var(--mono);color:var(--faint)}
+.j-track{position:relative;margin-top:clamp(36px,6vh,64px);display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.j-rail{position:absolute;left:0;right:0;top:-22px;height:2px;border-radius:2px;background:rgba(255,255,255,.08)}
+.j-rail i{position:absolute;inset:0;border-radius:inherit;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--a3),var(--a) 50%,var(--a2));box-shadow:0 0 12px var(--a),0 0 30px rgba(169,139,255,.6)}
+.j-rail i::after{content:"";position:absolute;right:-6px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff,0 0 26px var(--a)}
+.j-step{padding:22px;opacity:.35;transform:translateY(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s}
+.j-step::after{content:"";position:absolute;left:22px;top:-27px;width:12px;height:12px;border-radius:50%;background:#1b1630;border:2px solid rgba(255,255,255,.18);transition:background .4s,border-color .4s,box-shadow .4s}
+.j-step.on{opacity:1;transform:none;border-color:rgba(169,139,255,.45);box-shadow:0 30px 80px -40px rgba(169,139,255,.6)}
+.j-step.on::after{background:var(--a);border-color:#fff;box-shadow:0 0 14px var(--a)}
+.j-step time{font:500 12px var(--mono);color:var(--a)}
+.j-step h3{margin:10px 0 8px;font-size:19px;font-weight:600;letter-spacing:-.02em}
+.j-step p{margin:0;color:var(--dim);font-size:14.5px;line-height:1.5}
+.j-ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;margin-bottom:16px;background:rgba(169,139,255,.12);color:var(--a);transition:background .4s,color .4s}
+.j-step.on .j-ico{background:linear-gradient(135deg,#8ee9ff,#a98bff 55%,#ff7ce0);color:var(--ink)}
+.j-ico svg{width:19px;height:19px}
+.j-cap{margin-top:28px;color:var(--dim);font:13px var(--mono)}
+@media (max-width:860px){
+  .j-stage{justify-content:center;padding-top:72px;padding-bottom:12px}
+  .j-sec h2{font-size:27px}.j-kicker{margin-bottom:8px;font-size:11px}
+  .j-top{flex-direction:column;align-items:flex-start;gap:10px}.j-timer{text-align:left}
+  .j-timer b{font-size:32px}.j-timer span{font-size:11px}
+  .j-track{grid-template-columns:1fr;gap:10px;margin-top:22px;padding-left:28px}
+  .j-rail{left:5px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .j-rail i{transform-origin:50% 0;transform:scaleY(0);background:linear-gradient(180deg,var(--a3),var(--a) 50%,var(--a2))}
+  .j-rail i::after{right:auto;top:auto;bottom:-6px;left:50%;margin:0 0 0 -6px}
+  .j-step{padding:11px 14px;transform:translateX(10px)}
+  .j-step::after{left:-29px;top:18px}
+  .j-ico{display:none}.j-step h3{margin:3px 0 3px;font-size:15.5px}.j-step p{font-size:12.5px;line-height:1.4}
+  .j-cap{margin-top:16px;font-size:11.5px}
+}
 
 /* hub */
 .orbit{position:relative;aspect-ratio:1;width:100%;max-width:520px;margin:0 auto}
@@ -338,9 +345,8 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 
 
 <div id="intro" aria-hidden="true">
-  <div class="i-logo"><img src="aimlab-logo.png" alt=""></div>
-  <div class="i-beam"></div>
-  <div class="i-flash"></div>
+  <div class="i-halo"></div>
+  <div class="i-logo"><img src="aimlab-logo.png" alt=""><div class="i-shine"></div></div>
   <div class="i-meta">every lead, answered in seconds</div>
 </div>
 
@@ -366,7 +372,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
     <div class="hero-copy">
       <span class="chip hx"><b>◆</b> <span data-scramble>live on Meta lead forms</span></span>
       <h1 class="hx">Reply to every lead <em>at the speed of light.</em></h1>
-      <p class="lede hx">Aurion messages people the moment they fill in your Facebook or Instagram form, qualifies them, and books the call before a competitor even sees the notification.</p>
+      <p class="lede hx">AImLab messages people the moment they fill in your Facebook or Instagram form, qualifies them, and books the call before a competitor even sees the notification.</p>
       <div class="ctas hx">
         <a class="btn btn-glow" href="#pricing">Start free</a>
         <a class="btn btn-ghost" href="#record"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>See it reply</a>
@@ -434,7 +440,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
   <div class="wrap two">
     <div>
       <h2 data-smear>Watch a reply <em>leave the building.</em></h2>
-      <p class="body" data-rise>A form lands. Aurion reads what they asked for, writes back like a person on your team, answers the follow-up, and drops a booking link, all before they've put their phone down.</p>
+      <p class="body" data-rise>A form lands. AImLab reads what they asked for, writes back like a person on your team, answers the follow-up, and drops a booking link, all before they've put their phone down.</p>
       <ol class="steps" id="steps" data-rise>
         <li><b>00.0s</b>Form submitted on Instagram</li>
         <li><b>02.4s</b>Intent read: quote, kitchen, this month</li>
@@ -449,41 +455,20 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
   </div>
 </section>
 
-<section class="lens-sec" id="slab" data-morph="2">
-  <div class="lens-stage" id="lensStage">
-    <p class="lens-kicker">the aurion lens</p>
-    <h2 class="lens-h" id="lensH"><span class="on">Leads pour in, <em>messy and impatient.</em></span><span>Aurion <em>bends every one of them.</em></span><span>Booked calls <em>come out the other side.</em></span></h2>
-    <div class="lens-field" id="lensField">
-      <svg class="lens-beams" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="lbIn" x1="0" x2="500" y1="250" y2="250" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>
-          <linearGradient id="lbC" class="lgo" x1="500" x2="1000" y1="250" y2="250" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4de3ff"/><stop offset="1" stop-color="#4de3ff" stop-opacity="0"/></linearGradient>
-          <linearGradient id="lbV" class="lgo" x1="500" x2="1000" y1="250" y2="250" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a98bff"/><stop offset="1" stop-color="#a98bff" stop-opacity="0"/></linearGradient>
-          <linearGradient id="lbM" class="lgo" x1="500" x2="1000" y1="250" y2="250" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff4fd8"/><stop offset="1" stop-color="#ff4fd8" stop-opacity="0"/></linearGradient>
-        </defs>
-        <path class="lb lb-in" pathLength="1" d="M0 250 L500 250" stroke="url(#lbIn)" stroke-width="2.5"/>
-        <path class="lb lb-out" pathLength="1" d="M500 250 C650 250 760 90 1000 70" stroke="url(#lbC)" stroke-width="2.5"/>
-        <path class="lb lb-out" pathLength="1" d="M500 250 L1000 250" stroke="url(#lbV)" stroke-width="2.5"/>
-        <path class="lb lb-out" pathLength="1" d="M500 250 C650 250 760 410 1000 430" stroke="url(#lbM)" stroke-width="2.5"/>
-        <path class="flow" pathLength="1" d="M0 250 L500 250" stroke="#fff" stroke-width="3"/>
-      </svg>
-      <span class="lens-tag t-in">raw leads →</span><span class="lens-tag t-out">→ booked</span>
-      <div class="lens-glow" id="lensGlow"></div>
-      <svg class="lens-prism" id="lensPrism" viewBox="0 0 200 180" aria-hidden="true">
-        <defs>
-          <linearGradient id="pgF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6dcff" stop-opacity=".55"/><stop offset=".5" stop-color="#8a63ff" stop-opacity=".28"/><stop offset="1" stop-color="#ff4fd8" stop-opacity=".35"/></linearGradient>
-          <linearGradient id="pgS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#c9b5ff"/><stop offset="1" stop-color="#ff9be6"/></linearGradient>
-        </defs>
-        <path d="M100 8 L192 170 H8 Z" fill="url(#pgF)" stroke="url(#pgS)" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M100 8 L128 170" stroke="rgba(255,255,255,.35)" stroke-width="1.5" fill="none"/>
-        <path d="M100 30 L30 152" stroke="rgba(255,255,255,.55)" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M52 118 L148 118" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
-      </svg>
-      <div class="lead"><div style="--d:-0.0s"><u>A</u><span>hi how much for a kitchen?<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-0.4s"><u>D</u><span>roof leaking, can u come asap<small>facebook form</small></span></div></div><div class="lead"><div style="--d:-0.8s"><u>S</u><span>do u do bathrooms<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-1.2s"><u>M</u><span>quote for wood floors pls<small>facebook form</small></span></div></div><div class="lead"><div style="--d:-1.6s"><u>C</u><span>price for tiling a patio?<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-2.0s"><u>L</u><span>extension, when r u free<small>facebook form</small></span></div></div><div class="lead"><div style="--d:-2.4s"><u>N</u><span>attic conversion cost??<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-2.8s"><u>R</u><span>is saturday possible<small>facebook form</small></span></div></div>
-      <div class="ticket" style="--c:#4de3ff"><div><b>BOOKED · THU 10:30</b>Aoife · kitchen refit</div></div><div class="ticket" style="--c:#a98bff"><div><b>BOOKED · THU 14:00</b>Declan · roof repair</div></div><div class="ticket" style="--c:#ff4fd8"><div><b>BOOKED · FRI 09:00</b>Sinéad · bathroom</div></div><div class="ticket" style="--c:#4de3ff"><div><b>BOOKED · FRI 11:30</b>Mark · wood floors</div></div><div class="ticket" style="--c:#a98bff"><div><b>BOOKED · MON 10:00</b>Liam · extension</div></div><div class="ticket" style="--c:#ff4fd8"><div><b>BOOKED · MON 15:30</b>Niamh · attic</div></div>
+<section class="j-sec" id="slab" data-morph="3">
+  <div class="wrap j-stage" id="jStage">
+    <div class="j-top">
+      <div><p class="j-kicker">one lead, start to finish</p><h2>From form to booked call <em>in 41 seconds.</em></h2></div>
+      <div class="j-timer"><b id="jTime">00.0s</b><span>since the form was sent</span></div>
     </div>
-    <div class="lens-count"><div><b id="lcIn">0</b><span>leads in</span></div><div><b id="lcT">—</b><span>avg first reply</span></div><div><b id="lcOut">0</b><span>calls booked</span></div></div>
-    <p class="slab-cap">It runs in the background. You just see the booked calls.</p>
+    <div class="j-track" id="jTrack">
+      <div class="j-rail"><i id="jRail"></i></div>
+      <div class="card j-step"><div class="j-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div><time>00.0s</time><h3>Form sent</h3><p>Aoife fills in your Instagram ad for a new kitchen.</p></div>
+      <div class="card j-step"><div class="j-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div><time>02.4s</time><h3>Lead understood</h3><p>AImLab reads it: full refit, this month, wants a price.</p></div>
+      <div class="card j-step"><div class="j-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg></div><time>07.9s</time><h3>First reply out</h3><p>A friendly WhatsApp in your tone, with one quick question.</p></div>
+      <div class="card j-step"><div class="j-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><time>41.0s</time><h3>Call booked</h3><p>Thursday 10:30 lands in your calendar. You never touched your phone.</p></div>
+    </div>
+    <p class="j-cap">It runs in the background. You just see the booked calls.</p>
   </div>
 </section>
 
@@ -509,7 +494,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 
 <section class="day-sec" id="day" data-morph="3">
   <div class="wrap day-stage" id="dayStage">
-    <h2>A Tuesday, <em>seen through Aurion.</em></h2>
+    <h2>A Tuesday, <em>seen through AImLab.</em></h2>
     <div class="day-grid">
       <div class="card clock">
         <div class="t" id="clock">06:00</div>
@@ -993,14 +978,14 @@ async function playChat() {
   for (const [kind, text, step, delay] of script) {
     if (run !== chatRun) return;
     if (kind === 'out') {
-      phStatus.textContent = 'Aurion is typing…';
+      phStatus.textContent = 'AImLab is typing…';
       const ty = document.createElement('div'); ty.className = 'typing'; ty.innerHTML = '<i></i><i></i><i></i>'; chat.appendChild(ty);
       if (step === 1) stepsEls[1].classList.add('on');
       await wait(delay); ty.remove();
       phStatus.textContent = 'online';
     } else await wait(delay);
     const m = document.createElement('div'); m.className = 'msg ' + kind; m.textContent = text;
-    if (kind !== 'sys') { const sm = document.createElement('small'); sm.textContent = kind === 'out' ? 'Aurion · delivered' : 'Aoife'; m.appendChild(sm); }
+    if (kind !== 'sys') { const sm = document.createElement('small'); sm.textContent = kind === 'out' ? 'AImLab · delivered' : 'Aoife'; m.appendChild(sm); }
     chat.appendChild(m);
     if (kind === 'out' && step === 1) { phLat.textContent = '7.9 s'; if (GL) GL.fire(); }
     if (step >= 0) stepsEls[Math.min(step, stepsEls.length - 1)].classList.add('on');
@@ -1081,73 +1066,21 @@ orbit.addEventListener('pointerleave', () => { key.style.setProperty('--ry', '-1
 let presses = 0;
 key.addEventListener('click', () => { presses++; document.getElementById('pressed').textContent = `Form connected. ${presses} test lead${presses > 1 ? 's' : ''} answered in 8s.`; });
 
-/* ---------- lens: leads in, bookings out (driven by one progress value) ---------- */
-const lensField = document.getElementById('lensField'), lensPrism = document.getElementById('lensPrism'), lensGlow = document.getElementById('lensGlow');
-const leadEls = [...lensField.querySelectorAll('.lead')], tixEls = [...lensField.querySelectorAll('.ticket')];
-const lbIn = lensField.querySelector('.lb-in'), lbOut = [...lensField.querySelectorAll('.lb-out')], lbFlow = lensField.querySelector('.flow');
-const lensSpans = [...document.querySelectorAll('#lensH span')];
-const lcIn = document.getElementById('lcIn'), lcOut = document.getElementById('lcOut'), lcT = document.getElementById('lcT');
-const clamp01 = x => Math.max(0, Math.min(1, x)), eIn = x => x * x * x, eOut = x => 1 - Math.pow(1 - x, 3), lerp = (a, b, k) => a + (b - a) * k;
-const tixY = [.06, .24, .42, .6, .78, .96];
-const tixX = [.78, .9, .76, .9, .78, .9];
-let lensHead = 0, lensFired = false;
-[lbIn, ...lbOut].forEach(pth => { pth.style.strokeDasharray = '1 1'; });
-let lensMode = '';
-const OUT_H = ['M500 250 C650 250 760 90 1000 70', 'M500 250 L1000 250', 'M500 250 C650 250 760 410 1000 430'];
-const OUT_V = ['M500 180 C500 270 250 300 250 500', 'M500 180 L500 500', 'M500 180 C500 270 750 300 750 500'];
-function setLensMode(v) {
-  const m = v ? 'v' : 'h'; if (m === lensMode) return; lensMode = m;
-  lbIn.setAttribute('d', v ? 'M500 0 L500 180' : 'M0 250 L500 250'); lbFlow.setAttribute('d', lbIn.getAttribute('d'));
-  const gi = document.getElementById('lbIn');
-  [['x1', v ? 500 : 0], ['y1', v ? 0 : 250], ['x2', 500], ['y2', v ? 180 : 250]].forEach(([k, val]) => gi.setAttribute(k, val));
-  lbOut.forEach((pth, i) => pth.setAttribute('d', (v ? OUT_V : OUT_H)[i]));
-  document.querySelectorAll('.lgo').forEach(g => [['x1', 500], ['y1', v ? 180 : 250], ['x2', v ? 500 : 1000], ['y2', v ? 500 : 250]].forEach(([k, val]) => g.setAttribute(k, val)));
-  lensPrism.style.top = lensGlow.style.top = v ? '36%' : '50%';
+/* ---------- journey: one lead from form to booked call ---------- */
+const jSteps = [...document.querySelectorAll('.j-step')], jRail = document.getElementById('jRail'), jTime = document.getElementById('jTime');
+const jAt = [0, 2.4, 7.9, 41], jP = [.04, .3, .55, .82];
+let jFired = false;
+function journey(p) {
+  const vert = matchMedia('(max-width:860px)').matches, f = Math.max(0, Math.min(1, (p - .04) / .8));
+  jRail.style.transform = vert ? `scaleY(${f})` : `scaleX(${f})`;
+  jSteps.forEach((el, i) => el.classList.toggle('on', p >= jP[i]));
+  let t = 0;
+  for (let i = 0; i < 3; i++) if (p >= jP[i]) t = jAt[i] + (jAt[i + 1] - jAt[i]) * Math.min(1, (p - jP[i]) / (jP[i + 1] - jP[i]));
+  if (p >= jP[3]) t = 41;
+  jTime.textContent = (t < 10 ? '0' : '') + t.toFixed(1) + 's';
+  if (p >= jP[3] && !jFired) { jFired = true; if (GL) GL.fire(); } else if (p < jP[3] - .05) jFired = false;
 }
-function lens(p) {
-  const W = lensField.clientWidth, H = lensField.clientHeight, v = W < 640;
-  setLensMode(v);
-  const cx = W / 2, cy = v ? H * .36 : H / 2;
-  const pr = eOut(clamp01(p / .14));
-  lensPrism.style.transform = `translate(-50%,-50%) rotate(${(1 - pr) * -40 + p * 10}deg) scale(${.5 + .5 * pr + .06 * Math.sin(p * 12)})`;
-  lensPrism.style.opacity = pr;
-  const absorb = clamp01((p - .08) / .5);
-  lensGlow.style.opacity = pr * (.35 + .65 * absorb);
-  lensGlow.style.transform = `translate(-50%,-50%) scale(${.7 + .5 * absorb})`;
-  lbIn.style.strokeDashoffset = 1 - clamp01((p - .02) / .12);
-  lbFlow.style.opacity = clamp01((p - .1) / .1) * .8;
-  lbOut.forEach((pth, i) => pth.style.strokeDashoffset = 1 - eOut(clamp01((p - .4 - i * .03) / .16)));
-  // leads: queue up along the beam and ride it into the prism, one after another
-  leadEls.forEach((el, i) => {
-    const ts = .04 + i * .075, k = clamp01((p - ts) / (v ? .22 : .14)), appear = clamp01((p - ts + .02) / .04);
-    const hw = el.offsetWidth / 2;
-    const e = k * (.7 + .3 * k);
-    const x = v ? cx : lerp(hw, cx, e), y = v ? lerp(44, cy, e) : cy;
-    const fin = clamp01((k - .75) / .25);
-    el.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) scale(${1 - .8 * fin})`;
-    el.style.opacity = appear * (1 - fin);
-    el.style.zIndex = 20 - i;
-  });
-  // tickets: exit the prism along the three beams and settle
-  tixEls.forEach((el, j) => {
-    const k = clamp01((p - (.5 + j * .06)) / .2), hw = el.offsetWidth / 2;
-    let tx, ty;
-    if (v) { tx = W * (j % 2 ? .75 : .25); ty = H * (.6 + Math.floor(j / 2) * .17); tx = Math.min(Math.max(tx, hw), W - hw); }
-    else { tx = Math.min(tixX[j] * W, W - hw); ty = tixY[j] * H; }
-    const x = lerp(cx, tx, eOut(k)), y = lerp(cy, ty, eOut(k));
-    el.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) scale(${.25 + .75 * eOut(k)})`;
-    el.style.opacity = clamp01(k * 2.5);
-  });
-  const h = p < .34 ? 0 : p < .62 ? 1 : 2;
-  if (h !== lensHead) { lensHead = h; lensSpans.forEach((sp, i) => sp.classList.toggle('on', i === h)); }
-  lcIn.textContent = Math.round(128 * clamp01(p / .78));
-  lcOut.textContent = Math.round(49 * clamp01((p - .5) / .45));
-  lcT.textContent = p < .1 ? '—' : (7.9 + (1 - clamp01((p - .1) / .45)) * 30).toFixed(1) + 's';
-  if (p > .47 && !lensFired) { lensFired = true; if (GL) GL.fire(); } else if (p < .42) lensFired = false;
-}
-lens(0);
-addEventListener('resize', () => lens(lensP));
-let lensP = 0;
+journey(0);
 
 /* day data */
 const hoursData = [1, 3, 6, 5, 4, 7, 9, 6, 5, 4, 6, 8, 7, 5, 6, 4, 3, 2];
@@ -1230,7 +1163,7 @@ if (!hasG || reduce) {
   document.getElementById('intro')?.remove();
   if (GL) GL.iTarget = 1;
   setBars(1); wkEl.textContent = '63';
-  lensP = 1; lens(1);
+  journey(1);
   document.querySelectorAll('[data-count]').forEach(el => el.textContent = (el.dataset.prefix || '') + (+el.dataset.count).toLocaleString() + (el.dataset.suffix || ''));
   if (GL) {
     const secs = [...document.querySelectorAll('[data-morph]')];
@@ -1258,31 +1191,21 @@ if (window.Lenis && !mobile) {
   let ly = scrollY; addEventListener('scroll', () => { if (GL) GL.vel = Math.min(4, Math.abs(scrollY - ly) * .05); ly = scrollY; }, { passive: true });
 }
 
-/* intro: a beam of light draws the logo's underline and reveals it left to right */
+/* intro: the whole logo resolves in the centre, a shine sweeps across, then it opens into the site */
 const intro = document.getElementById('intro'), iLogo = intro.querySelector('.i-logo'), iImg = iLogo.querySelector('img');
-const iBeam = intro.querySelector('.i-beam'), iFlash = intro.querySelector('.i-flash');
-const lb = iLogo.getBoundingClientRect();
-const lineY = lb.top + lb.height * .955, tip = [lb.left + lb.width * .99, lb.top + lb.height * .725];
-iBeam.style.top = lineY + 'px';
-Object.assign(iFlash.style, { left: tip[0] + 'px', top: tip[1] + 'px' });
-const rev = { p: 0 };
-const drawRev = () => { iImg.style.clipPath = `inset(0 ${(1 - rev.p) * 100}% 0 0)`; iBeam.style.width = (lb.left + lb.width * rev.p) + 'px'; };
+const iShine = intro.querySelector('.i-shine'), iHalo = intro.querySelector('.i-halo');
 gsap.set('.hx', { opacity: 0, y: 40 });
-const itl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } }); if (mobile) itl.timeScale(1.2);
-itl.to(rev, { p: .02, duration: .35, ease: 'power2.in', onUpdate: drawRev }, .1)
-   .to(rev, { p: 1, duration: 1, ease: 'power2.inOut', onUpdate: drawRev }, .45)
-   .to(iFlash, { scale: 7, opacity: 1, duration: .18, ease: 'power2.out' }, 1.42)
-   .to(iFlash, { opacity: 0, scale: 10, duration: .6, ease: 'power2.out' }, 1.6)
-   .to(iBeam, { opacity: 0, duration: .5 }, 1.5)
-   .fromTo(iLogo, { scale: 1 }, { scale: 1.05, duration: .25, yoyo: true, repeat: 1, ease: 'power2.out' }, 1.45)
-   .fromTo(iImg, { filter: 'brightness(1)' }, { filter: 'brightness(1.6)', duration: .25, yoyo: true, repeat: 1 }, 1.45)
-   .to('.i-meta', { opacity: 1, duration: .5 }, 1.6)
-   .to('.i-meta', { opacity: 0, duration: .3 }, 2.2)
-   .to(iLogo, { scale: .4, opacity: 0, duration: .6, ease: 'power3.in' }, 2.25)
-   .to(intro, { clipPath: 'circle(0% at 48.5% 54%)', duration: .75, ease: 'power4.in' }, 2.25)
-   .add(() => { if (GL) { GL.iTarget = 1; GL.fire(); } }, 2.85)
-   .to('.hx', { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, 2.9)
-   .add(() => { intro.remove(); if (lenis) lenis.start(); ScrollTrigger.refresh(); }, 3.05);
+const itl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } }); if (mobile) itl.timeScale(1.15);
+itl.fromTo(iImg, { opacity: 0, scale: .9, filter: 'blur(14px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1 }, .1)
+   .to(iHalo, { opacity: 1, scale: 1, duration: 1.2 }, .1)
+   .to(iShine, { backgroundPosition: '-50% 0', duration: .9, ease: 'power2.inOut' }, .9)
+   .to('.i-meta', { opacity: 1, duration: .5 }, 1.2)
+   .to(['.i-meta', iHalo], { opacity: 0, duration: .35, ease: 'power2.in' }, 2.05)
+   .to(iLogo, { scale: 1.08, opacity: 0, duration: .5, ease: 'power2.in' }, 2.15)
+   .to(intro, { clipPath: 'circle(0% at 50% 50%)', duration: .7, ease: 'power4.in' }, 2.2)
+   .add(() => { if (GL) { GL.iTarget = 1; GL.fire(); } }, 2.75)
+   .to('.hx', { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, 2.8)
+   .add(() => { intro.remove(); if (lenis) lenis.start(); ScrollTrigger.refresh(); }, 2.95);
 // wait for fonts + a couple of settled frames (shader compile) so the intro never skips
 Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(r => setTimeout(r, 1500))])
   .then(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(r)))))
@@ -1296,9 +1219,9 @@ gsap.to('#prog', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max
 gsap.to('.hero-copy', { yPercent: -18, opacity: .15, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .6 } });
 gsap.to('#flow', { '--ry': '-28deg', '--rx': '14deg', yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .6 } });
 
-// lens
-const lst = { p: 0 };
-gsap.to(lst, { p: 1, ease: 'none', scrollTrigger: { trigger: '#lensStage', start: 'top top', end: mobile ? '+=200%' : '+=260%', pin: true, scrub: mobile ? .5 : 1, anticipatePin: 1 }, onUpdate: () => { lensP = lst.p; lens(lst.p); } });
+// journey
+const jst = { p: 0 };
+gsap.to(jst, { p: 1, ease: 'none', scrollTrigger: { trigger: '#jStage', start: 'top top', end: mobile ? '+=160%' : '+=200%', pin: true, scrub: mobile ? .4 : .8, anticipatePin: 1 }, onUpdate: () => journey(jst.p) });
 
 // day
 ScrollTrigger.create({ trigger: '#dayStage', start: 'top top', end: mobile ? '+=180%' : '+=240%', pin: true, scrub: mobile ? .4 : .8, anticipatePin: 1, onUpdate: s => setDay(s.progress) });
@@ -1309,7 +1232,7 @@ document.querySelectorAll('[data-morph]').forEach(sec => {
   ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 45%', onToggle: s => { if (s.isActive && GL) GL.target = +sec.dataset.morph; } });
 });
 // dim ribbons behind the slab
-if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .35 : 1 });
+if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .5 : 1 });
 
 // smear headings
 document.querySelectorAll('.smear').forEach(el => {
