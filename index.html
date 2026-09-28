@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Aurion — reply to every lead at the speed of light</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 36 36'><rect x='-2' y='-2' width='36' height='36' rx='9' fill='%230c0819'/><path d='M5 27 16 5 27 27' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/><path d='M0 21.5 9.25 18.5' stroke='white' stroke-width='1.7' stroke-linecap='round' opacity='.85'/><path d='M9.25 18.5H22.75' stroke='white' stroke-width='2.2' stroke-linecap='round'/><path d='M22.75 18.5 31 14' stroke='%234de3ff' stroke-width='1.7' stroke-linecap='round'/><path d='M22.75 18.5H31.5' stroke='%23a98bff' stroke-width='1.7' stroke-linecap='round'/><path d='M22.75 18.5 31 23' stroke='%23ff4fd8' stroke-width='1.7' stroke-linecap='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -29,7 +30,7 @@ html.lenis,html.lenis body{height:auto}
 html,body{overflow-x:hidden;overflow-x:clip;max-width:100%;overscroll-behavior-x:none}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;position:relative}
 main{overflow-x:clip}
-.hero,.sec,.cta,.slab-sec,.day-sec{overflow-x:clip}
+.hero,.sec,.cta,.lens-sec,.day-sec{overflow-x:clip}
 body.fallback-bg{background:radial-gradient(60% 50% at 50% 40%,rgba(169,139,255,.12),transparent 70%),var(--bg)}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--a);outline-offset:3px;border-radius:8px}
@@ -42,19 +43,25 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.75))}
 main,footer{position:relative;z-index:2}
 
-/* intro */
-#intro{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center}
-#intro svg{position:absolute;inset:0;width:100%;height:100%}
-#intro rect{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1.2}
-.ikey{position:absolute;left:50%;top:50%;width:56px;height:56px;transform:translate(-50%,-50%);border-radius:16px;background:radial-gradient(120% 100% at 30% 20%,#f3ecff,var(--a) 45%,#6a3cf0);display:grid;place-items:center;box-shadow:0 0 40px rgba(169,139,255,.5),inset 0 2px 0 rgba(255,255,255,.7)}
-.ikey svg{position:static;width:24px;height:24px;color:var(--ink)}
+/* intro: refraction */
+#intro{position:fixed;inset:0;z-index:100;background:#030208;overflow:hidden;--m:140px;clip-path:circle(150% at 48.5% 54%)}
+.i-beam{position:absolute;left:0;top:calc(50% + var(--m)*.171875);width:calc(50% - var(--m)/2);height:2px;margin-top:-1px;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,transparent,rgba(255,255,255,.35) 30%,#fff);box-shadow:0 0 12px #fff,0 0 30px rgba(169,139,255,.9)}
+.i-fan{position:absolute;left:calc(50% + var(--m)*.2109);top:calc(50% + var(--m)*.078)}
+.i-fan i{position:absolute;left:0;top:-1px;width:75vw;height:2px;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--c),transparent);box-shadow:0 0 14px var(--c)}
+.i-mark{position:absolute;left:50%;top:50%;width:var(--m);height:var(--m);margin:calc(var(--m)/-2) 0 0 calc(var(--m)/-2);overflow:visible;color:#fff;filter:drop-shadow(0 0 18px rgba(169,139,255,.8))}
+.i-word{position:absolute;left:0;right:0;top:calc(50% + var(--m)*.62);display:flex;justify-content:center;gap:.02em;font:600 clamp(30px,4vw,44px) var(--sans);letter-spacing:.14em;text-transform:lowercase;color:#f2eefc;overflow:hidden;padding-bottom:6px}
+.i-word span{display:inline-block;transform:translateY(110%)}
+.i-meta{position:absolute;left:0;right:0;bottom:9vh;text-align:center;font:12px var(--mono);color:var(--faint);letter-spacing:.08em;opacity:0}
 .no-anim #intro{display:none}
+@media (max-width:560px){#intro{--m:104px}}
 
 /* nav */
 nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;background:rgba(5,4,11,.4);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em}
-.logo i{width:26px;height:26px;border-radius:8px;background:var(--a);display:grid;place-items:center;box-shadow:0 0 18px rgba(169,139,255,.45),inset 0 1px 0 rgba(255,255,255,.6)}
+.logo i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;background:radial-gradient(120% 120% at 30% 15%,#2a1d52,#0c0819 70%);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 22px -4px rgba(169,139,255,.7),inset 0 1px 0 rgba(255,255,255,.12)}
+.logo i svg{width:22px;height:22px;overflow:visible}
+.logo{letter-spacing:.02em;text-transform:lowercase;font-size:19px}
 .links{display:flex;gap:26px;font-size:14px;color:var(--dim);margin-left:24px}
 .links a:hover{color:var(--text)}
 .status{margin-left:auto;display:flex;align-items:center;gap:8px;font:12px var(--mono);color:var(--dim);border:1px solid var(--line);padding:6px 11px;border-radius:99px}
@@ -136,19 +143,33 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 .mini .row{display:grid;grid-template-columns:70px 1fr auto;gap:12px;font:12.5px var(--mono);color:var(--dim);padding:9px 0;border-top:1px solid var(--line)}
 .mini .row b{color:var(--a);font-weight:500}
 
-/* slab pin */
-.slab-sec{position:relative}
-.slab-stage{height:100vh;height:100svh;display:grid;place-items:center;perspective:1500px;overflow:hidden;position:relative}
-.slabs{position:relative;width:min(780px,86vw);aspect-ratio:1.55;transform-style:preserve-3d}
-.slab{position:absolute;inset:0;will-change:transform;backface-visibility:hidden;border-radius:clamp(28px,4vw,52px);background:radial-gradient(120% 100% at 22% 12%,#f3ecff 0%,var(--a) 38%,#6a3cf0 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.8),inset 0 -30px 70px rgba(50,15,120,.45),0 80px 140px -40px rgba(140,90,255,.55)}
-.slab.s2{background:radial-gradient(120% 100% at 22% 12%,#d6c6ff,#8a63ff 50%,#5424d8)}
-.slab.s3{background:radial-gradient(120% 100% at 22% 12%,#9a7ae6,#6b3fd6 50%,#3a1896)}
-.slab-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8%;color:var(--ink)}
-.slab-copy p{margin:0;font-weight:600;font-size:clamp(26px,4vw,54px);line-height:1.02;letter-spacing:-.035em;max-width:15ch}
-.slab-copy p em{display:block}
-.slab-copy .kb{margin-top:6%;width:64px;height:64px;border-radius:18px;background:var(--ink);display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
-.slab-copy .kb svg{width:28px;height:28px;color:var(--a)}
-.slab-cap{position:absolute;bottom:8vh;left:0;right:0;text-align:center;color:var(--dim);font:13px var(--mono)}
+/* lens pin: leads in, bookings out */
+.lens-sec{position:relative}
+.lens-stage{height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,2.5vh,28px);overflow:hidden;position:relative;padding:80px 0 40px}
+.lens-kicker{margin:0;font:12px var(--mono);color:var(--a);letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.lens-h{position:relative;height:1.1em;width:min(1000px,92vw);margin-top:10px;font-size:clamp(28px,4.4vw,60px);text-align:center}
+.lens-h span{position:absolute;inset:0;white-space:nowrap;opacity:0;transform:translateY(.4em);filter:blur(6px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1),filter .5s}
+.lens-h span.on{opacity:1;transform:none;filter:none}
+.lens-field{position:relative;width:min(1180px,94vw);height:min(48vh,440px)}
+.lens-beams{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.lens-beams path{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.lens-beams .flow{stroke-dasharray:.035 .115;animation:lflow 1.1s linear infinite;opacity:.9;filter:drop-shadow(0 0 4px #fff)}
+@keyframes lflow{to{stroke-dashoffset:-.15}}
+.lens-glow{position:absolute;left:50%;top:50%;width:clamp(220px,30vw,420px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(230,215,255,.55),rgba(169,139,255,.25) 40%,rgba(255,79,216,.08) 65%,transparent);pointer-events:none}
+.lens-prism{position:absolute;left:50%;top:50%;width:clamp(120px,15vw,210px);overflow:visible;will-change:transform}
+.lead,.ticket{position:absolute;left:0;top:0;will-change:transform,opacity;white-space:nowrap}
+.lead>div{display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:12px;background:rgba(20,17,34,.92);border:1px solid var(--line2);font-size:13px;color:var(--dim);animation:bob 3.2s ease-in-out infinite;animation-delay:var(--d)}
+.lead u{text-decoration:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:600 11px var(--sans);color:#fff;background:#3a3354}
+.lead small{display:block;font:10px var(--mono);color:var(--faint)}
+.ticket>div{position:relative;padding:10px 14px;border-radius:12px;background:rgba(14,10,28,.95);font-size:13px;color:var(--text);box-shadow:0 10px 40px -12px var(--c),inset 0 0 0 1px color-mix(in srgb,var(--c) 60%,transparent)}
+.ticket b{display:block;font:500 10.5px var(--mono);color:var(--c);letter-spacing:.04em;margin-bottom:2px}
+.ticket>div::before{content:"";position:absolute;left:-1px;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--c);box-shadow:0 0 10px var(--c)}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.lens-count{display:grid;grid-template-columns:repeat(3,auto);gap:clamp(22px,6vw,80px);text-align:center}
+.lens-count b{display:block;font-size:clamp(26px,3.4vw,44px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.lens-count span{font:11px var(--mono);color:var(--faint)}
+.slab-cap{margin:0;text-align:center;color:var(--dim);font:13px var(--mono)}
+@media (max-width:700px){.lead>div,.ticket>div{font-size:11px;padding:6px 9px}.lead u{width:18px;height:18px;font-size:9px}.lens-h{font-size:clamp(20px,6.4vw,30px)}.lens-h span{white-space:normal}.lens-h{height:2.3em}}
 
 /* hub */
 .orbit{position:relative;aspect-ratio:1;width:100%;max-width:520px;margin:0 auto}
@@ -316,9 +337,14 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="mark" viewBox="0 0 32 32" overflow="visible"><path class="mA" d="M5 27 16 5 27 27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path class="mIn" d="M0 21.5 9.25 18.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".85"/><path class="mBar" d="M9.25 18.5H22.75" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path class="mF" d="M22.75 18.5 31 14" stroke="#4de3ff" stroke-width="1.7" stroke-linecap="round"/><path class="mF" d="M22.75 18.5H31.5" stroke="#a98bff" stroke-width="1.7" stroke-linecap="round"/><path class="mF" d="M22.75 18.5 31 23" stroke="#ff4fd8" stroke-width="1.7" stroke-linecap="round"/></symbol></svg>
+
 <div id="intro" aria-hidden="true">
-  <svg><rect id="iframe" rx="28"/></svg>
-  <div class="ikey"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11M12 6l6 6-6 6"/></svg></div>
+  <div class="i-beam"></div>
+  <div class="i-fan"><i style="--r:-28.6deg;--c:#4de3ff"></i><i style="--r:0deg;--c:#a98bff"></i><i style="--r:28.6deg;--c:#ff4fd8"></i></div>
+  <svg class="i-mark" viewBox="0 0 32 32"><path pathLength="1" class="mA" d="M5 27 16 5 27 27" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path pathLength="1" class="mIn" d="M0 21.5 9.25 18.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".85"/><path pathLength="1" class="mBar" d="M9.25 18.5H22.75" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path pathLength="1" class="mF" d="M22.75 18.5 31 14" stroke="#4de3ff" stroke-width="1.7" stroke-linecap="round"/><path pathLength="1" class="mF" d="M22.75 18.5H31.5" stroke="#a98bff" stroke-width="1.7" stroke-linecap="round"/><path pathLength="1" class="mF" d="M22.75 18.5 31 23" stroke="#ff4fd8" stroke-width="1.7" stroke-linecap="round"/></svg>
+  <div class="i-word"><span>a</span><span>u</span><span>r</span><span>i</span><span>o</span><span>n</span></div>
+  <div class="i-meta">refracting every lead · est. 2026</div>
 </div>
 
 <canvas id="gl" aria-hidden="true"></canvas>
@@ -329,7 +355,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 
 <nav>
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="Aurion home"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12052e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h9M11 6l6 6-6 6"/></svg></i>Aurion</a>
+    <a class="logo" href="#top" aria-label="Aurion home"><i><svg><use href="#mark"/></svg></i>aurion</a>
     <div class="links"><a href="#record">Product</a><a href="#hub">How it works</a><a href="#day">A day with it</a><a href="#pricing">Pricing</a></div>
     <div class="status"><b></b><span data-scramble>beam online · 0 queued</span></div>
     <a class="btn btn-glow" href="#pricing">Start free</a>
@@ -426,14 +452,40 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
   </div>
 </section>
 
-<section class="slab-sec" id="slab" data-morph="2">
-  <div class="slab-stage" id="slabStage">
-    <div class="slabs" id="slabs">
-      <div class="slab s3"></div>
-      <div class="slab s2"></div>
-      <div class="slab s1"><div class="slab-copy" id="slabCopy"><p>The best follow-up is the one <em>you never think about.</em></p><span class="kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11M12 6l6 6-6 6"/></svg></span></div></div>
+<section class="lens-sec" id="slab" data-morph="2">
+  <div class="lens-stage" id="lensStage">
+    <p class="lens-kicker">the aurion lens</p>
+    <h2 class="lens-h" id="lensH"><span class="on">Leads pour in, <em>messy and impatient.</em></span><span>Aurion <em>bends every one of them.</em></span><span>Booked calls <em>come out the other side.</em></span></h2>
+    <div class="lens-field" id="lensField">
+      <svg class="lens-beams" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="lbIn" x1="0" x2="500" y1="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>
+          <linearGradient id="lbC" x1="500" x2="1000" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4de3ff"/><stop offset="1" stop-color="#4de3ff" stop-opacity="0"/></linearGradient>
+          <linearGradient id="lbV" x1="500" x2="1000" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a98bff"/><stop offset="1" stop-color="#a98bff" stop-opacity="0"/></linearGradient>
+          <linearGradient id="lbM" x1="500" x2="1000" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff4fd8"/><stop offset="1" stop-color="#ff4fd8" stop-opacity="0"/></linearGradient>
+        </defs>
+        <path class="lb lb-in" pathLength="1" d="M0 250 L500 250" stroke="url(#lbIn)" stroke-width="2.5"/>
+        <path class="lb lb-out" pathLength="1" d="M500 250 C650 250 760 90 1000 70" stroke="url(#lbC)" stroke-width="2.5"/>
+        <path class="lb lb-out" pathLength="1" d="M500 250 L1000 250" stroke="url(#lbV)" stroke-width="2.5"/>
+        <path class="lb lb-out" pathLength="1" d="M500 250 C650 250 760 410 1000 430" stroke="url(#lbM)" stroke-width="2.5"/>
+        <path class="flow" pathLength="1" d="M0 250 L500 250" stroke="#fff" stroke-width="3"/>
+      </svg>
+      <div class="lens-glow" id="lensGlow"></div>
+      <svg class="lens-prism" id="lensPrism" viewBox="0 0 200 180" aria-hidden="true">
+        <defs>
+          <linearGradient id="pgF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6dcff" stop-opacity=".55"/><stop offset=".5" stop-color="#8a63ff" stop-opacity=".28"/><stop offset="1" stop-color="#ff4fd8" stop-opacity=".35"/></linearGradient>
+          <linearGradient id="pgS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#c9b5ff"/><stop offset="1" stop-color="#ff9be6"/></linearGradient>
+        </defs>
+        <path d="M100 8 L192 170 H8 Z" fill="url(#pgF)" stroke="url(#pgS)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M100 8 L128 170" stroke="rgba(255,255,255,.35)" stroke-width="1.5" fill="none"/>
+        <path d="M100 30 L30 152" stroke="rgba(255,255,255,.55)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M52 118 L148 118" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      </svg>
+      <div class="lead"><div style="--d:-0.0s"><u>A</u><span>hi how much for a kitchen?<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-0.4s"><u>D</u><span>roof leaking, can u come asap<small>facebook form</small></span></div></div><div class="lead"><div style="--d:-0.8s"><u>S</u><span>do u do bathrooms<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-1.2s"><u>M</u><span>quote for wood floors pls<small>facebook form</small></span></div></div><div class="lead"><div style="--d:-1.6s"><u>C</u><span>price for tiling a patio?<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-2.0s"><u>L</u><span>extension, when r u free<small>facebook form</small></span></div></div><div class="lead"><div style="--d:-2.4s"><u>N</u><span>attic conversion cost??<small>instagram form</small></span></div></div><div class="lead"><div style="--d:-2.8s"><u>R</u><span>is saturday possible<small>facebook form</small></span></div></div>
+      <div class="ticket" style="--c:#4de3ff"><div><b>BOOKED · THU 10:30</b>Aoife · kitchen refit</div></div><div class="ticket" style="--c:#a98bff"><div><b>BOOKED · THU 14:00</b>Declan · roof repair</div></div><div class="ticket" style="--c:#ff4fd8"><div><b>BOOKED · FRI 09:00</b>Sinéad · bathroom</div></div><div class="ticket" style="--c:#4de3ff"><div><b>BOOKED · FRI 11:30</b>Mark · wood floors</div></div><div class="ticket" style="--c:#a98bff"><div><b>BOOKED · MON 10:00</b>Liam · extension</div></div><div class="ticket" style="--c:#ff4fd8"><div><b>BOOKED · MON 15:30</b>Niamh · attic</div></div>
     </div>
-    <p class="slab-cap" id="slabCap">It runs in the background. You just see the booked calls.</p>
+    <div class="lens-count"><div><b id="lcIn">0</b><span>leads in</span></div><div><b id="lcT">—</b><span>avg first reply</span></div><div><b id="lcOut">0</b><span>calls booked</span></div></div>
+    <p class="slab-cap">It runs in the background. You just see the booked calls.</p>
   </div>
 </section>
 
@@ -442,7 +494,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
     <div class="orbit" id="orbit">
       <div class="ring"></div><div class="ring r2"></div>
       <svg class="lines" id="olines"></svg>
-      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11M12 6l6 6-6 6"/></svg></span></button></div>
+      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg viewBox="0 0 32 32" style="overflow:visible"><use href="#mark"/></svg></span></button></div>
     </div>
     <div>
       <h2 data-smear>One inbox, <em>every channel.</em></h2>
@@ -529,7 +581,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 </section>
 </main>
 
-<footer><div class="wrap"><span>© 2026 Aurion Labs</span><span>Built in Dublin · powered by light</span></div></footer>
+<footer><div class="wrap"><span class="logo" style="font-size:15px"><i style="width:24px;height:24px;border-radius:7px"><svg style="width:17px;height:17px"><use href="#mark"/></svg></i>aurion labs · © 2026</span><span>Built in Dublin · powered by light</span></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1031,6 +1083,54 @@ orbit.addEventListener('pointerleave', () => { key.style.setProperty('--ry', '-1
 let presses = 0;
 key.addEventListener('click', () => { presses++; document.getElementById('pressed').textContent = `Form connected. ${presses} test lead${presses > 1 ? 's' : ''} answered in 8s.`; });
 
+/* ---------- lens: leads in, bookings out (driven by one progress value) ---------- */
+const lensField = document.getElementById('lensField'), lensPrism = document.getElementById('lensPrism'), lensGlow = document.getElementById('lensGlow');
+const leadEls = [...lensField.querySelectorAll('.lead')], tixEls = [...lensField.querySelectorAll('.ticket')];
+const lbIn = lensField.querySelector('.lb-in'), lbOut = [...lensField.querySelectorAll('.lb-out')], lbFlow = lensField.querySelector('.flow');
+const lensSpans = [...document.querySelectorAll('#lensH span')];
+const lcIn = document.getElementById('lcIn'), lcOut = document.getElementById('lcOut'), lcT = document.getElementById('lcT');
+const clamp01 = x => Math.max(0, Math.min(1, x)), eIn = x => x * x * x, eOut = x => 1 - Math.pow(1 - x, 3), lerp = (a, b, k) => a + (b - a) * k;
+const leadSeed = leadEls.map((_, i) => ({ sx: i % 2 ? .17 : .01, sy: .05 + i * (.9 / (leadEls.length - 1)), ts: .06 + [0, 3, 1, 5, 2, 6, 4, 7][i] * .065 }));
+const tixY = [.06, .24, .42, .6, .78, .96];
+const tixX = [.78, .9, .76, .9, .78, .9];
+let lensHead = 0, lensFired = false;
+[lbIn, ...lbOut].forEach(pth => { pth.style.strokeDasharray = '1 1'; });
+function lens(p) {
+  const W = lensField.clientWidth, H = lensField.clientHeight, cx = W / 2, cy = H / 2, sm = W < 700;
+  const pr = eOut(clamp01(p / .16));
+  lensPrism.style.transform = `translate(-50%,-50%) rotate(${(1 - pr) * -40 + p * 10}deg) scale(${.5 + .5 * pr + .06 * Math.sin(p * 12)})`;
+  lensPrism.style.opacity = pr;
+  const absorb = clamp01((p - .1) / .5);
+  lensGlow.style.opacity = pr * (.35 + .65 * absorb);
+  lensGlow.style.transform = `translate(-50%,-50%) scale(${.7 + .5 * absorb})`;
+  lbIn.style.strokeDashoffset = 1 - clamp01((p - .04) / .18);
+  lbFlow.style.opacity = clamp01((p - .15) / .1) * .8;
+  lbOut.forEach((pth, i) => pth.style.strokeDashoffset = 1 - eOut(clamp01((p - .44 - i * .03) / .16)));
+  leadEls.forEach((el, i) => {
+    const sd = leadSeed[i], k = clamp01((p - sd.ts) / .24), appear = clamp01((p - i * .01) / .08);
+    const x0 = (sm ? sd.sx * .6 : sd.sx) * W + el.offsetWidth / 2, y0 = sd.sy * H;
+    const x = lerp(x0, cx, eIn(k)), y = lerp(y0, cy, eOut(k));
+    el.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) scale(${1 - .85 * eIn(k)})`;
+    el.style.opacity = appear * (1 - Math.pow(k, 4));
+  });
+  tixEls.forEach((el, j) => {
+    const k = clamp01((p - (.5 + j * .065)) / .22);
+    const tx = Math.min((sm ? tixX[j] * 1.02 : tixX[j]) * W, W - el.offsetWidth / 2), ty = tixY[j] * H;
+    const x = lerp(cx, tx, eOut(k)), y = lerp(cy, ty, eOut(k));
+    el.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) scale(${.25 + .75 * eOut(k)})`;
+    el.style.opacity = clamp01(k * 2.5);
+  });
+  const h = p < .34 ? 0 : p < .64 ? 1 : 2;
+  if (h !== lensHead) { lensHead = h; lensSpans.forEach((sp, i) => sp.classList.toggle('on', i === h)); }
+  lcIn.textContent = Math.round(128 * clamp01(p / .7));
+  lcOut.textContent = Math.round(49 * clamp01((p - .5) / .45));
+  lcT.textContent = p < .12 ? '—' : (7.9 + (1 - clamp01((p - .12) / .5)) * 30).toFixed(1) + 's';
+  if (p > .5 && !lensFired) { lensFired = true; if (GL) GL.fire(); } else if (p < .45) lensFired = false;
+}
+lens(0);
+addEventListener('resize', () => lens(lensP));
+let lensP = 0;
+
 /* day data */
 const hoursData = [1, 3, 6, 5, 4, 7, 9, 6, 5, 4, 6, 8, 7, 5, 6, 4, 3, 2];
 const hbars = document.getElementById('hbars');
@@ -1112,6 +1212,7 @@ if (!hasG || reduce) {
   document.getElementById('intro')?.remove();
   if (GL) GL.iTarget = 1;
   setBars(1); wkEl.textContent = '63';
+  lensP = 1; lens(1);
   document.querySelectorAll('[data-count]').forEach(el => el.textContent = (el.dataset.prefix || '') + (+el.dataset.count).toLocaleString() + (el.dataset.suffix || ''));
   if (GL) {
     const secs = [...document.querySelectorAll('[data-morph]')];
@@ -1132,32 +1233,42 @@ if (window.Lenis && !mobile) {
   lenis = new Lenis({ lerp: .085, smoothWheel: true });
   lenis.on('scroll', e => { ScrollTrigger.update(); if (GL) GL.vel = Math.min(4, Math.abs(e.velocity) * .08); });
   gsap.ticker.add(t => lenis.raf(t * 1000));
-  gsap.ticker.lagSmoothing(0);
+  gsap.ticker.lagSmoothing(500, 33);
   document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const tg = document.querySelector(a.getAttribute('href')); if (tg) { e.preventDefault(); lenis.scrollTo(tg, { offset: 0, duration: 1.4 }); } }));
   lenis.stop();
 } else {
   let ly = scrollY; addEventListener('scroll', () => { if (GL) GL.vel = Math.min(4, Math.abs(scrollY - ly) * .05); ly = scrollY; }, { passive: true });
 }
 
-/* intro */
-const intro = document.getElementById('intro'), ikey = intro.querySelector('.ikey'), ifr = document.getElementById('iframe');
-const fw = Math.min(innerWidth * .8, 1100), fh = Math.min(innerHeight * .66, 680);
-gsap.set(ifr, { attr: { x: (innerWidth - fw) / 2, y: (innerHeight - fh) / 2, width: fw, height: fh } });
-const perim = 2 * (fw + fh);
-gsap.set(ifr, { strokeDasharray: perim, strokeDashoffset: perim });
+/* intro: a beam enters the prism, splits, and collapses into the live background */
+const intro = document.getElementById('intro');
+const iBeam = intro.querySelector('.i-beam'), iFan = intro.querySelectorAll('.i-fan i'), iMark = intro.querySelector('.i-mark');
+const iA = iMark.querySelector('.mA'), iIn = iMark.querySelector('.mIn'), iBar = iMark.querySelector('.mBar'), iF = iMark.querySelectorAll('.mF');
+gsap.set([iA, iIn, iBar, ...iF], { strokeDasharray: 1, strokeDashoffset: 1 });
+gsap.set(iFan, { rotation: i => [-28.6, 0, 28.6][i], scaleX: 0, transformOrigin: '0% 50%' });
 gsap.set('.hx', { opacity: 0, y: 40 });
-gsap.set(ikey, { scale: 0 });
-const itl = gsap.timeline({ defaults: { ease: 'power3.inOut' } }); if (mobile) itl.timeScale(1.35);
-itl.to(ikey, { scale: 1, duration: .6, ease: 'back.out(2)' })
-   .to(ifr, { strokeDashoffset: 0, duration: 1.1 }, .15)
-   .to(ikey, { width: fw, height: fh, borderRadius: 28, duration: .8 }, 1.15)
-   .to(ikey.querySelector('svg'), { scale: 2, opacity: 0, duration: .5 }, 1.15)
-   .add(() => { if (GL) { GL.iTarget = 1; GL.fire(); } }, 1.6)
-   .to(ikey, { scale: 1.08, opacity: 0, duration: .6, ease: 'power2.in' }, 1.95)
-   .to(ifr, { opacity: 0, duration: .3 }, 1.95)
-   .to(intro, { backgroundColor: 'rgba(0,0,0,0)', duration: .6 }, 2.0)
-   .to('.hx', { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, 2.1)
-   .add(() => { intro.remove(); if (lenis) lenis.start(); ScrollTrigger.refresh(); }, 2.6);
+const itl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } }); if (mobile) itl.timeScale(1.25);
+itl.to(iBeam, { scaleX: 1, duration: .6, ease: 'power3.in' }, .15)
+   .to(iIn, { strokeDashoffset: 0, duration: .15, ease: 'none' }, .72)
+   .to(iA, { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut' }, .45)
+   .to(iBar, { strokeDashoffset: 0, duration: .22, ease: 'none' }, .85)
+   .to(iF, { strokeDashoffset: 0, duration: .2, stagger: .04, ease: 'none' }, 1.02)
+   .to(iFan, { scaleX: 1, duration: .7, stagger: .06, ease: 'power3.out' }, 1.1)
+   .fromTo(iMark, { scale: 1 }, { scale: 1.12, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 1.02)
+   .to('.i-word span', { y: 0, duration: .7, stagger: .05, ease: 'power4.out' }, 1.15)
+   .to('.i-meta', { opacity: 1, duration: .5 }, 1.4)
+   .to(iBeam, { opacity: 0, duration: .4 }, 2.1)
+   .to('.i-word span', { y: '-110%', duration: .45, stagger: .03, ease: 'power3.in' }, 2.1)
+   .to('.i-meta', { opacity: 0, duration: .3 }, 2.1)
+   .to(iMark, { scale: .2, rotate: 90, duration: .6, ease: 'power3.in' }, 2.25)
+   .to(intro, { clipPath: 'circle(0% at 48.5% 54%)', duration: .75, ease: 'power4.in' }, 2.2)
+   .add(() => { if (GL) { GL.iTarget = 1; GL.fire(); } }, 2.8)
+   .to('.hx', { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, 2.85)
+   .add(() => { intro.remove(); if (lenis) lenis.start(); ScrollTrigger.refresh(); }, 3.0);
+// wait for fonts + a couple of settled frames (shader compile) so the intro never skips
+Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(r => setTimeout(r, 1500))])
+  .then(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(r)))))
+  .then(() => itl.play());
 
 /* nav progress */
 gsap.to('#prog', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: true } });
@@ -1167,19 +1278,9 @@ gsap.to('#prog', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max
 gsap.to('.hero-copy', { yPercent: -18, opacity: .15, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .6 } });
 gsap.to('#flow', { '--ry': '-28deg', '--rx': '14deg', yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: .6 } });
 
-// slab
-gsap.set('.s2', { y: 22, scale: .975, z: -40 });
-gsap.set('.s3', { y: 44, scale: .95, z: -80 });
-gsap.set('#slabCopy', { opacity: 0, y: 30 });
-gsap.set('#slabCap', { opacity: 0 });
-const stl = gsap.timeline({ scrollTrigger: { trigger: '#slabStage', start: 'top top', end: mobile ? '+=130%' : '+=180%', pin: true, scrub: mobile ? .6 : 1.2, anticipatePin: 1 } });
-stl.fromTo('#slabs', { rotateX: 60, rotateZ: -18, scale: .5, yPercent: 40 }, { rotateX: 0, rotateZ: 0, scale: 1, yPercent: 0, duration: 1, ease: 'power2.out' })
-   .to('.s2', { y: 70, z: -120, duration: .6 }, .9)
-   .to('.s3', { y: 140, z: -240, opacity: .6, duration: .6 }, .9)
-   .to('#slabCopy', { opacity: 1, y: 0, duration: .4 }, .8)
-   .to('#slabCap', { opacity: 1, duration: .3 }, 1.2)
-   .to('.s1', { scale: 1.06, duration: .4 }, 1.3)
-   .to('#slabs', { yPercent: -8, duration: .4 }, 1.3);
+// lens
+const lst = { p: 0 };
+gsap.to(lst, { p: 1, ease: 'none', scrollTrigger: { trigger: '#lensStage', start: 'top top', end: mobile ? '+=200%' : '+=260%', pin: true, scrub: mobile ? .5 : 1, anticipatePin: 1 }, onUpdate: () => { lensP = lst.p; lens(lst.p); } });
 
 // day
 ScrollTrigger.create({ trigger: '#dayStage', start: 'top top', end: mobile ? '+=180%' : '+=240%', pin: true, scrub: mobile ? .4 : .8, anticipatePin: 1, onUpdate: s => setDay(s.progress) });
@@ -1190,7 +1291,7 @@ document.querySelectorAll('[data-morph]').forEach(sec => {
   ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 45%', onToggle: s => { if (s.isActive && GL) GL.target = +sec.dataset.morph; } });
 });
 // dim ribbons behind the slab
-if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .45 : 1 });
+if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .35 : 1 });
 
 // smear headings
 document.querySelectorAll('.smear').forEach(el => {
