@@ -390,7 +390,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
         <a class="btn btn-glow" href="#pricing">Start free</a>
         <a class="btn btn-ghost" href="#record"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>See it reply</a>
       </div>
-      <p class="fine hx">14 days free / no card / set up in one call <span class="hint">· tap anywhere to stir it</span></p>
+      <p class="fine hx">14 days free / no card / set up in one call <span class="hint">· tap anywhere to stoke the flame</span></p>
     </div>
 
     <div class="flow-wrap hx" id="flowWrap">
@@ -593,67 +593,158 @@ const hasG = !!(window.gsap && window.ScrollTrigger);
 const mobile = matchMedia('(max-width:980px)').matches;
 if (!hasG || reduce) document.documentElement.classList.add('no-anim');
 
-/* ---------- WebGL: liquid blobs merging and splitting like a lava lamp ---------- */
+/* ---------- WebGL: violet plasma ribbons snaking through the page, with embers ---------- */
 const GL = (() => {
   if (!window.THREE) { document.body.classList.add('fallback-bg'); return null; }
   const canvas = document.getElementById('gl');
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' }); }
   catch (e) { canvas.remove(); document.body.classList.add('fallback-bg'); return null; }
-  const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -1, 1);
-  const U = {
-    uTime: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 }, uPulse: { value: 0 },
-    uOff: { value: new THREE.Vector2() }, uMouse: { value: new THREE.Vector2() }, uHue: { value: 0 }, uSpread: { value: 1 }
-  };
-  const mat = new THREE.ShaderMaterial({
-    uniforms: U, depthTest: false, depthWrite: false,
-    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
-    fragmentShader: `
-      precision highp float;
-      uniform float uTime, uAsp, uI, uPulse, uHue, uSpread; uniform vec2 uOff, uMouse;
-      varying vec2 vUv;
-      vec3 pal(float k){
-        vec3 v = vec3(0.50,0.33,1.0), m = vec3(1.0,0.30,0.80), c = vec3(0.25,0.80,1.0);
-        k = fract(k);
-        return k < 0.333 ? mix(v, m, k*3.0) : k < 0.666 ? mix(m, c, (k-0.333)*3.0) : mix(c, v, (k-0.666)*3.0);
+  renderer.setClearColor(0x05040b, 1);
+  const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10);
+
+  const R = mobile ? 90 : 170, S = mobile ? 130 : 200;
+  const vc = R * (S + 1) * 2;
+  const pos = new Float32Array(vc * 3), aT = new Float32Array(vc), aSide = new Float32Array(vc),
+        aW = new Float32Array(vc), aA = new Float32Array(vc), aR = new Float32Array(vc * 4);
+  const idx = new Uint32Array(R * S * 6);
+  let v = 0, q = 0;
+  for (let i = 0; i < R; i++) {
+    const g = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+    const halo = Math.random() < .12;
+    const w = halo ? .035 + Math.random() * .05 : .002 + Math.random() * .005;
+    const a = halo ? .05 + Math.random() * .05 : .3 + Math.random() * .5;
+    const r2 = Math.random(), r3 = Math.random(), r4 = Math.random();
+    for (let j = 0; j <= S; j++) {
+      for (let s = 0; s < 2; s++) {
+        aT[v] = j / S; aSide[v] = s ? 1 : -1; aW[v] = w; aA[v] = a;
+        aR[v * 4] = g; aR[v * 4 + 1] = r2; aR[v * 4 + 2] = r3; aR[v * 4 + 3] = r4; v++;
       }
+      if (j < S) { const b = (i * (S + 1) + j) * 2; idx[q++] = b; idx[q++] = b + 1; idx[q++] = b + 2; idx[q++] = b + 1; idx[q++] = b + 3; idx[q++] = b + 2; }
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  [['aT', aT, 1], ['aSide', aSide, 1], ['aW', aW, 1], ['aA', aA, 1], ['aR', aR, 4]].forEach(([n, d, k]) => geo.setAttribute(n, new THREE.BufferAttribute(d, k)));
+  geo.setIndex(new THREE.BufferAttribute(idx, 1));
+
+  const U = { uTime: { value: 0 }, uMorph: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 }, uMouse: { value: new THREE.Vector2() }, uMob: { value: mobile ? 1 : 0 }, uPulse: { value: 0 }, uPx: { value: .002 }, uDpr: { value: 1 } };
+  const SHAPES = `
+    uniform float uTime, uMorph, uAsp, uMob, uPulse, uPx; uniform vec2 uMouse;
+    vec2 pinchP(){ return mix(vec2(-uAsp*0.03,-0.08), vec2(0.0,-0.35), uMob); }
+    vec2 s0(float t, vec4 r, out float pinch){
+      float x = mix(-1.25,1.25,t)*uAsp; vec2 P = pinchP();
+      float d = (x-P.x)/(0.3*max(uAsp,0.9)); pinch = exp(-d*d);
+      float right = smoothstep(P.x, P.x+1.3*uAsp, x);
+      float spread = r.x*(0.7 + right*1.05)*(1.0-0.965*pinch)*(1.0+uPulse*0.3);
+      float wave = sin(t*(4.0+r.y*5.0) + uTime*(0.25+r.z*0.5) + r.w*6.2832)*0.09*(1.0-pinch);
+      return vec2(x, P.y + spread + wave + (x-P.x)*0.45 + right*right*0.2);
+    }
+    vec2 s1(float t, vec4 r){
+      float y = mix(-1.35,1.35,t);
+      float x = -0.25*uAsp + 0.7*cos(y*1.15 + 0.25*sin(uTime*0.2)) - 0.45 + r.x*0.5*(0.65+0.35*sin(y*2.2+uTime*0.3+r.y*6.0)) + sin(y*3.0 + uTime*(0.3+r.z*0.4) + r.w*6.2832)*0.035;
+      return vec2(x*mix(1.0,0.8,uMob), y);
+    }
+    vec2 s2(float t, vec4 r){
+      float x = mix(-1.3,1.3,t)*uAsp; float env = 0.3+0.7*sin(t*3.14159);
+      return vec2(x, 0.5*sin(x/uAsp*2.4 + uTime*0.18) - x*0.22/uAsp + r.x*0.75*env + sin(t*(6.0+r.y*6.0) + uTime*(0.3+r.z*0.4) + r.w*6.2832)*0.05);
+    }
+    vec2 s3(float t, vec4 r){
+      float x = mix(-1.3,1.3,t)*uAsp;
+      return vec2(x, -0.72 + r.x*0.26 + sin(x*1.8 + uTime*0.35 + r.y*2.0)*0.07 + 0.14*sin(x*0.7 - uTime*0.15));
+    }
+    vec2 shape(float t, vec4 r, out float core){
+      float m = clamp(uMorph,0.0,3.0);
+      float w0 = max(0.0,1.0-abs(m)), w1 = max(0.0,1.0-abs(m-1.0)), w2 = max(0.0,1.0-abs(m-2.0)), w3 = max(0.0,1.0-abs(m-3.0));
+      float pinch; vec2 p = s0(t,r,pinch)*w0 + s1(t,r)*w1 + s2(t,r)*w2 + s3(t,r)*w3;
+      core = pinch*w0;
+      return p + uMouse*0.05*(r.y-0.5);
+    }
+    // plasma flame ramp in the site palette: deep violet -> magenta -> pink -> white-hot
+    vec3 flame(float h){
+      vec3 c = mix(vec3(0.28,0.10,0.75), vec3(0.62,0.40,1.0), smoothstep(0.0,0.35,h));
+      c = mix(c, vec3(1.0,0.32,0.82), smoothstep(0.35,0.65,h));
+      c = mix(c, vec3(1.0,0.72,0.95), smoothstep(0.65,0.85,h));
+      return mix(c, vec3(1.0,0.97,1.0), smoothstep(0.85,1.0,h));
+    }`;
+  const mat = new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, side: THREE.DoubleSide, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+    vertexShader: SHAPES + `
+      attribute float aT, aSide, aW, aA; attribute vec4 aR;
+      varying float vSide, vA, vCore, vT; varying vec4 vR;
       void main(){
-        vec2 p = vec2((vUv.x*2.0-1.0)*uAsp, vUv.y*2.0-1.0);
-        float t = uTime*0.22;
-        float field = 0.0; vec3 acc = vec3(0.0); float wsum = 0.0;
-        for (int n = 0; n < 7; n++){
-          float i = float(n);
-          vec2 c = vec2(sin(t*(0.7+i*0.13) + i*2.1)*0.75*uAsp*uSpread, cos(t*(0.9+i*0.11) + i*1.3)*0.7*uSpread) + uOff;
-          c += uMouse*0.12*(fract(i*0.37)-0.3);
-          float r = (0.28 + 0.1*sin(t*1.3 + i*4.0)) * (1.0 + uPulse*0.35) * mix(0.62, 1.0, clamp(uAsp, 0.0, 1.0));
-          vec2 d = p - c;
-          float f = r*r / (dot(d, d) + 1e-3);
-          field += f;
-          acc += pal(i/7.0 + uHue) * f; wsum += f;
-        }
-        vec3 col = acc / max(wsum, 1e-3);
-        float body = smoothstep(0.95, 1.25, field);                 // crisp liquid edge
-        float depth = smoothstep(1.2, 4.0, field);                  // thicker = brighter core
-        float edge = smoothstep(0.9, 1.05, field) * (1.0 - smoothstep(1.05, 1.4, field));
-        float haze = smoothstep(0.35, 0.95, field) * (1.0 - body) * 0.10;
-        vec3 o = col * (body*(0.22 + 0.33*depth) + haze) + mix(col, vec3(1.0), 0.35) * edge * 0.28;
-        o *= uI;
-        o += vec3(0.020,0.016,0.043);
-        o *= 1.0 - 0.3*length(vUv - 0.5);
-        gl_FragColor = vec4(o, 1.0);
+        float c0, c1, c2;
+        vec2 p = shape(aT, aR, c0), pa = shape(aT+0.003, aR, c1), pb = shape(aT-0.003, aR, c2);
+        vec2 tn = normalize(pa-pb + 1e-5), nm = vec2(-tn.y, tn.x);
+        p += nm*aSide*max(aW*(1.0 + c0*0.8), uPx*0.9);
+        vSide = aSide; vCore = c0; vT = aT; vR = aR;
+        vA = aA * smoothstep(0.0,0.14,aT) * (1.0 - smoothstep(0.84,1.0,aT));
+        gl_Position = vec4(p.x/uAsp, p.y, 0.0, 1.0);
+      }`,
+    fragmentShader: SHAPES + `
+      uniform float uI; varying float vSide, vA, vCore, vT; varying vec4 vR;
+      void main(){
+        float e = 1.0 - abs(vSide);
+        // flickering heat travelling along each strand like flame licking forward
+        float f1 = sin(vT*22.0 - uTime*(3.0 + vR.y*3.0) + vR.w*40.0);
+        float f2 = sin(vT*9.0 - uTime*(1.6 + vR.z*2.0) + vR.y*20.0);
+        float heat = 0.35 + 0.25*f1*f2 + 0.25*sin(uTime*(5.0+vR.w*4.0) + vT*6.0)*0.5;
+        float ph = fract(vT*1.3 - uTime*(0.10 + vR.w*0.16) + vR.w*7.0);
+        float pk = exp(-pow((ph-0.5)*16.0, 2.0)) * step(0.5, fract(vR.w*13.7));
+        float h = clamp(heat + pk*0.6 + vCore*0.8 + pow(e, 3.0)*0.25, 0.0, 1.0);
+        float a = pow(max(e, 0.0), 1.5) * vA * uI * (0.7 + heat*0.8 + pk*2.5 + uPulse);
+        gl_FragColor = vec4(flame(h)*a*0.48, 1.0);
       }`
   });
-  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+  const mesh = new THREE.Mesh(geo, mat); mesh.frustumCulled = false; scene.add(mesh);
 
-  // per section: [offset x (× aspect), offset y, hue shift, spread]
-  const RIGS = [[.35, .15, 0, 1], [-.35, 0, .2, .85], [0, -.25, .45, 1.1], [.2, -.4, .7, .9]];
+  // embers drifting up off the ribbons
+  const P = mobile ? 350 : 800;
+  const pR = new Float32Array(P * 4), pT = new Float32Array(P);
+  for (let i = 0; i < P; i++) { pR[i * 4] = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5; pR[i * 4 + 1] = Math.random(); pR[i * 4 + 2] = Math.random(); pR[i * 4 + 3] = Math.random(); pT[i] = Math.random(); }
+  const pgeo = new THREE.BufferGeometry();
+  pgeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(P * 3), 3));
+  pgeo.setAttribute('aR', new THREE.BufferAttribute(pR, 4)); pgeo.setAttribute('aT', new THREE.BufferAttribute(pT, 1));
+  const pmat = new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+    vertexShader: SHAPES + `
+      uniform float uI, uDpr; attribute float aT; attribute vec4 aR; varying float vA; varying vec3 vCol;
+      void main(){
+        float life = fract(aR.y + uTime*(0.08 + aR.z*0.12));
+        float core; vec2 p = shape(aT, aR, core);
+        p += vec2(sin(uTime*0.9 + aR.w*30.0)*0.03, life*(0.25 + aR.z*0.3));
+        vA = uI * sin(life*3.14159) * (0.5 + aR.w) * smoothstep(0.05,0.2,aT) * (1.0-smoothstep(0.8,0.95,aT));
+        vCol = flame(0.55 + 0.45*(1.0-life));
+        gl_PointSize = (1.4 + aR.w*2.4) * uDpr;
+        gl_Position = vec4(p.x/uAsp, p.y, 0.0, 1.0);
+      }`,
+    fragmentShader: `varying float vA; varying vec3 vCol;
+      void main(){ float d = length(gl_PointCoord-0.5)*2.0; gl_FragColor = vec4(vCol*exp(-d*d*3.5)*vA, 1.0); }`
+  });
+  const embers = new THREE.Points(pgeo, pmat); embers.frustumCulled = false; scene.add(embers);
+
+  // white-hot glow where the ribbons pinch together in the hero
+  const GU = { uO: { value: 0 }, uAsp: U.uAsp, uMob: U.uMob, uTime: U.uTime };
+  const glow = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
+    uniforms: GU, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
+    vertexShader: `uniform float uAsp, uMob; varying vec2 vUv;
+      void main(){ vUv = uv; vec2 P = mix(vec2(-uAsp*0.03,-0.08), vec2(0.0,-0.35), uMob); vec2 p = P + position.xy*0.6; gl_Position = vec4(p.x/uAsp, p.y, 0.0, 1.0); }`,
+    fragmentShader: `uniform float uO, uTime; varying vec2 vUv;
+      void main(){ float d = length(vUv-0.5)*2.0; float fl = 0.9 + 0.1*sin(uTime*7.0)*sin(uTime*3.1);
+        vec3 c = vec3(1.0,0.9,1.0)*exp(-d*d*16.0)*1.1 + vec3(1.0,0.35,0.85)*exp(-d*d*4.0)*0.35 + vec3(0.55,0.35,1.0)*exp(-d*d*1.5)*0.18;
+        gl_FragColor = vec4(c*uO*fl, 1.0); }`
+  }));
+  glow.frustumCulled = false; scene.add(glow);
+
+  let qs = 1;
   function resize() {
-    // blobs are smooth gradients, so a modest resolution stays crisp-looking and cheap
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1)); renderer.setSize(innerWidth, innerHeight, false);
-    U.uAsp.value = innerWidth / innerHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 2) * qs;
+    renderer.setPixelRatio(dpr); renderer.setSize(innerWidth, innerHeight, false);
+    U.uAsp.value = innerWidth / innerHeight; U.uPx.value = 2 / (innerHeight * dpr); U.uDpr.value = dpr;
   }
   resize(); let lw = innerWidth; addEventListener('resize', () => { if (!mobile || innerWidth !== lw) { lw = innerWidth; resize(); } });
 
+  let ema = 1 / 60, warm = 0;
   const st = { morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, sv: 0, mx: 0, my: 0, pulse: 0, fire() { this.pulse = 1; } };
   addEventListener('pointermove', e => { st.mx = (e.clientX / innerWidth - .5) * 2; st.my = -(e.clientY / innerHeight - .5) * 2; });
   addEventListener('pointerdown', e => { if (!e.target.closest('a,button,input,label,.card')) st.fire(); });
@@ -662,18 +753,17 @@ const GL = (() => {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
     requestAnimationFrame(frame);
     if (document.hidden) return;
-    st.morph += (st.target - st.morph) * Math.min(1, dt * 1.2);
+    st.morph += (st.target - st.morph) * Math.min(1, dt * 1.8);
     st.intensity += (st.iTarget - st.intensity) * Math.min(1, dt * 2);
     st.pulse = Math.max(0, st.pulse - dt * .9);
     st.sv += (Math.min(st.vel, 4) - st.sv) * Math.min(1, dt * 3);
-    t += dt * (reduce ? 0 : 1 + st.sv * .6);
+    t += dt * (reduce ? 0 : 1 + st.sv * .4);
     st.vel *= .9;
-    const m = Math.max(0, Math.min(3, st.morph)), i0 = Math.floor(m), i1 = Math.min(3, i0 + 1), k = m - i0, e = k * k * (3 - 2 * k);
-    const A = RIGS[i0], B = RIGS[i1], L = j => A[j] + (B[j] - A[j]) * e;
-    U.uOff.value.set(L(0) * U.uAsp.value, L(1)); U.uHue.value = L(2); U.uSpread.value = L(3);
-    U.uTime.value = t; U.uI.value = st.intensity * (mobile ? 1.15 : 1);
-    U.uPulse.value = Math.sin(st.pulse * Math.PI) * st.pulse;
-    U.uMouse.value.x += (st.mx - U.uMouse.value.x) * .03; U.uMouse.value.y += (st.my - U.uMouse.value.y) * .03;
+    ema += (dt - ema) * .05; warm += dt;
+    if (warm > 2.5 && ema > 1 / 40 && qs > .6) { qs -= .2; resize(); warm = 0; ema = 1 / 60; }
+    U.uTime.value = t; U.uMorph.value = st.morph; U.uI.value = st.intensity * (mobile ? .75 : 1); U.uPulse.value = st.pulse * st.pulse;
+    U.uMouse.value.x += (st.mx - U.uMouse.value.x) * .05; U.uMouse.value.y += (st.my - U.uMouse.value.y) * .05;
+    GU.uO.value = Math.max(0, 1 - st.morph) * st.intensity;
     renderer.render(scene, cam);
   }
   requestAnimationFrame(frame);
