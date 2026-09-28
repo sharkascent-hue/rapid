@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Aurion — reply to every lead at the speed of light</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 36 36'><rect x='-2' y='-2' width='36' height='36' rx='9' fill='%230c0819'/><defs><linearGradient id='mkL' x1='5' y1='28' x2='16' y2='5' gradientUnits='userSpaceOnUse'><stop offset='0' stop-color='%234de3ff'/><stop offset='1' stop-color='%23d9f8ff'/></linearGradient><linearGradient id='mkR' x1='16' y1='5' x2='27' y2='28' gradientUnits='userSpaceOnUse'><stop offset='0' stop-color='%23ffd9f3'/><stop offset='1' stop-color='%23ff4fd8'/></linearGradient></defs><path d='M5 28 16 5' stroke='url(%23mkL)' stroke-width='5' stroke-linecap='round' fill='none'/><path d='M16 5 27 28' stroke='url(%23mkR)' stroke-width='5' stroke-linecap='round' fill='none'/><circle cx='16' cy='5.3' r='1.7' fill='%23fff'/><path d='M10.4 19.5H21.6' stroke='%23fff' stroke-width='3' stroke-linecap='round'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230c0819'/><path d='M7.5 16.5h17a8.5 8.5 0 0 1-17 0z' fill='%238a63ff'/><circle cx='16' cy='16' r='9.5' fill='none' stroke='%23fff' stroke-width='3'/><circle cx='14' cy='19.5' r='1.3' fill='%230c0819'/><circle cx='18.5' cy='21.5' r='.9' fill='%230c0819'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -43,12 +43,13 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.75))}
 main,footer{position:relative;z-index:2}
 
-/* intro: two beams collide into the A */
+/* intro: a beam draws the underline and reveals the logo */
 #intro{position:fixed;inset:0;z-index:100;background:#030208;overflow:hidden;clip-path:circle(150% at 48.5% 54%)}
-#intro svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-#intro .ib{fill:none;stroke-linecap:round}
-.i-word{position:absolute;left:0;right:0;top:calc(50% + var(--m,150px)*.62);display:flex;justify-content:center;gap:.02em;font:600 clamp(30px,4vw,44px) var(--sans);letter-spacing:.14em;color:#f2eefc;overflow:hidden;padding-bottom:6px}
-.i-word span{display:inline-block;transform:translateY(110%)}
+.i-logo{position:absolute;left:50%;top:50%;width:min(76vw,540px);aspect-ratio:338/97;transform:translate(-50%,-50%)}
+.i-logo img{display:block;width:100%;height:100%;clip-path:inset(0 100% 0 0)}
+.i-beam{position:absolute;left:0;height:3px;margin-top:-1.5px;width:0;background:linear-gradient(90deg,transparent,rgba(169,139,255,.6) 40%,#fff);box-shadow:0 0 14px #fff,0 0 34px rgba(169,139,255,.9)}
+.i-beam::after{content:"";position:absolute;right:-10px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;background:radial-gradient(#fff,rgba(169,139,255,.6) 45%,transparent 70%)}
+.i-flash{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:radial-gradient(#fff,rgba(200,180,255,.7) 35%,transparent 70%);transform:scale(0);opacity:0}
 .i-meta{position:absolute;left:0;right:0;bottom:9vh;text-align:center;font:12px var(--mono);color:var(--dim);letter-spacing:.08em;opacity:0}
 .no-anim #intro{display:none}
 
@@ -56,9 +57,8 @@ main,footer{position:relative;z-index:2}
 nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;background:rgba(5,4,11,.4);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em}
-.logo i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;background:radial-gradient(120% 120% at 30% 15%,#2a1d52,#0c0819 70%);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 22px -4px rgba(169,139,255,.7),inset 0 1px 0 rgba(255,255,255,.12)}
-.logo i svg{width:20px;height:20px;overflow:visible}
-.logo{letter-spacing:.02em;text-transform:lowercase;font-size:19px}
+.logo img{display:block;height:42px;width:auto}
+@media (max-width:560px){.logo img{height:36px}}
 .links{display:flex;gap:26px;font-size:14px;color:var(--dim);margin-left:24px}
 .links a:hover{color:var(--text)}
 .status{margin-left:auto;display:flex;align-items:center;gap:8px;font:12px var(--mono);color:var(--dim);border:1px solid var(--line);padding:6px 11px;border-radius:99px}
@@ -336,11 +336,11 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="mkL" x1="5" y1="28" x2="16" y2="5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4de3ff"/><stop offset="1" stop-color="#d9f8ff"/></linearGradient><linearGradient id="mkR" x1="16" y1="5" x2="27" y2="28" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffd9f3"/><stop offset="1" stop-color="#ff4fd8"/></linearGradient></defs><symbol id="mark" viewBox="0 0 32 32" overflow="visible"><path d="M5 28 16 5" stroke="url(#mkL)" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M16 5 27 28" stroke="url(#mkR)" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="16" cy="5.3" r="1.7" fill="#fff"/><path d="M10.4 19.5H21.6" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol></svg>
 
 <div id="intro" aria-hidden="true">
-  <svg id="isvg"></svg>
-  <div class="i-word"><span>a</span><span>u</span><span>r</span><span>i</span><span>o</span><span>n</span></div>
+  <div class="i-logo"><img src="aimlab-logo.png" alt=""></div>
+  <div class="i-beam"></div>
+  <div class="i-flash"></div>
   <div class="i-meta">every lead, answered in seconds</div>
 </div>
 
@@ -352,7 +352,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 
 <nav>
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="Aurion home"><i><svg><use href="#mark"/></svg></i>aurion</a>
+    <a class="logo" href="#top" aria-label="AImLab home"><img src="aimlab-logo.png" alt="AImLab" width="146" height="42"></a>
     <div class="links"><a href="#record">Product</a><a href="#hub">How it works</a><a href="#day">A day with it</a><a href="#pricing">Pricing</a></div>
     <div class="status"><b></b><span data-scramble>beam online · 0 queued</span></div>
     <a class="btn btn-glow" href="#pricing">Start free</a>
@@ -492,7 +492,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
     <div class="orbit" id="orbit">
       <div class="ring"></div><div class="ring r2"></div>
       <svg class="lines" id="olines"></svg>
-      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg viewBox="0 0 32 32" style="overflow:visible"><use href="#mark"/></svg></span></button></div>
+      <div class="hubkey"><button class="key" id="key" aria-label="Connect a form"><span class="base"></span><span class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h8l7-10M13 8h6v6"/></svg></span></button></div>
     </div>
     <div>
       <h2 data-smear>One inbox, <em>every channel.</em></h2>
@@ -579,7 +579,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 </section>
 </main>
 
-<footer><div class="wrap"><span class="logo" style="font-size:15px"><i style="width:24px;height:24px;border-radius:7px"><svg style="width:17px;height:17px"><use href="#mark"/></svg></i>aurion labs · © 2026</span><span>Built in Dublin · powered by light</span></div></footer>
+<footer><div class="wrap"><span style="display:flex;align-items:center;gap:12px"><img src="aimlab-logo.png" alt="AImLab" style="height:30px;width:auto">© 2026</span><span>Built in Dublin · powered by light</span></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1258,46 +1258,27 @@ if (window.Lenis && !mobile) {
   let ly = scrollY; addEventListener('scroll', () => { if (GL) GL.vel = Math.min(4, Math.abs(scrollY - ly) * .05); ly = scrollY; }, { passive: true });
 }
 
-/* intro: two beams of light fly in along the legs, collide at the peak, the crossbar ignites */
-const intro = document.getElementById('intro'), isvg = document.getElementById('isvg');
-const IW = innerWidth, IH = innerHeight, M = Math.min(IW, IH) * (mobile ? .34 : .2), MS = M / 32;
-intro.style.setProperty('--m', M + 'px');
-isvg.setAttribute('viewBox', `0 0 ${IW} ${IH}`);
-const P = (u, v) => [IW / 2 + (u - 16) * MS, IH / 2 + (v - 16.5) * MS];
-const far = (a, b, k) => [a[0] + (a[0] - b[0]) * k, a[1] + (a[1] - b[1]) * k];
-const BL = P(5, 28), AP = P(16, 5), BR = P(27, 28), XL = P(10.4, 19.5), XR = P(21.6, 19.5);
-const K = Math.hypot(IW, IH) / Math.hypot(BL[0] - AP[0], BL[1] - AP[1]);
-const line = (a, b, cls, stroke, w) => `<path class="ib ${cls}" pathLength="1" d="M${a[0]} ${a[1]} L${b[0]} ${b[1]}" stroke="${stroke}" stroke-width="${w}"/>`;
-isvg.innerHTML = `<defs><filter id="iglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${MS * 1.2}" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <linearGradient id="iL" x1="${BL[0]}" y1="${BL[1]}" x2="${AP[0]}" y2="${AP[1]}" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4de3ff"/><stop offset="1" stop-color="#d9f8ff"/></linearGradient>
-  <linearGradient id="iR" x1="${AP[0]}" y1="${AP[1]}" x2="${BR[0]}" y2="${BR[1]}" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffd9f3"/><stop offset="1" stop-color="#ff4fd8"/></linearGradient></defs>
-  <g filter="url(#iglow)">
-  ${line(far(BL, AP, K), BL, 'extL', '#4de3ff', MS * 1.2)}${line(far(BR, AP, K), BR, 'extR', '#ff4fd8', MS * 1.2)}
-  ${line(BL, AP, 'legL', 'url(#iL)', MS * 5)}${line(BR, AP, 'legR', 'url(#iR)', MS * 5)}
-  ${line([0, XL[1]], [IW, XL[1]], 'sweep', '#fff', MS * .5)}
-  ${line(XL, XR, 'bar', '#fff', MS * 3)}
-  <circle class="apex" cx="${AP[0]}" cy="${P(16, 5.3)[1]}" r="${MS * 1.7}" fill="#fff"/>
-  <circle class="flash" cx="${AP[0]}" cy="${AP[1]}" r="${MS * 3}" fill="#fff"/></g>`;
-const q = sel => isvg.querySelectorAll(sel);
-gsap.set(q('.ib'), { strokeDasharray: 1, strokeDashoffset: 1 });
-gsap.set(q('.sweep'), { strokeDasharray: 1, strokeDashoffset: 0, scaleX: 0, transformOrigin: '50% 50%', opacity: .9 });
-gsap.set(q('.apex'), { scale: 0, transformOrigin: '50% 50%' });
-gsap.set(q('.flash'), { scale: 0, opacity: 1, transformOrigin: '50% 50%' });
+/* intro: a beam of light draws the logo's underline and reveals it left to right */
+const intro = document.getElementById('intro'), iLogo = intro.querySelector('.i-logo'), iImg = iLogo.querySelector('img');
+const iBeam = intro.querySelector('.i-beam'), iFlash = intro.querySelector('.i-flash');
+const lb = iLogo.getBoundingClientRect();
+const lineY = lb.top + lb.height * .955, tip = [lb.left + lb.width * .99, lb.top + lb.height * .725];
+iBeam.style.top = lineY + 'px';
+Object.assign(iFlash.style, { left: tip[0] + 'px', top: tip[1] + 'px' });
+const rev = { p: 0 };
+const drawRev = () => { iImg.style.clipPath = `inset(0 ${(1 - rev.p) * 100}% 0 0)`; iBeam.style.width = (lb.left + lb.width * rev.p) + 'px'; };
 gsap.set('.hx', { opacity: 0, y: 40 });
 const itl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } }); if (mobile) itl.timeScale(1.2);
-itl.to(q('.extL, .extR'), { strokeDashoffset: 0, duration: .55, ease: 'power2.in' }, .1)
-   .to(q('.legL, .legR'), { strokeDashoffset: 0, duration: .35, ease: 'power1.in' }, .6)
-   .to(q('.extL, .extR'), { opacity: 0, duration: .6, ease: 'power2.out' }, .95)
-   .to(q('.apex'), { scale: 1, duration: .3, ease: 'back.out(3)' }, .92)
-   .to(q('.flash'), { scale: 9, opacity: 0, duration: .7, ease: 'power2.out' }, .93)
-   .to(q('.sweep'), { scaleX: 1, duration: .45, ease: 'power3.out' }, 1.05)
-   .to(q('.sweep'), { opacity: 0, duration: .6 }, 1.35)
-   .to(q('.bar'), { strokeDashoffset: 0, duration: .25, ease: 'power2.out' }, 1.05)
-   .to('.i-word span', { y: 0, duration: .7, stagger: .05, ease: 'power4.out' }, 1.2)
-   .to('.i-meta', { opacity: 1, duration: .5 }, 1.45)
-   .to('.i-word span', { y: '-110%', duration: .45, stagger: .03, ease: 'power3.in' }, 2.15)
-   .to('.i-meta', { opacity: 0, duration: .3 }, 2.15)
-   .to(isvg, { scale: .3, rotate: -20, transformOrigin: '50% 50%', duration: .6, ease: 'power3.in' }, 2.3)
+itl.to(rev, { p: .02, duration: .35, ease: 'power2.in', onUpdate: drawRev }, .1)
+   .to(rev, { p: 1, duration: 1, ease: 'power2.inOut', onUpdate: drawRev }, .45)
+   .to(iFlash, { scale: 7, opacity: 1, duration: .18, ease: 'power2.out' }, 1.42)
+   .to(iFlash, { opacity: 0, scale: 10, duration: .6, ease: 'power2.out' }, 1.6)
+   .to(iBeam, { opacity: 0, duration: .5 }, 1.5)
+   .fromTo(iLogo, { scale: 1 }, { scale: 1.05, duration: .25, yoyo: true, repeat: 1, ease: 'power2.out' }, 1.45)
+   .fromTo(iImg, { filter: 'brightness(1)' }, { filter: 'brightness(1.6)', duration: .25, yoyo: true, repeat: 1 }, 1.45)
+   .to('.i-meta', { opacity: 1, duration: .5 }, 1.6)
+   .to('.i-meta', { opacity: 0, duration: .3 }, 2.2)
+   .to(iLogo, { scale: .4, opacity: 0, duration: .6, ease: 'power3.in' }, 2.25)
    .to(intro, { clipPath: 'circle(0% at 48.5% 54%)', duration: .75, ease: 'power4.in' }, 2.25)
    .add(() => { if (GL) { GL.iTarget = 1; GL.fire(); } }, 2.85)
    .to('.hx', { opacity: 1, y: 0, duration: 1, stagger: .08, ease: 'power3.out' }, 2.9)
