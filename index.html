@@ -189,7 +189,7 @@ h2{margin:0;font-weight:600;font-size:clamp(36px,4.6vw,62px);line-height:1.02;le
 .app i{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(169,139,255,.12);color:var(--a)}
 .app i svg{width:15px;height:15px}
 .hubkey{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);perspective:800px}
-.key{--rx:8deg;--ry:-12deg;width:150px;height:190px;position:relative;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s ease-out;cursor:pointer;border:0;padding:0;background:none;display:block;filter:drop-shadow(0 0 24px rgba(169,139,255,.55)) drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.key{--rx:8deg;--ry:-12deg;--glow:.55;width:150px;height:190px;position:relative;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s ease-out;cursor:pointer;border:0;padding:0;background:none;display:block;filter:drop-shadow(0 0 calc(14px + var(--glow)*30px) rgba(190,150,255,var(--glow))) drop-shadow(0 30px 40px rgba(0,0,0,.6))}
 .key svg{width:100%;height:100%;overflow:visible;animation:float 5s ease-in-out infinite}
 @keyframes float{50%{transform:translateY(-8px)}}
 .key:active svg{transform:scale(.94)}
@@ -320,6 +320,24 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.94)}}
 @keyframes tdot{50%{transform:translateY(-4px);opacity:.4}}
 
+/* live lead pop-ups */
+.toasts{position:fixed;z-index:60;left:50%;top:calc(env(safe-area-inset-top,0px) + 76px);transform:translateX(-50%);width:min(380px,calc(100vw - 28px));pointer-events:none}
+.toast{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:16px;background:rgba(16,12,32,.92);border:1px solid rgba(169,139,255,.35);box-shadow:0 20px 50px -18px rgba(0,0,0,.9),0 0 30px -10px rgba(169,139,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:13.5px;color:var(--text);transform:translateY(-140%) scale(.96);opacity:0;transition:transform .55s cubic-bezier(.2,.9,.25,1.15),opacity .4s}
+.toast.in{transform:none;opacity:1}
+.toast .ti{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:16px;background:linear-gradient(135deg,#8ee9ff,#a98bff 55%,#ff7ce0)}
+.toast b{display:block;font-weight:600}
+.toast small{display:block;font:11px var(--mono);color:var(--dim);margin-top:2px}
+.toast .ok{margin-left:auto;font:500 11px var(--mono);color:#7dffb5;white-space:nowrap}
+/* tilt toggle (phones) */
+.tiltbtn{position:fixed;z-index:61;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:none;align-items:center;gap:8px;padding:10px 14px;border-radius:99px;border:1px solid rgba(169,139,255,.4);background:rgba(16,12,32,.9);color:var(--text);font:600 13px var(--sans);box-shadow:0 0 24px -6px rgba(169,139,255,.7)}
+.tiltbtn.show{display:inline-flex}
+/* parallax driven by tilt / pointer */
+.card,.hubkey,.orbit .app{translate:calc(var(--px,0)*10px) calc(var(--py,0)*8px)}
+.orbit .app{translate:calc(var(--px,0)*18px) calc(var(--py,0)*14px)}
+.hubkey{translate:calc(-50% + var(--px,0)*-12px) calc(-50% + var(--py,0)*-10px);transform:none}
+.j-rail i::after{width:16px;height:16px;right:-8px;margin-top:-8px;background:radial-gradient(#fff 20%,#ffc2f0 45%,rgba(255,79,216,.6) 70%,transparent);box-shadow:0 0 18px #ff7ce0,0 0 40px #a98bff;animation:orb .35s ease-in-out infinite alternate}
+@keyframes orb{to{transform:scale(1.25);filter:brightness(1.3)}}
+
 @media (max-width:980px){
   .links,.status{display:none}
   nav .btn{margin-left:auto}
@@ -365,6 +383,8 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 
 <canvas id="gl" aria-hidden="true"></canvas>
 <div class="cursor-light" id="cLight" aria-hidden="true"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<button class="tiltbtn" id="tiltBtn" type="button">✦ Tilt to explore</button>
 <div class="cursor-dot" id="cDot" aria-hidden="true"></div>
 <div class="vignette" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
@@ -496,7 +516,7 @@ body.has-cursor .cursor-light,body.has-cursor .cursor-dot{opacity:1}
 <linearGradient id="fkg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient></defs>
 <path class="steam" d="M54 12c-4-6 4-8 0-14"/><path class="steam" d="M66 12c4-6-4-8 0-14"/>
 <path d="M48 18h24v38l32 62a12 12 0 0 1-10.7 17.5H26.7A12 12 0 0 1 16 118l32-62z" fill="url(#fkg)"/>
-<g clip-path="url(#fkc)"><g class="wave"><path d="M0 86 Q15 80 30 86 T60 86 T90 86 T120 86 T150 86 V150 H0Z" fill="url(#fkl)"/></g>
+<g clip-path="url(#fkc)"><g id="fkLvl" transform="translate(0 30)"><g class="wave"><path d="M0 86 Q15 80 30 86 T60 86 T90 86 T120 86 T150 86 V190 H0Z" fill="url(#fkl)"/></g></g>
 <circle class="bub" cx="46" cy="126" r="4" fill="#fff" opacity=".8"/><circle class="bub" cx="66" cy="130" r="3" fill="#fff" opacity=".8"/><circle class="bub" cx="58" cy="122" r="2.2" fill="#fff" opacity=".8"/><circle class="bub" cx="76" cy="126" r="2.6" fill="#fff" opacity=".8"/></g>
 <path d="M48 18h24v38l32 62a12 12 0 0 1-10.7 17.5H26.7A12 12 0 0 1 16 118l32-62z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
 <path d="M42 16h36" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
@@ -603,9 +623,10 @@ const GL = (() => {
   renderer.setClearColor(0x05040b, 1);
   const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10);
 
-  const U = { uTime: { value: 0 }, uMorph: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 }, uMouse: { value: new THREE.Vector2() }, uMob: { value: mobile ? 1 : 0 }, uPulse: { value: 0 }, uPx: { value: .002 }, uDpr: { value: 1 } };
+  const U = { uTime: { value: 0 }, uMorph: { value: 0 }, uAsp: { value: 1 }, uI: { value: 0 }, uMouse: { value: new THREE.Vector2() }, uMob: { value: mobile ? 1 : 0 }, uPulse: { value: 0 }, uPx: { value: .002 }, uDpr: { value: 1 }, uAttr: { value: new THREE.Vector4(0, 0, 0, .5) } };
   const SHAPES = `
-    uniform float uTime, uMorph, uAsp, uMob, uPulse, uPx; uniform vec2 uMouse;
+    uniform float uTime, uMorph, uAsp, uMob, uPulse, uPx; uniform vec2 uMouse; uniform vec4 uAttr;
+    float attrK(float t){ float d = (t - uAttr.w)/0.2; return uAttr.z*exp(-d*d); }
     vec2 pinchP(){ return mix(vec2(-uAsp*0.03,-0.08), vec2(0.0,-0.35), uMob); }
     vec2 s0(float t, vec4 r, out float pinch){
       float x = mix(-1.25,1.25,t)*uAsp; vec2 P = pinchP();
@@ -633,7 +654,9 @@ const GL = (() => {
       float w0 = max(0.0,1.0-abs(m)), w1 = max(0.0,1.0-abs(m-1.0)), w2 = max(0.0,1.0-abs(m-2.0)), w3 = max(0.0,1.0-abs(m-3.0));
       float pinch; vec2 p = s0(t,r,pinch)*w0 + s1(t,r)*w1 + s2(t,r)*w2 + s3(t,r)*w3;
       core = pinch*w0;
-      return p + uMouse*0.05*(r.y-0.5);
+      vec2 q = p + uMouse*0.05*(r.y-0.5);
+      float k = attrK(t);
+      return mix(q, uAttr.xy + (q - uAttr.xy)*0.1, k);   // funnel into the target (flask, timeline head, button)
     }
     // plasma flame ramp in the site palette: deep violet -> magenta -> pink -> white-hot
     vec3 flame(float h){
@@ -659,7 +682,7 @@ const GL = (() => {
         float right = smoothstep(P.x, P.x+1.3*uAsp, x);
         float a = (0.7 + right*1.05)*(1.0-0.94*pinch);
         float c = 0.75*(0.3+0.7*sin(t*3.14159));
-        return (a*w0 + 0.5*w1 + c*w2 + 0.26*w3)*0.3 + 0.015;
+        return ((a*w0 + 0.5*w1 + c*w2 + 0.26*w3)*0.3 + 0.015) * (1.0 - 0.6*attrK(t));
       }
       void main(){
         vec4 rc = vec4(0.0, 0.5, 0.5, 0.25);
@@ -736,8 +759,8 @@ const GL = (() => {
   resize(); let lw = innerWidth; addEventListener('resize', () => { if (!mobile || innerWidth !== lw) { lw = innerWidth; resize(); } });
 
   let ema = 1 / 60, warm = 0;
-  const st = { morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, sv: 0, mx: 0, my: 0, pulse: 0, fire() { this.pulse = 1; } };
-  addEventListener('pointermove', e => { st.mx = (e.clientX / innerWidth - .5) * 2; st.my = -(e.clientY / innerHeight - .5) * 2; });
+  const st = { morph: 0, target: 0, intensity: 0, iTarget: reduce ? 1 : 0, vel: 0, sv: 0, mx: 0, my: 0, pulse: 0, attr: null, ak: 0, tilt: false, fire() { this.pulse = 1; } };
+  addEventListener('pointermove', e => { if (st.tilt) return; st.mx = (e.clientX / innerWidth - .5) * 2; st.my = -(e.clientY / innerHeight - .5) * 2; });
   addEventListener('pointerdown', e => { if (!e.target.closest('a,button,input,label,.card')) st.fire(); });
   let last = performance.now(), t = Math.random() * 40;
   function frame(now) {
@@ -755,6 +778,18 @@ const GL = (() => {
     U.uTime.value = t; U.uMorph.value = st.morph; U.uI.value = st.intensity * (mobile ? .75 : 1); U.uPulse.value = st.pulse * st.pulse;
     U.uMouse.value.x += (st.mx - U.uMouse.value.x) * .05; U.uMouse.value.y += (st.my - U.uMouse.value.y) * .05;
     GU.uO.value = Math.max(0, 1 - st.morph) * st.intensity;
+    // attractor: the flame bends toward whatever element the current section points it at
+    const A = U.uAttr.value, asp = U.uAsp.value;
+    const tgt = st.attr ? st.attr() : null;
+    st.ak += ((tgt ? 1 : 0) - st.ak) * Math.min(1, dt * 2.2);
+    if (tgt) {
+      const wx = (tgt[0] / innerWidth * 2 - 1) * asp, wy = -(tgt[1] / innerHeight * 2 - 1);
+      A.x += (wx - A.x) * Math.min(1, dt * 6); A.y += (wy - A.y) * Math.min(1, dt * 6);
+      const w1 = Math.max(0, 1 - Math.abs(st.morph - 1));
+      const tc = (1 - w1) * ((A.x / asp + 1.25) / 2.5) + w1 * ((A.y + 1.35) / 2.7);
+      A.w += (Math.min(.85, Math.max(.15, tc)) - A.w) * Math.min(1, dt * 4);
+    }
+    A.z = st.ak * .85;
     renderer.render(scene, cam);
   }
   requestAnimationFrame(frame);
@@ -769,6 +804,49 @@ document.querySelectorAll('[data-smear]').forEach(el => {
   for (let i = 0; i < 3; i++) out += `<span class="sm-ghost" aria-hidden="true">${html}</span>`;
   el.innerHTML = out;
 });
+
+/* ---------- live lead pop-ups ---------- */
+const toastBox = document.getElementById('toasts');
+const tNames = ['Niamh', 'Declan', 'Aoife', 'Mark', 'Ciara', 'Liam', 'Sinéad', 'Conor', 'Orla', 'Ryan'];
+const tJobs = ['attic conversion', 'roof repair', 'kitchen refit', 'wood floors', 'patio tiling', 'extension', 'bathroom', 'driveway', 'garden room', 'rewiring'];
+const tSrc = [['📸', 'Instagram'], ['📘', 'Facebook'], ['💬', 'WhatsApp'], ['📝', 'Lead form']];
+function toast() {
+  if (document.hidden) return;
+  const [ic, src] = tSrc[Math.random() * tSrc.length | 0], i = Math.random() * tNames.length | 0;
+  const booked = Math.random() < .35;
+  const el = document.createElement('div'); el.className = 'toast';
+  el.innerHTML = `<span class="ti"></span><div><b></b><small></small></div><span class="ok"></span>`;
+  el.querySelector('.ti').textContent = ic;
+  el.querySelector('b').textContent = booked ? `Call booked · ${tNames[i]}` : `New lead · ${src}`;
+  el.querySelector('small').textContent = booked ? `${tJobs[i]} · Thu ${9 + (Math.random() * 8 | 0)}:${Math.random() < .5 ? '00' : '30'}` : `${tNames[i]} · ${tJobs[i]}`;
+  el.querySelector('.ok').textContent = booked ? '✓ booked' : `✓ ${(4 + Math.random() * 5).toFixed(1)}s`;
+  toastBox.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in')));
+  setTimeout(() => { el.classList.remove('in'); setTimeout(() => el.remove(), 600); }, 3400);
+}
+if (!reduce) setTimeout(() => { toast(); setInterval(toast, 7000); }, hasG ? 5000 : 2000);
+
+/* ---------- tilt the phone (or move the pointer) to shift the scene ---------- */
+const rootS = document.documentElement.style;
+let tx = 0, ty = 0, cx = 0, cy = 0;
+(function par() { cx += (tx - cx) * .08; cy += (ty - cy) * .08; rootS.setProperty('--px', cx.toFixed(3)); rootS.setProperty('--py', cy.toFixed(3)); requestAnimationFrame(par); })();
+if (!mobile) addEventListener('pointermove', e => { tx = (e.clientX / innerWidth - .5) * 2; ty = (e.clientY / innerHeight - .5) * 2; });
+let base = null;
+function onTilt(e) {
+  if (e.beta == null) return;
+  if (!base) base = [e.beta, e.gamma];
+  const gx = Math.max(-1, Math.min(1, (e.gamma - base[1]) / 25)), gy = Math.max(-1, Math.min(1, (e.beta - base[0]) / 25));
+  tx = gx; ty = gy;
+  if (GL) { GL.tilt = true; GL.mx = gx * 1.4; GL.my = -gy * 1.4; }
+}
+const tiltBtn = document.getElementById('tiltBtn');
+if (mobile && !reduce && window.DeviceOrientationEvent) {
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    tiltBtn.classList.add('show');
+    tiltBtn.addEventListener('click', () => DeviceOrientationEvent.requestPermission().then(r => { if (r === 'granted') addEventListener('deviceorientation', onTilt); tiltBtn.remove(); }).catch(() => tiltBtn.remove()));
+  } else addEventListener('deviceorientation', onTilt);
+}
+addEventListener('orientationchange', () => base = null);
 
 /* ---------- live bits that don't need GSAP ---------- */
 /* text scramble */
@@ -1083,8 +1161,23 @@ ScrollTrigger.create({ trigger: '#dayStage', start: 'top top', end: mobile ? '+=
 document.querySelectorAll('[data-morph]').forEach(sec => {
   ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 45%', onToggle: s => { if (s.isActive && GL) GL.target = +sec.dataset.morph; } });
 });
+// the flame reaches into the page: flask, timeline head, final button
+if (GL) {
+  const centre = el => () => { const b = el.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height * .62]; };
+  const flaskEl = document.querySelector('.hubkey'), flaskT = centre(flaskEl), lvl = document.getElementById('fkLvl'), keyEl = document.getElementById('key');
+  ScrollTrigger.create({ trigger: '#orbit', start: 'top 70%', end: 'bottom 30%',
+    onToggle: s => { GL.attr = s.isActive ? flaskT : (GL.attr === flaskT ? null : GL.attr); },
+    onUpdate: s => { const f = Math.min(1, s.progress * 1.6); lvl.setAttribute('transform', `translate(0 ${30 - f * 58})`); keyEl.style.setProperty('--glow', (.45 + f * .5).toFixed(2)); } });
+  const rail = document.getElementById('jRail');
+  const railHead = () => { const b = rail.getBoundingClientRect(); return matchMedia('(max-width:860px)').matches ? [b.left + b.width / 2, b.bottom] : [b.right, b.top]; };
+  railHead.tag = 'rail';
+  ScrollTrigger.create({ trigger: '#jStage', start: 'top top', end: mobile ? '+=160%' : '+=200%', onToggle: s => { GL.attr = s.isActive ? railHead : (GL.attr === railHead ? null : GL.attr); } });
+  const ctaBtn = document.querySelector('.cta-slab .btn'), ctaT = centre(ctaBtn); ctaT.tag = 'cta';
+  ScrollTrigger.create({ trigger: '.cta', start: 'top 70%', end: 'bottom top', onToggle: s => { GL.attr = s.isActive ? ctaT : (GL.attr === ctaT ? null : GL.attr); } });
+}
+
 // dim ribbons behind the slab
-if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .5 : 1 });
+if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 40%', onToggle: s => GL.iTarget = s.isActive ? .9 : 1 });
 
 // smear headings
 // headings are always visible (no scroll-gated reveal: it looked like late rendering on phones)
