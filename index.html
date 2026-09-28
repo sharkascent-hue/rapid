@@ -1054,13 +1054,13 @@ if (GL) ScrollTrigger.create({ trigger: '#slab', start: 'top 60%', end: 'bottom 
 // smear headings
 document.querySelectorAll('.smear').forEach(el => {
   const main = el.querySelector('.sm-main'), ghosts = el.querySelectorAll('.sm-ghost');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 92%', end: 'top 50%', scrub: 1 } });
-  tl.fromTo(main, { opacity: 0, scaleY: 1.4, y: 30 }, { opacity: 1, scaleY: 1, y: 0, ease: 'power2.out', duration: 1 }, 0);
-  ghosts.forEach((g, i) => tl.fromTo(g, { opacity: .35 - i * .1, y: (i + 1) * 22 }, { opacity: 0, y: 0, ease: 'power2.out', duration: 1 }, 0));
+  const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 100%', toggleActions: 'play none none none' } });
+  tl.fromTo(main, { opacity: 0, scaleY: 1.2, y: 20 }, { opacity: 1, scaleY: 1, y: 0, ease: 'power2.out', duration: .6 }, 0);
+  ghosts.forEach((g, i) => tl.fromTo(g, { opacity: .35 - i * .1, y: (i + 1) * 22 }, { opacity: 0, y: 0, ease: 'power2.out', duration: .5 }, 0));
 });
 
 // rise
-gsap.utils.toArray('[data-rise]').forEach(el => gsap.from(el, { opacity: 0, y: 50, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+gsap.utils.toArray('[data-rise]').forEach(el => gsap.from(el, { opacity: 0, y: 24, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 100%' } }));
 
 // 3d bars
 const bst = { p: 0 };
@@ -1071,7 +1071,7 @@ gsap.to(bst, { p: 1, ease: 'power2.out', scrollTrigger: { trigger: '#bars', star
 gsap.utils.toArray('.meter .fill').forEach(f => gsap.from(f, { scaleX: 0, duration: 1.4, ease: 'power3.out', scrollTrigger: { trigger: f, start: 'top 90%' } }));
 
 // hub key entrance
-gsap.from('.hubkey .key', { scale: .4, y: 40, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#orbit', start: 'top 75%' } });
+gsap.from('.hubkey .key', { scale: .7, y: 20, opacity: 0, duration: .7, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#orbit', start: 'top 95%' } });
 
 // counters
 document.querySelectorAll('[data-count]').forEach(el => {
@@ -1080,7 +1080,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
 });
 
 // tiers + cta
-gsap.from('.tier', { opacity: 0, y: 60, stagger: .12, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.tiers', start: 'top 85%' } });
+gsap.from('.tier', { opacity: 0, y: 24, stagger: .08, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: '.tiers', start: 'top 100%' } });
 gsap.fromTo('.cta-slab', { rotateX: 25, transformPerspective: 1200 }, { rotateX: 0, ease: 'none', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'center center', scrub: .8 } });
 
 addEventListener('load', () => ScrollTrigger.refresh());
